@@ -400,6 +400,94 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
 
 .empty-notes{text-align:center;padding:2rem;color:var(--text3);font-size:.78rem;font-style:italic;}
 
+/* ── LANDING PAGE ─────────────────────────── */
+.landing {
+  min-height:100vh;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;background:#000;
+}
+.landing-nav {
+  position:absolute;top:0;left:0;right:0;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.5rem 4%;
+}
+.landing-logo {
+  font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.14em;color:var(--red);
+}
+.landing-signin-btn {
+  padding:.5rem 1.4rem;background:var(--red);border:none;border-radius:4px;
+  color:#fff;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:700;
+  cursor:pointer;transition:all .2s;letter-spacing:.03em;
+}
+.landing-signin-btn:hover{background:var(--red2);box-shadow:0 4px 20px var(--red-glow);}
+
+/* Full background image */
+.landing-bg {
+  position:absolute;inset:0;z-index:0;
+  background:url('bkg.jpeg') center center / cover no-repeat;
+}
+
+/* Heavy vignette overlays to match Netflix */
+.landing-vignette {
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(0deg,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,.85) 8%,
+      rgba(0,0,0,.4) 30%,
+      rgba(0,0,0,.35) 50%,
+      rgba(0,0,0,.4) 65%,
+      rgba(0,0,0,.85) 90%,
+      rgba(0,0,0,1) 100%
+    ),
+    radial-gradient(ellipse at center,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,.6) 100%
+    );
+}
+
+/* Center content */
+.landing-content {
+  position:relative;z-index:5;
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:0 1.5rem;
+  animation:fadeUp .8s ease-out;
+}
+.landing-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  letter-spacing:.04em;
+  color:#fff;line-height:1.1;
+  max-width:750px;
+  margin-bottom:.7rem;
+  text-shadow:0 2px 30px rgba(0,0,0,.6);
+}
+.landing-subtitle {
+  font-size:clamp(.85rem,1.5vw,1.1rem);
+  color:var(--text);
+  font-weight:700;
+  max-width:550px;
+  line-height:1.5;
+  margin-bottom:.5rem;
+  text-shadow:0 1px 10px rgba(0,0,0,.5);
+}
+.landing-tagline {
+  font-size:.82rem;color:var(--text2);margin-bottom:2rem;
+  text-shadow:0 1px 10px rgba(0,0,0,.5);
+}
+.landing-cta {
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.9rem 2.8rem;background:var(--red);border:none;border-radius:4px;
+  color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.15em;
+  cursor:pointer;transition:all .25s;
+}
+.landing-cta:hover{background:var(--red2);box-shadow:0 6px 30px var(--red-glow);transform:scale(1.03);}
+.landing-cta svg{width:22px;height:22px;fill:currentColor;}
+
+.landing-footer {
+  position:relative;z-index:5;text-align:center;
+  padding:1.5rem;font-size:.6rem;color:var(--text3);letter-spacing:.15em;text-transform:uppercase;
+}
+
 /* ── TOAST ───────────────────────────────── */
 .tr-toast {
   position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
@@ -419,6 +507,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
   .player-inner{padding:50px 1rem 1rem;}
   .nav{padding:0 1rem;}
   .auth-card{padding:2rem 1.5rem;}
+  .landing-nav{padding:1rem 4%;}
 }
 </style>
 </head>
@@ -436,6 +525,30 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
 
 <!-- HIDDEN LOADER COMPAT -->
 <div class="loader-screen" id="loaderScreen"><div class="loader-bar-fill" id="loaderFill"></div></div>
+
+<!-- LANDING PAGE -->
+<div id="landingScreen" style="display:none;">
+  <div class="landing">
+    <nav class="landing-nav">
+      <div class="landing-logo">CLOUD <span class="ix-gold">IX</span></div>
+      <button class="landing-signin-btn" onclick="showAuthScreen()">Sign In</button>
+    </nav>
+
+    <div class="landing-bg"></div>
+    <div class="landing-vignette"></div>
+
+    <div class="landing-content">
+      <div class="landing-title">Your Wedding Films, One Screen Away</div>
+      <div class="landing-subtitle">Review edits, leave timestamped notes, and collaborate with your editing team — all in one beautiful theatre.</div>
+      <div class="landing-tagline">Private. Personal. Cinematic.</div>
+      <button class="landing-cta" onclick="showAuthScreen()">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> GET STARTED
+      </button>
+    </div>
+
+    <div class="landing-footer">Powered by Cloud <span class="ix-gold">IX</span> Concierge</div>
+  </div>
+</div>
 
 <!-- AUTH SCREEN -->
 <div id="authScreen" style="display:none;">
@@ -535,6 +648,16 @@ async function dbSet(key,value){
 // ── LOADING ─────────────────────────────────────────────
 function setLoader(pct){document.getElementById('loaderFill').style.width=pct+'%';}
 
+// ── LANDING PAGE ────────────────────────────────────────
+function showLanding(){
+  document.getElementById('landingScreen').style.display='';
+}
+
+function showAuthScreen(){
+  document.getElementById('landingScreen').style.display='none';
+  document.getElementById('authScreen').style.display='';
+}
+
 // ── AUTH ────────────────────────────────────────────────
 function trTogglePass(){
   var inp=document.getElementById('trAuthPass');
@@ -612,7 +735,8 @@ function trLogout(){
   sessionStorage.removeItem('tr_session');
   document.getElementById('navMenu').classList.remove('open');
   document.getElementById('mainScreen').style.display='none';
-  document.getElementById('authScreen').style.display='';
+  document.getElementById('authScreen').style.display='none';
+  showLanding();
   _couple=null;_videos=[];
 }
 
@@ -901,10 +1025,10 @@ document.addEventListener('click',function(e){
     // Wait for intro to finish then show main
     setTimeout(function(){ showMain(); },3200);
   }else{
-    // Wait for intro to finish then fade to login
+    // Wait for intro to finish then show landing page
     setTimeout(function(){
       dismissIntro(function(){
-        document.getElementById('authScreen').style.display='';
+        showLanding();
       });
     },3200);
   }
