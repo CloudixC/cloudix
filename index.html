@@ -2268,15 +2268,15 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .ov-donut { flex-shrink:0; display:block; overflow:visible; }
 .ov-info { flex:1; min-width:0; }
 .ov-big {
-  font-family:'Cormorant Garamond',serif; font-size:1.7rem; font-weight:600;
+  font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:600;
   color:var(--ink); line-height:1;
 }
-.ov-big span { font-size:.85rem; color:var(--ink4); font-family:'Outfit',sans-serif; font-weight:300; }
+.ov-big span { font-size:.95rem; color:var(--ink4); font-family:'Outfit',sans-serif; font-weight:300; }
 .ov-label {
-  font-family:'Outfit',sans-serif; font-size:.55rem; font-weight:600;
-  letter-spacing:.14em; text-transform:uppercase; color:var(--ink5); margin-top:.22rem;
+  font-family:'Outfit',sans-serif; font-size:.68rem; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink5); margin-top:.22rem;
 }
-.ov-sub { font-family:'Outfit',sans-serif; font-size:.6rem; color:var(--ink4); margin-top:.12rem; font-weight:300; }
+.ov-sub { font-family:'Outfit',sans-serif; font-size:.72rem; color:var(--ink4); margin-top:.12rem; font-weight:300; }
 
 /* ══ PROGRESS % ON COUPLE CARDS ══════════════════════════════ */
 .cc-progress-row {
@@ -2646,14 +2646,14 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   flex-direction:column; align-items:stretch; gap:0;
 }
 .ov-shoot-card-title {
-  font-family:'Cormorant Garamond',serif; font-size:.85rem; font-weight:600;
+  font-family:'Cormorant Garamond',serif; font-size:.92rem; font-weight:600;
   font-style:italic; letter-spacing:.02em; color:var(--ink4);
   margin-bottom:.6rem; padding-bottom:.4rem;
   border-bottom:1px solid var(--rule);
 }
 .ov-year-row {
   display:flex; align-items:center; gap:.55rem;
-  padding:.3rem .4rem;
+  padding:.35rem .4rem;
   border-radius:var(--r-sm);
   cursor:pointer;
   transition:background .12s;
@@ -2662,8 +2662,8 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .ov-year-row:hover { background:var(--gold-wash); }
 .ov-year-row + .ov-year-row { border-top:1px solid var(--rule); margin-top:1px; }
 .ov-year-label {
-  font-family:'Cormorant Garamond',serif; font-size:.95rem; font-weight:600;
-  color:var(--ink3); min-width:34px; line-height:1;
+  font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600;
+  color:var(--ink3); min-width:36px; line-height:1;
 }
 .ov-year-label.current-yr { color:var(--gold); }
 .ov-year-bar-wrap {
@@ -2673,15 +2673,15 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   height:100%; border-radius:3px; transition:width .5s; background:var(--gold);
 }
 .ov-year-stats {
-  font-family:'Outfit',sans-serif; font-size:.62rem; color:var(--ink4);
-  white-space:nowrap; min-width:44px; text-align:right;
+  font-family:'Outfit',sans-serif; font-size:.72rem; color:var(--ink4);
+  white-space:nowrap; min-width:48px; text-align:right;
 }
 .ov-year-all-done {
-  font-size:.58rem; color:var(--forest); font-weight:700; margin-left:.2rem;
+  font-size:.66rem; color:var(--forest); font-weight:700; margin-left:.2rem;
 }
 .ov-shoot-empty {
   font-family:'Cormorant Garamond',serif; font-style:italic;
-  font-size:.72rem; color:var(--ink5); text-align:center; padding:.5rem 0;
+  font-size:.78rem; color:var(--ink5); text-align:center; padding:.5rem 0;
 }
 
 /* ══ N/A CREW CHIP ═══════════════════════════════════════ */
@@ -2736,7 +2736,7 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .co-dash-hero {
   background:#1a1714;
   padding:2.5rem 0 2rem;
-  position:relative; overflow:hidden;
+  position:relative; overflow:visible;
 }
 .co-dash-hero::before {
   content:'';
@@ -2745,6 +2745,7 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
     radial-gradient(ellipse 60% 100% at 80% 50%, rgba(193,154,79,.13) 0%, transparent 70%),
     radial-gradient(ellipse 40% 80% at 10% 80%, rgba(193,154,79,.07) 0%, transparent 60%);
   pointer-events:none;
+  overflow:hidden;
 }
 .co-dash-hero-inner {
   position:relative; z-index:1;
@@ -2768,6 +2769,20 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   color:rgba(193,154,79,.8); margin-top:.25rem;
 }
 .co-dash-hero-actions { display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; }
+.songs-dropdown { position:relative; display:inline-block; z-index:51; }
+.songs-dropdown-menu {
+  display:none; position:absolute; top:100%; left:0; margin-top:.3rem;
+  background:#1a1714; border:1px solid rgba(255,255,255,.15); border-radius:6px;
+  min-width:160px; z-index:52; overflow:visible; box-shadow:0 6px 20px rgba(0,0,0,.4);
+}
+.songs-dropdown.open .songs-dropdown-menu { display:block; }
+.songs-dropdown-item {
+  display:block; width:100%; padding:.5rem .8rem; border:none; background:none;
+  color:rgba(245,240,232,.8); font-family:'Outfit',sans-serif; font-size:.6rem;
+  font-weight:600; letter-spacing:.06em; text-transform:uppercase; text-align:left;
+  cursor:pointer; transition:background .15s;
+}
+.songs-dropdown-item:hover { background:rgba(255,255,255,.1); color:#fff; }
 .co-dash-hero-btn {
   font-family:'Outfit',sans-serif; font-size:.62rem; font-weight:600;
   letter-spacing:.07em; text-transform:uppercase;
@@ -2789,7 +2804,7 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   padding:1.75rem 0 0;
 }
 .co-dash-section-label {
-  font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:300;
+  font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:300;
   font-style:italic; letter-spacing:.04em;
   color:var(--ink4); margin-bottom:.9rem;
   display:flex; align-items:center; gap:.75rem;
@@ -2803,15 +2818,63 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   background:linear-gradient(90deg, var(--rule), transparent);
 }
 
+/* ── Colored section labels ── */
+.co-dash-section-label.label-production {
+  color:#b8860b; font-weight:600;
+}
+.co-dash-section-label.label-production::before {
+  background:linear-gradient(90deg, transparent, #b8860b);
+}
+.co-dash-section-label.label-production::after {
+  background:linear-gradient(90deg, rgba(184,134,11,.3), transparent);
+}
+
+.co-dash-section-label.label-revisions {
+  color:#d97706; font-weight:600;
+}
+.co-dash-section-label.label-revisions::before {
+  background:linear-gradient(90deg, transparent, #d97706);
+}
+.co-dash-section-label.label-revisions::after {
+  background:linear-gradient(90deg, rgba(217,119,6,.3), transparent);
+}
+
+.co-dash-section-label.label-overdue {
+  color:#dc2626; font-weight:700;
+}
+.co-dash-section-label.label-overdue::before {
+  background:linear-gradient(90deg, transparent, #dc2626);
+}
+.co-dash-section-label.label-overdue::after {
+  background:linear-gradient(90deg, rgba(220,38,38,.35), transparent);
+}
+
+.co-dash-section-label.label-almostdue {
+  color:#ea580c; font-weight:600;
+}
+.co-dash-section-label.label-almostdue::before {
+  background:linear-gradient(90deg, transparent, #ea580c);
+}
+.co-dash-section-label.label-almostdue::after {
+  background:linear-gradient(90deg, rgba(234,88,12,.3), transparent);
+}
+
 /* Stats grid */
 #coDashBanner {
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:.75rem;
+  gap:.55rem;
   margin:0;
 }
 @media(max-width:860px){ #coDashBanner { grid-template-columns:repeat(2,1fr); } }
 @media(max-width:480px){ #coDashBanner { grid-template-columns:1fr; } }
+
+/* Compact overview cards */
+#coDashBanner .ov-card.ov-shoot-card {
+  padding:.6rem .75rem;
+}
+#coDashBanner .ov-card::before { height:1.5px; }
+#coDashBanner .ov-donut { transform:scale(.85); margin:-2px -3px; }
 
 /* Teams grid — 3 panels side by side */
 #coDashPanels {
@@ -2835,11 +2898,11 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   background:var(--rule); border-radius:6px; padding:.3rem .2rem;
 }
 .next-shoot-day {
-  font-family:'Outfit',sans-serif; font-size:.95rem; font-weight:800;
+  font-family:'Outfit',sans-serif; font-size:1rem; font-weight:800;
   color:var(--ink); line-height:1;
 }
 .next-shoot-mon {
-  font-family:'Outfit',sans-serif; font-size:.5rem; font-weight:600;
+  font-family:'Outfit',sans-serif; font-size:.54rem; font-weight:600;
   letter-spacing:.08em; text-transform:uppercase; color:var(--ink5);
 }
 .next-shoot-date.urgent { background:rgba(200,80,20,.1); }
@@ -2849,21 +2912,21 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .next-shoot-date.past { background:var(--rule); opacity:.5; }
 .next-shoot-info { flex:1; min-width:0; }
 .next-shoot-couple {
-  font-family:'Cormorant Garamond',serif; font-size:.88rem; font-weight:600; font-style:italic;
+  font-family:'Cormorant Garamond',serif; font-size:.95rem; font-weight:600; font-style:italic;
   color:var(--ink2); cursor:pointer; white-space:nowrap;
   overflow:hidden; text-overflow:ellipsis;
 }
 .next-shoot-couple:hover { color:var(--gold); }
 .next-shoot-event {
-  font-family:'Outfit',sans-serif; font-size:.62rem; color:var(--ink5); margin-top:.08rem;
+  font-family:'Outfit',sans-serif; font-size:.68rem; color:var(--ink5); margin-top:.08rem;
 }
 .next-shoot-crew {
-  font-family:'Outfit',sans-serif; font-size:.6rem; color:var(--ink4);
+  font-family:'Outfit',sans-serif; font-size:.66rem; color:var(--ink4);
   margin-top:.1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 .next-shoot-days {
   flex-shrink:0;
-  font-family:'Outfit',sans-serif; font-size:.58rem; font-weight:700;
+  font-family:'Outfit',sans-serif; font-size:.64rem; font-weight:700;
   letter-spacing:.04em; color:var(--ink5); white-space:nowrap; padding-top:.3rem;
 }
 .next-shoot-days.urgent { color:#c85014; }
@@ -2960,27 +3023,26 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .rev-panel::before {
   content:'';
   position:absolute; top:0; left:0; right:0; height:3px;
-  background:linear-gradient(90deg, transparent 0%, rgba(220,140,40,.3) 20%, rgba(220,140,40,.6) 50%, rgba(220,140,40,.3) 80%, transparent 100%);
+  background:#d97706;
 }
 .rev-panel-head {
   display:flex; align-items:center; justify-content:space-between;
   padding:1.35rem 2rem 1.2rem;
-  border-bottom:1px solid rgba(220,140,40,.15);
-  background:linear-gradient(to bottom, rgba(255,243,220,.4), var(--warm-white));
+  border-bottom:none;
+  background:linear-gradient(135deg, #d97706, #f59e0b);
   position:relative;
 }
 .rev-panel-title {
   font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600;
-  letter-spacing:.03em; color:var(--ink);
+  letter-spacing:.03em; color:#fff;
   font-style:italic;
 }
 .rev-panel-title::after {
-  content:' —';
-  color:rgba(220,140,40,.7); font-style:normal; font-weight:300;
+  content:' —'; color:rgba(255,255,255,.4); font-style:normal; font-weight:300;
 }
 .rev-panel-sub {
-  font-family:'Outfit',sans-serif; font-size:.58rem; font-weight:300;
-  letter-spacing:.16em; text-transform:uppercase; color:var(--ink5);
+  font-family:'Outfit',sans-serif; font-size:.72rem; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.9);
 }
 .rev-grid {
   display:flex;
@@ -3005,23 +3067,23 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   box-shadow:0 2px 12px rgba(220,140,40,.1);
 }
 .rev-card-couple {
-  font-family:'Cormorant Garamond',serif; font-size:.92rem; font-weight:600;
+  font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:600;
   color:var(--ink); line-height:1.2;
 }
 .rev-card-event {
-  font-family:'Outfit',sans-serif; font-size:.6rem; font-weight:300;
+  font-family:'Outfit',sans-serif; font-size:.68rem; font-weight:300;
   letter-spacing:.12em; text-transform:uppercase; color:var(--ink5);
   margin-top:.15rem;
 }
 .rev-card-editor {
-  font-family:'Outfit',sans-serif; font-size:.58rem; font-weight:400;
+  font-family:'Outfit',sans-serif; font-size:.64rem; font-weight:400;
   color:var(--ink6); margin-top:.4rem;
 }
 .rev-card-badges { display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.4rem; }
 .rev-badge {
-  font-family:'Outfit',sans-serif; font-size:.52rem; font-weight:500;
+  font-family:'Outfit',sans-serif; font-size:.56rem; font-weight:500;
   letter-spacing:.06em; text-transform:uppercase;
-  padding:.15rem .45rem; border-radius:4px;
+  padding:.15rem .48rem; border-radius:4px;
 }
 .rev-badge.changes {
   background:rgba(220,38,38,.08); border:1px solid rgba(220,38,38,.2); color:#dc2626;
@@ -3042,24 +3104,24 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .overdue-panel::before {
   content:'';
   position:absolute; top:0; left:0; right:0; height:3px;
-  background:linear-gradient(90deg, transparent 0%, rgba(220,38,38,.25) 20%, rgba(220,38,38,.5) 50%, rgba(220,38,38,.25) 80%, transparent 100%);
+  background:#dc2626;
 }
 .overdue-panel-head {
   display:flex; align-items:center; justify-content:space-between;
   padding:1.35rem 2rem 1.2rem;
-  border-bottom:1px solid rgba(220,38,38,.12);
-  background:linear-gradient(to bottom, rgba(254,226,226,.3), var(--warm-white));
+  border-bottom:none;
+  background:linear-gradient(135deg, #b91c1c, #dc2626);
 }
 .overdue-panel-title {
   font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600;
-  letter-spacing:.03em; color:#991b1b; font-style:italic;
+  letter-spacing:.03em; color:#fff; font-style:italic;
 }
 .overdue-panel-title::after {
-  content:' —'; color:rgba(220,38,38,.4); font-style:normal; font-weight:300;
+  content:' —'; color:rgba(255,255,255,.35); font-style:normal; font-weight:300;
 }
 .overdue-panel-sub {
-  font-family:'Outfit',sans-serif; font-size:.58rem; font-weight:300;
-  letter-spacing:.16em; text-transform:uppercase; color:rgba(220,38,38,.6);
+  font-family:'Outfit',sans-serif; font-size:.72rem; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.95);
 }
 .overdue-grid {
   display:flex; flex-wrap:wrap; gap:1rem; padding:1.5rem 2rem 1.75rem;
@@ -3086,24 +3148,24 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .almostdue-panel::before {
   content:'';
   position:absolute; top:0; left:0; right:0; height:3px;
-  background:linear-gradient(90deg, transparent 0%, rgba(234,88,12,.25) 20%, rgba(234,88,12,.5) 50%, rgba(234,88,12,.25) 80%, transparent 100%);
+  background:#ea580c;
 }
 .almostdue-panel-head {
   display:flex; align-items:center; justify-content:space-between;
   padding:1.35rem 2rem 1.2rem;
-  border-bottom:1px solid rgba(234,88,12,.12);
-  background:linear-gradient(to bottom, rgba(255,237,213,.3), var(--warm-white));
+  border-bottom:none;
+  background:linear-gradient(135deg, #c2410c, #ea580c);
 }
 .almostdue-panel-title {
   font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600;
-  letter-spacing:.03em; color:#9a3412; font-style:italic;
+  letter-spacing:.03em; color:#fff; font-style:italic;
 }
 .almostdue-panel-title::after {
-  content:' —'; color:rgba(234,88,12,.4); font-style:normal; font-weight:300;
+  content:' —'; color:rgba(255,255,255,.35); font-style:normal; font-weight:300;
 }
 .almostdue-panel-sub {
-  font-family:'Outfit',sans-serif; font-size:.58rem; font-weight:300;
-  letter-spacing:.16em; text-transform:uppercase; color:rgba(234,88,12,.6);
+  font-family:'Outfit',sans-serif; font-size:.72rem; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.9);
 }
 .almostdue-grid {
   display:flex; flex-wrap:wrap; gap:1rem; padding:1.5rem 2rem 1.75rem;
@@ -3152,28 +3214,33 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .prod-panel::before {
   content:'';
   position:absolute; top:0; left:0; right:0; height:3px;
-  background:linear-gradient(90deg, transparent 0%, var(--gold-line) 20%, var(--gold) 50%, var(--gold-line) 80%, transparent 100%);
-  opacity:.7;
+  background:#b8860b;
 }
 .prod-panel-head {
   display:flex; align-items:center; justify-content:space-between;
   padding:1.35rem 2rem 1.2rem;
-  border-bottom:1px solid var(--rule);
-  background:linear-gradient(to bottom, var(--parchment), var(--warm-white));
+  border-bottom:none;
+  background:linear-gradient(135deg, #b8860b, #d4a017);
   position:relative;
 }
 .prod-panel-title {
   font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600;
-  letter-spacing:.03em; color:var(--ink);
+  letter-spacing:.03em; color:#fff;
   font-style:italic;
 }
 .prod-panel-title::after {
   content:' —';
-  color:var(--gold); font-style:normal; font-weight:300;
+  color:rgba(255,255,255,.4); font-style:normal; font-weight:300;
 }
 .prod-panel-sub {
-  font-family:'Outfit',sans-serif; font-size:.58rem; font-weight:300;
-  letter-spacing:.16em; text-transform:uppercase; color:var(--ink5);
+  font-family:'Outfit',sans-serif; font-size:.72rem; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.9);
+}
+.prod-panel-head .panel-assign-btn {
+  color:#fff; border-color:rgba(255,255,255,.4);
+}
+.prod-panel-head .panel-assign-btn:hover {
+  background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.6);
 }
 .prod-editor-grid {
   display:flex;
@@ -3259,21 +3326,21 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .prod-project-card:hover::before { background:var(--gold); }
 .prod-project-card:last-child { margin-bottom:0; }
 .prod-project-couple {
-  font-family:'Cormorant Garamond',serif; font-size:1.08rem; font-weight:600;
+  font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:600;
   color:var(--ink); line-height:1.3;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 .prod-project-event {
-  font-family:'Outfit',sans-serif; font-size:.65rem; font-weight:300;
+  font-family:'Outfit',sans-serif; font-size:.72rem; font-weight:300;
   color:var(--ink5); letter-spacing:.08em; text-transform:uppercase;
 }
 .prod-project-badges {
   display:flex; gap:.28rem; flex-wrap:wrap; margin-top:.28rem;
 }
 .prod-badge {
-  font-family:'Outfit',sans-serif; font-size:.52rem; font-weight:600;
+  font-family:'Outfit',sans-serif; font-size:.56rem; font-weight:600;
   letter-spacing:.09em; text-transform:uppercase;
-  padding:.1rem .48rem; border-radius:20px;
+  padding:.12rem .52rem; border-radius:20px;
 }
 .prod-badge.new     { background:var(--forest-dim); border:1px solid rgba(45,74,62,.2); color:var(--forest); }
 .prod-badge.changes { background:rgba(234,88,12,.07); border:1px solid rgba(234,88,12,.22); color:#b45309; }
@@ -3282,13 +3349,13 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   display:flex; flex-wrap:wrap; gap:.3rem; align-items:center; margin-top:.2rem;
 }
 .prod-card-svc {
-  font-family:'Outfit',sans-serif; font-size:.5rem; font-weight:500;
-  padding:.1rem .38rem; border-radius:3px; letter-spacing:.04em;
+  font-family:'Outfit',sans-serif; font-size:.56rem; font-weight:500;
+  padding:.12rem .42rem; border-radius:3px; letter-spacing:.04em;
 }
 .prod-card-svc.photo { background:rgba(37,99,235,.07); border:1px solid rgba(37,99,235,.18); color:#2563eb; }
 .prod-card-svc.video { background:rgba(139,92,246,.07); border:1px solid rgba(139,92,246,.18); color:#7c3aed; }
 .prod-card-due {
-  font-family:'Outfit',sans-serif; font-size:.5rem; font-weight:400; color:var(--ink5);
+  font-family:'Outfit',sans-serif; font-size:.56rem; font-weight:400; color:var(--ink5);
 }
 .prod-card-due.overdue { color:#dc2626; font-weight:600; }
 .prod-card-due.soon { color:#ea580c; font-weight:500; }
@@ -5036,6 +5103,186 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 body { padding-top:56px; }
 
 
+/* ── Page transition: scatter out / gather in ─────── */
+/* Original scatter (used for Home) — random directions */
+@keyframes scatterOut1 { to { opacity:0; transform:translate(-120px,-80px) rotate(-12deg) scale(.7); } }
+@keyframes scatterOut2 { to { opacity:0; transform:translate(150px,-60px) rotate(8deg) scale(.6); } }
+@keyframes scatterOut3 { to { opacity:0; transform:translate(-80px,100px) rotate(-6deg) scale(.8); } }
+@keyframes scatterOut4 { to { opacity:0; transform:translate(100px,120px) rotate(15deg) scale(.5); } }
+@keyframes scatterOut5 { to { opacity:0; transform:translate(0,-140px) rotate(-10deg) scale(.6); } }
+@keyframes heroSlideUp { to { opacity:0; transform:translateY(-100%) scaleY(.8); } }
+@keyframes gatherIn {
+  from { opacity:0; transform:translateY(40px) scale(.92); }
+  to { opacity:1; transform:translateY(0) scale(1); }
+}
+
+/* Directional scatter — LEFT (going backward ←) */
+@keyframes scatterLeft1 { to { opacity:0; transform:translate(-180px,-40px) rotate(-10deg) scale(.7); } }
+@keyframes scatterLeft2 { to { opacity:0; transform:translate(-150px,50px) rotate(6deg) scale(.65); } }
+@keyframes scatterLeft3 { to { opacity:0; transform:translate(-200px,-10px) rotate(-4deg) scale(.75); } }
+@keyframes scatterLeft4 { to { opacity:0; transform:translate(-130px,80px) rotate(12deg) scale(.6); } }
+@keyframes scatterLeft5 { to { opacity:0; transform:translate(-160px,-60px) rotate(-8deg) scale(.7); } }
+@keyframes heroSlideLeft { to { opacity:0; transform:translateX(-100%) scaleX(.85); } }
+
+/* Directional scatter — RIGHT (going forward →) */
+@keyframes scatterRight1 { to { opacity:0; transform:translate(180px,-40px) rotate(10deg) scale(.7); } }
+@keyframes scatterRight2 { to { opacity:0; transform:translate(150px,50px) rotate(-6deg) scale(.65); } }
+@keyframes scatterRight3 { to { opacity:0; transform:translate(200px,-10px) rotate(4deg) scale(.75); } }
+@keyframes scatterRight4 { to { opacity:0; transform:translate(130px,80px) rotate(-12deg) scale(.6); } }
+@keyframes scatterRight5 { to { opacity:0; transform:translate(160px,-60px) rotate(8deg) scale(.7); } }
+@keyframes heroSlideRight { to { opacity:0; transform:translateX(100%) scaleX(.85); } }
+
+/* Directional scatter — DOWN (Production Office ↓) */
+@keyframes scatterDown1 { to { opacity:0; transform:translate(-40px,160px) rotate(-8deg) scale(.7); } }
+@keyframes scatterDown2 { to { opacity:0; transform:translate(50px,140px) rotate(6deg) scale(.65); } }
+@keyframes scatterDown3 { to { opacity:0; transform:translate(-20px,180px) rotate(-4deg) scale(.75); } }
+@keyframes scatterDown4 { to { opacity:0; transform:translate(60px,120px) rotate(10deg) scale(.6); } }
+@keyframes scatterDown5 { to { opacity:0; transform:translate(-50px,150px) rotate(-6deg) scale(.7); } }
+@keyframes heroSlideDown { to { opacity:0; transform:translateY(100%) scaleY(.85); } }
+
+/* Directional gather — from LEFT (arriving from left) */
+@keyframes gatherFromLeft {
+  from { opacity:0; transform:translateX(-50px) scale(.92); }
+  to { opacity:1; transform:translateX(0) scale(1); }
+}
+/* Directional gather — from RIGHT (arriving from right) */
+@keyframes gatherFromRight {
+  from { opacity:0; transform:translateX(50px) scale(.92); }
+  to { opacity:1; transform:translateX(0) scale(1); }
+}
+/* Directional gather — from ABOVE (arriving from top / dropping in) */
+@keyframes gatherFromAbove {
+  from { opacity:0; transform:translateY(-40px) scale(.92); }
+  to { opacity:1; transform:translateY(0) scale(1); }
+}
+
+/* ── Going home: scatter out current page (original) ── */
+.scatter-leaving { pointer-events:none; overflow:hidden; }
+.scatter-leaving .co-dash-hero { animation:heroSlideUp .4s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving .co-dash-content > * { animation:scatterOut1 .45s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving .co-dash-content > *:nth-child(2) { animation-name:scatterOut2; animation-delay:.03s; }
+.scatter-leaving .co-dash-content > *:nth-child(3) { animation-name:scatterOut3; animation-delay:.06s; }
+.scatter-leaving .co-dash-content > *:nth-child(4) { animation-name:scatterOut4; animation-delay:.09s; }
+.scatter-leaving .co-dash-content > *:nth-child(5) { animation-name:scatterOut5; animation-delay:.12s; }
+.scatter-leaving .co-dash-content > *:nth-child(n+6) { animation-name:scatterOut1; animation-delay:.15s; }
+.scatter-leaving .editor-layout { animation:scatterOut3 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+.scatter-leaving .dash-toolbar { animation:scatterOut2 .4s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving #dashGrid { animation:scatterOut4 .45s cubic-bezier(.55,.06,.68,.19) .08s forwards; }
+.scatter-leaving #erBody { animation:scatterOut2 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+.scatter-leaving #theatreBody { animation:scatterOut5 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+
+/* ── Scatter LEFT ── */
+.scatter-leaving-left { pointer-events:none; overflow:hidden; }
+.scatter-leaving-left .co-dash-hero { animation:heroSlideLeft .4s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving-left .co-dash-content > * { animation:scatterLeft1 .45s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving-left .co-dash-content > *:nth-child(2) { animation-name:scatterLeft2; animation-delay:.03s; }
+.scatter-leaving-left .co-dash-content > *:nth-child(3) { animation-name:scatterLeft3; animation-delay:.06s; }
+.scatter-leaving-left .co-dash-content > *:nth-child(4) { animation-name:scatterLeft4; animation-delay:.09s; }
+.scatter-leaving-left .co-dash-content > *:nth-child(5) { animation-name:scatterLeft5; animation-delay:.12s; }
+.scatter-leaving-left .co-dash-content > *:nth-child(n+6) { animation-name:scatterLeft1; animation-delay:.15s; }
+.scatter-leaving-left .editor-layout { animation:scatterLeft3 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+.scatter-leaving-left .dash-toolbar { animation:scatterLeft2 .4s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving-left #dashGrid { animation:scatterLeft4 .45s cubic-bezier(.55,.06,.68,.19) .08s forwards; }
+.scatter-leaving-left #erBody { animation:scatterLeft2 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+.scatter-leaving-left #theatreBody { animation:scatterLeft5 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+
+/* ── Scatter RIGHT ── */
+.scatter-leaving-right { pointer-events:none; overflow:hidden; }
+.scatter-leaving-right .co-dash-hero { animation:heroSlideRight .4s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving-right .co-dash-content > * { animation:scatterRight1 .45s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving-right .co-dash-content > *:nth-child(2) { animation-name:scatterRight2; animation-delay:.03s; }
+.scatter-leaving-right .co-dash-content > *:nth-child(3) { animation-name:scatterRight3; animation-delay:.06s; }
+.scatter-leaving-right .co-dash-content > *:nth-child(4) { animation-name:scatterRight4; animation-delay:.09s; }
+.scatter-leaving-right .co-dash-content > *:nth-child(5) { animation-name:scatterRight5; animation-delay:.12s; }
+.scatter-leaving-right .co-dash-content > *:nth-child(n+6) { animation-name:scatterRight1; animation-delay:.15s; }
+.scatter-leaving-right .editor-layout { animation:scatterRight3 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+.scatter-leaving-right .dash-toolbar { animation:scatterRight2 .4s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving-right #dashGrid { animation:scatterRight4 .45s cubic-bezier(.55,.06,.68,.19) .08s forwards; }
+.scatter-leaving-right #erBody { animation:scatterRight2 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+.scatter-leaving-right #theatreBody { animation:scatterRight5 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+
+/* ── Scatter DOWN (for Production Office) ── */
+.scatter-leaving-down { pointer-events:none; overflow:hidden; }
+.scatter-leaving-down .co-dash-hero { animation:heroSlideDown .4s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving-down .co-dash-content > * { animation:scatterDown1 .45s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving-down .co-dash-content > *:nth-child(2) { animation-name:scatterDown2; animation-delay:.03s; }
+.scatter-leaving-down .co-dash-content > *:nth-child(3) { animation-name:scatterDown3; animation-delay:.06s; }
+.scatter-leaving-down .co-dash-content > *:nth-child(4) { animation-name:scatterDown4; animation-delay:.09s; }
+.scatter-leaving-down .co-dash-content > *:nth-child(5) { animation-name:scatterDown5; animation-delay:.12s; }
+.scatter-leaving-down .co-dash-content > *:nth-child(n+6) { animation-name:scatterDown1; animation-delay:.15s; }
+.scatter-leaving-down .editor-layout { animation:scatterDown3 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+.scatter-leaving-down .dash-toolbar { animation:scatterDown2 .4s cubic-bezier(.55,.06,.68,.19) forwards; }
+.scatter-leaving-down #dashGrid { animation:scatterDown4 .45s cubic-bezier(.55,.06,.68,.19) .08s forwards; }
+.scatter-leaving-down #erBody { animation:scatterDown2 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+.scatter-leaving-down #theatreBody { animation:scatterDown5 .45s cubic-bezier(.55,.06,.68,.19) .05s forwards; }
+
+/* ── Going home: gather in home elements ── */
+.gather-entering > * {
+  opacity:0;
+  animation:gatherIn .55s cubic-bezier(.22,1,.36,1) forwards;
+}
+.gather-entering > *:nth-child(1) { animation-delay:.05s; }
+.gather-entering > *:nth-child(2) { animation-delay:.13s; }
+.gather-entering > *:nth-child(3) { animation-delay:.21s; }
+.gather-entering > *:nth-child(4) { animation-delay:.29s; }
+.gather-entering > *:nth-child(5) { animation-delay:.37s; }
+.gather-entering > *:nth-child(n+6) { animation-delay:.42s; }
+
+/* ── Gather from LEFT (new page arriving from left) ── */
+.gather-entering-left > * {
+  opacity:0;
+  animation:gatherFromLeft .5s cubic-bezier(.22,1,.36,1) forwards;
+}
+.gather-entering-left > *:nth-child(1) { animation-delay:.05s; }
+.gather-entering-left > *:nth-child(2) { animation-delay:.12s; }
+.gather-entering-left > *:nth-child(3) { animation-delay:.19s; }
+.gather-entering-left > *:nth-child(4) { animation-delay:.26s; }
+.gather-entering-left > *:nth-child(5) { animation-delay:.33s; }
+.gather-entering-left > *:nth-child(n+6) { animation-delay:.38s; }
+
+/* ── Gather from RIGHT (new page arriving from right) ── */
+.gather-entering-right > * {
+  opacity:0;
+  animation:gatherFromRight .5s cubic-bezier(.22,1,.36,1) forwards;
+}
+.gather-entering-right > *:nth-child(1) { animation-delay:.05s; }
+.gather-entering-right > *:nth-child(2) { animation-delay:.12s; }
+.gather-entering-right > *:nth-child(3) { animation-delay:.19s; }
+.gather-entering-right > *:nth-child(4) { animation-delay:.26s; }
+.gather-entering-right > *:nth-child(5) { animation-delay:.33s; }
+.gather-entering-right > *:nth-child(n+6) { animation-delay:.38s; }
+
+/* ── Gather from ABOVE (for Production Office — dropping in) ── */
+.gather-entering-above > * {
+  opacity:0;
+  animation:gatherFromAbove .5s cubic-bezier(.22,1,.36,1) forwards;
+}
+.gather-entering-above > *:nth-child(1) { animation-delay:.05s; }
+.gather-entering-above > *:nth-child(2) { animation-delay:.12s; }
+.gather-entering-above > *:nth-child(3) { animation-delay:.19s; }
+.gather-entering-above > *:nth-child(4) { animation-delay:.26s; }
+.gather-entering-above > *:nth-child(5) { animation-delay:.33s; }
+.gather-entering-above > *:nth-child(n+6) { animation-delay:.38s; }
+
+/* Going into company: everything vanishes, boardroom appears */
+@keyframes softVanish {
+  0% { opacity:1; }
+  100% { opacity:0; }
+}
+@keyframes softAppear {
+  0% { opacity:0; }
+  100% { opacity:1; }
+}
+
+.zoom-leaving {
+  pointer-events:none;
+  animation:softVanish .25s ease-out forwards;
+}
+.zoom-entering {
+  opacity:0 !important;
+  animation:softAppear .45s ease .05s forwards;
+}
+
 /* ── Sitemap pills ─────────────────────────────── */
 .co-dash-hero-right { display:flex; flex-direction:column; align-items:flex-end; gap:.15rem; }
 .hero-sitemap { display:flex; align-items:center; gap:.18rem; margin-bottom:.3rem; overflow:visible; }
@@ -5046,6 +5293,27 @@ body { padding-top:56px; }
   border:1px solid rgba(255,255,255,.14);
   background:rgba(255,255,255,.05); color:rgba(245,240,232,.35);
   white-space:nowrap; transition:all .15s;
+  position:relative; overflow:hidden; z-index:0;
+}
+.hero-sitemap-pill::before {
+  content:''; position:absolute; left:0; right:0; bottom:0; height:0%;
+  border-radius:20px; z-index:-1; transition:height .35s cubic-bezier(.34,1.56,.64,1);
+}
+.hero-sitemap-pill.glow-blue::before { height:100%; background:#2563eb; }
+.hero-sitemap-pill.glow-gold::before { height:100%; background:#9a7b3c; }
+.hero-sitemap-pill.glow-green::before { height:100%; background:#2d6b4a; }
+.hero-sitemap-pill.glow-purple::before { height:100%; background:#533483; }
+.hero-sitemap-pill.glow-red::before { height:100%; background:#c43a3a; }
+.hero-sitemap-pill.glow-home::before { height:100%; background:rgba(245,240,232,.9); }
+.hero-sitemap-pill.glow-blue,
+.hero-sitemap-pill.glow-gold,
+.hero-sitemap-pill.glow-green,
+.hero-sitemap-pill.glow-purple,
+.hero-sitemap-pill.glow-red {
+  color:#fff; border-color:rgba(255,255,255,.4); font-weight:700;
+}
+.hero-sitemap-pill.glow-home {
+  color:#1a1714; border-color:rgba(245,240,232,.6); font-weight:700;
 }
 .hero-sitemap-pill.active {
   background:rgba(255,255,255,.2); border-color:rgba(255,255,255,.55);
@@ -5067,14 +5335,18 @@ body { padding-top:56px; }
   background:rgba(255,255,255,.95); border-color:#fff;
   color:#533483; font-weight:800; box-shadow:0 0 0 2px rgba(255,255,255,.2);
 }
+.hero-sitemap-pill.active-red {
+  background:rgba(255,255,255,.95); border-color:#fff;
+  color:#c43a3a; font-weight:800; box-shadow:0 0 0 2px rgba(255,255,255,.2);
+}
 .hero-sitemap-pill.clickable { cursor: default; }
 .hero-sitemap-sep { font-size:.46rem; color:rgba(255,255,255,.18); }
 /* Green Editing Room button */
 .co-dash-hero-btn.er-btn { background:var(--forest); color:#fff; border:1.5px solid var(--forest); }
 .co-dash-hero-btn.er-btn:hover { background:#1e5c3a; border-color:#1e5c3a; }
-/* Purple Theatre Room button */
-.co-dash-hero-btn.tr-btn { background:#533483; color:#fff; border:1.5px solid #533483; }
-.co-dash-hero-btn.tr-btn:hover { background:#6b44a0; }
+/* Red Theatre Room button */
+.co-dash-hero-btn.tr-btn { background:#c43a3a; color:#fff; border:1.5px solid #c43a3a; }
+.co-dash-hero-btn.tr-btn:hover { background:#d94f4f; }
 
 /* ── Theatre Room ─────────────────────────────────── */
 .tr-couple-select { display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1.5rem; }
@@ -5084,7 +5356,7 @@ body { padding-top:56px; }
   border:1px solid var(--rule2); background:var(--card); color:var(--ink3); transition:all .15s;
 }
 .tr-couple-pill:hover { border-color:var(--gold-line); }
-.tr-couple-pill.on { background:#533483; color:#fff; border-color:#533483; }
+.tr-couple-pill.on { background:#c43a3a; color:#fff; border-color:#c43a3a; }
 
 .tr-video-list { display:flex; flex-direction:column; gap:.6rem; margin-bottom:1rem; }
 .tr-video-card {
@@ -5092,7 +5364,7 @@ body { padding-top:56px; }
   padding:.6rem .8rem; cursor:pointer; transition:all .15s; display:flex; align-items:center; gap:.6rem;
 }
 .tr-video-card:hover { border-color:var(--gold-line); box-shadow:0 2px 12px rgba(0,0,0,.06); }
-.tr-video-card.active { border-color:#533483; box-shadow:0 0 0 2px rgba(83,52,131,.2); }
+.tr-video-card.active { border-color:#c43a3a; box-shadow:0 0 0 2px rgba(196,58,58,.2); }
 .tr-video-title { font-family:'Cormorant Garamond',serif; font-size:.9rem; font-weight:600; color:var(--ink); }
 .tr-video-meta { font-family:'Outfit',sans-serif; font-size:.5rem; color:var(--ink5); margin-top:.1rem; }
 .tr-video-badge { display:inline-block; font-size:.45rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:.08rem .3rem; border-radius:10px; }
@@ -5119,10 +5391,10 @@ body { padding-top:56px; }
 }
 .tr-timestamp-btn {
   font-family:'Outfit',sans-serif; font-size:.55rem; font-weight:700;
-  padding:.3rem .55rem; border-radius:6px; border:1px solid #533483;
-  background:rgba(83,52,131,.08); color:#533483; cursor:pointer; white-space:nowrap;
+  padding:.3rem .55rem; border-radius:6px; border:1px solid #c43a3a;
+  background:rgba(196,58,58,.08); color:#c43a3a; cursor:pointer; white-space:nowrap;
 }
-.tr-timestamp-btn:hover { background:rgba(83,52,131,.18); }
+.tr-timestamp-btn:hover { background:rgba(196,58,58,.18); }
 
 .tr-comments-list { display:flex; flex-direction:column; gap:.35rem; }
 .tr-comment-item {
@@ -5131,10 +5403,10 @@ body { padding-top:56px; }
 }
 .tr-comment-time {
   font-family:'Outfit',sans-serif; font-size:.58rem; font-weight:700;
-  color:#533483; cursor:pointer; white-space:nowrap; min-width:45px;
-  padding:.1rem .3rem; border-radius:4px; background:rgba(83,52,131,.06);
+  color:#c43a3a; cursor:pointer; white-space:nowrap; min-width:45px;
+  padding:.1rem .3rem; border-radius:4px; background:rgba(196,58,58,.06);
 }
-.tr-comment-time:hover { background:rgba(83,52,131,.15); }
+.tr-comment-time:hover { background:rgba(196,58,58,.15); }
 .tr-comment-body { font-family:'Outfit',sans-serif; font-size:.62rem; color:var(--ink2); flex:1; line-height:1.5; }
 .tr-comment-author { font-size:.48rem; color:var(--ink5); margin-top:.1rem; }
 .tr-comment-delete {
@@ -5365,15 +5637,16 @@ body { padding-top:56px; }
       <div class="co-dash-hero-left">
         <div class="co-dash-hero-icon" id="coDashIcon">🏢</div>
         <div>
-          <div class="co-dash-hero-name" id="coDashName" style="color:#b8ccf5;">Company</div>
+          <div class="co-dash-hero-name" id="coDashName" style="color:#b8ccf5;">Boardroom</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(184,204,245,.4);margin-top:.15rem;">Overview · Teams · Analytics</div>
           
         </div>
       </div>
       <div class="co-dash-hero-right">
-        <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill active-blue">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
+        <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill active-blue">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill">Talent Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
         <div class="co-dash-hero-actions">
           <button class="co-dash-hero-btn nav-companies" onclick="backToLogin()">⌂ Home</button>
-          <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">👥 Client Lounge →</button>
+          <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">👥 Talent Lounge →</button>
           <button class="co-dash-hero-btn er-btn" onclick="goToEditingRoom()">✂️ Editing Room →→</button>
           <button class="co-dash-hero-btn tr-btn" onclick="goToTheatreRoom()">🎬 Theatre →→→</button>
         </div>
@@ -5382,19 +5655,19 @@ body { padding-top:56px; }
   </div>
   <div class="co-dash-content">
     <div class="co-dash-section">
-      <div class="co-dash-section-label">In Production</div>
+      <div class="co-dash-section-label label-production">In Production</div>
       <div id="coDashEditing"></div>
     </div>
     <div class="co-dash-section" id="coDashRevisionsWrap" style="display:none;">
-      <div class="co-dash-section-label">Revisions</div>
+      <div class="co-dash-section-label label-revisions">Revisions</div>
       <div id="coDashRevisions"></div>
     </div>
     <div class="co-dash-section" id="coDashOverdueWrap" style="display:none;">
-      <div class="co-dash-section-label">Overdue</div>
+      <div class="co-dash-section-label label-overdue">Overdue</div>
       <div id="coDashOverdue"></div>
     </div>
     <div class="co-dash-section" id="coDashAlmostDueWrap" style="display:none;">
-      <div class="co-dash-section-label">Almost Due</div>
+      <div class="co-dash-section-label label-almostdue">Almost Due</div>
       <div id="coDashAlmostDue"></div>
     </div>
     <div class="co-dash-section" id="coDashAnalyticsWrap" style="display:none;">
@@ -5420,15 +5693,14 @@ body { padding-top:56px; }
         <div class="co-dash-hero-left">
           <div class="co-dash-hero-icon" id="allClientsIcon">👥</div>
           <div>
-            <div class="co-dash-hero-name" id="allClientsHeroName" style="color:#e8d5a8;">Client Lounge</div>
+            <div class="co-dash-hero-name" id="allClientsHeroName" style="color:#e8d5a8;">Talent Lounge</div>
+            <div style="font-family:'Outfit',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,213,168,.4);margin-top:.15rem;">All Couples · Events · Songs</div>
           </div>
         </div>
         <div class="co-dash-hero-right">
-          <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill active-gold">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
+          <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill active-gold">Talent Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
           <div class="co-dash-hero-actions">
             <button class="co-dash-hero-btn nav-companies" onclick="backToLogin()">⌂ Home</button>
-            <button class="co-dash-hero-btn secondary admin-only" onclick="openBackup()" title="Backup &amp; Restore">💾 Backup</button>
-            <button class="co-dash-hero-btn primary admin-only" onclick="openAddCouple()">+ Add Client</button>
             <button class="co-dash-hero-btn nav-dashboard" onclick="goToDashboard()">← Boardroom 🏢</button>
             <button class="co-dash-hero-btn er-btn" onclick="goToEditingRoom()">✂️ Editing Room →</button>
             <button class="co-dash-hero-btn tr-btn" onclick="goToTheatreRoom()">🎬 Theatre →→</button>
@@ -5459,6 +5731,7 @@ body { padding-top:56px; }
             <button class="vm-btn" id="vmCompact" onclick="setDashView('compact')" title="Compact view">▤</button>
           </div>
         </div>
+        <button class="co-dash-hero-btn primary admin-only" onclick="openAddCouple()" style="font-size:.6rem;padding:.35rem .8rem;">+ Add Talent</button>
       </div>
       <div id="editorFilterBar" style="display:none" class="editor-filter-bar"></div>
       <div id="shooterFilterBar" style="display:none" class="editor-filter-bar"></div>
@@ -5474,19 +5747,24 @@ body { padding-top:56px; }
           <div class="co-dash-hero-icon" id="coupleHeroIcon">💍</div>
           <div>
             <div class="co-dash-hero-name" id="coupleHeroName" style="color:#e8d5a8;">Couple</div>
-            <div style="font-family:'Outfit',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,213,168,.5);margin-top:.15rem;">Production Office</div>
+            <div style="font-family:'Outfit',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,213,168,.4);margin-top:.15rem;">Production Office · Timeline · Assignments</div>
           </div>
         </div>
         <div class="co-dash-hero-right">
-          <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill active-gold">Production Office</span></span><span class="hero-sitemap-pill">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
+          <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill active-gold">Production Office</span></span><span class="hero-sitemap-pill">Talent Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
           <div class="co-dash-hero-actions">
             <button class="co-dash-hero-btn nav-companies" onclick="backToLogin()">⌂ Home</button>
-            <button class="co-dash-hero-btn secondary admin-only" onclick="openBackup()" title="Backup &amp; Restore">💾 Backup</button>
-            <button class="co-dash-hero-btn secondary" onclick="openLibrary()">Song Library</button>
-            <button class="co-dash-hero-btn secondary" onclick="openHistory()">Song History</button>
+            <div class="songs-dropdown" id="songsDropdown">
+              <button class="co-dash-hero-btn secondary" onclick="this.parentElement.classList.toggle('open');event.stopPropagation()">🎵 Songs ▾</button>
+              <div class="songs-dropdown-menu">
+                <button class="songs-dropdown-item" onclick="openLibrary();document.getElementById('songsDropdown').classList.remove('open')">📚 Song Library</button>
+                <button class="songs-dropdown-item" onclick="openHistory();document.getElementById('songsDropdown').classList.remove('open')">📜 Song History</button>
+              </div>
+            </div>
             <button class="co-dash-hero-btn nav-dashboard" onclick="goToDashboard()">↓ Boardroom 🏢</button>
-            <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">↓ Client Lounge 👥</button>
+            <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">↓ Talent Lounge 👥</button>
             <button class="co-dash-hero-btn er-btn" onclick="goToEditingRoom()">↓ Editing Room ✂️</button>
+            <button class="co-dash-hero-btn tr-btn" onclick="goToTheatreRoom()">↓ Theatre 🎬</button>
           </div>
         </div>
       </div>
@@ -5516,16 +5794,22 @@ body { padding-top:56px; }
     <div class="co-dash-hero-inner">
       <div class="co-dash-hero-left">
         <div class="co-dash-hero-icon">✂️</div>
-        <div><div class="co-dash-hero-name" style="color:#b8e0cc;">Editing Room</div></div>
+        <div><div class="co-dash-hero-name" style="color:#b8e0cc;">Editing Room</div>
+        <div style="font-family:'Outfit',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(184,224,204,.4);margin-top:.15rem;">Progress · Delivery · Exports</div></div>
       </div>
       <div class="co-dash-hero-right">
-        <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill active-green">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
+        <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill">Talent Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill active-green">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
         <div class="co-dash-hero-actions">
           <button class="co-dash-hero-btn nav-companies" onclick="backToLogin()">⌂ Home</button>
-          <button class="co-dash-hero-btn secondary" onclick="openLibrary()">Song Library</button>
-          <button class="co-dash-hero-btn secondary" onclick="openHistory()">Song History</button>
+          <div class="songs-dropdown" id="songsDropdownER">
+            <button class="co-dash-hero-btn secondary" onclick="this.parentElement.classList.toggle('open');event.stopPropagation()">🎵 Songs ▾</button>
+            <div class="songs-dropdown-menu">
+              <button class="songs-dropdown-item" onclick="openLibrary();document.getElementById('songsDropdownER').classList.remove('open')">📚 Song Library</button>
+              <button class="songs-dropdown-item" onclick="openHistory();document.getElementById('songsDropdownER').classList.remove('open')">📜 Song History</button>
+            </div>
+          </div>
           <button class="co-dash-hero-btn nav-dashboard" onclick="goToDashboard()">←← Boardroom 🏢</button>
-          <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">← Client Lounge 👥</button>
+          <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">← Talent Lounge 👥</button>
           <button class="co-dash-hero-btn tr-btn" onclick="goToTheatreRoom()">🎬 Theatre →</button>
         </div>
       </div>
@@ -5538,24 +5822,31 @@ body { padding-top:56px; }
 
 <!-- ══ THEATRE ROOM VIEW ══════════════════════════════════════════════════ -->
 <div id="theatreRoomView" style="display:none">
-  <div class="co-dash-hero" style="background:linear-gradient(135deg,#2d1b4e 0%,#3d2463 50%,#533483 100%);">
+  <div class="co-dash-hero" style="background:linear-gradient(135deg,#1a0808 0%,#3a1010 50%,#c43a3a 100%);">
     <div class="co-dash-hero-inner">
       <div class="co-dash-hero-left">
         <div class="co-dash-hero-icon">🎬</div>
-        <div><div class="co-dash-hero-name" style="color:#e2d4f5;">Theatre Room</div></div>
+        <div>
+          <div class="co-dash-hero-name" style="color:#f5caca;">Theatre Room</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,202,202,.4);margin-top:.15rem;">Client Review · Timestamped Notes</div>
+        </div>
       </div>
       <div class="co-dash-hero-right">
-        <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill active-purple">Theatre Room</span></div>
+        <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill">Talent Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill active-red">Theatre Room</span></div>
         <div class="co-dash-hero-actions">
           <button class="co-dash-hero-btn nav-companies" onclick="backToLogin()">⌂ Home</button>
           <button class="co-dash-hero-btn nav-dashboard" onclick="goToDashboard()">←← Boardroom 🏢</button>
-          <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">← Client Lounge 👥</button>
+          <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">← Talent Lounge 👥</button>
           <button class="co-dash-hero-btn er-btn" onclick="goToEditingRoom()">← Editing Room ✂️</button>
         </div>
       </div>
     </div>
   </div>
   <div class="co-dash-content" style="padding-top:1.5rem;">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;padding:0 .5rem;">
+      <a href="https://cloudixc.github.io/cloudix/theatre.html" target="_blank" style="font-family:'Outfit',sans-serif;font-size:.58rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#c43a3a;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .7rem;border:1px solid rgba(196,58,58,.25);border-radius:6px;background:rgba(196,58,58,.04);transition:all .18s;">🔗 Open Client Theatre Page <span style="font-size:.48rem;opacity:.6;">↗</span></a>
+      <span style="font-size:.48rem;color:var(--ink5);font-weight:300;">Share this link with clients for video review</span>
+    </div>
     <div id="theatreBody"></div>
   </div>
 </div>
@@ -5597,7 +5888,7 @@ body { padding-top:56px; }
     <input type="text" id="cEditors" placeholder="e.g. Ravi, Priya" style="margin-bottom:.9rem;">
     <label style="margin-top:.2rem;">🎬 Theatre Room Access Code <span style="font-size:.68rem;color:var(--ink5);font-weight:300;">(client login password)</span></label>
     <input type="text" id="cTheatrePass" placeholder="e.g. review2025" style="margin-bottom:.3rem;">
-    <div style="font-size:.52rem;color:var(--ink5);margin-bottom:.9rem;">Client logs in at <b>theatre.html</b> with their couple name + this code</div>
+    <div style="font-size:.52rem;color:var(--ink5);margin-bottom:.9rem;">Client logs in at <a href="https://cloudixc.github.io/cloudix/theatre.html" target="_blank" style="color:#c43a3a;font-weight:700;text-decoration:underline;cursor:pointer;">theatre.html</a> with their couple name + this code</div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeAddCouple()">Cancel</button>
       <button class="btn btn-red" onclick="addCouple()">Add Couple</button>
@@ -5642,7 +5933,7 @@ body { padding-top:56px; }
     <input type="text" id="eEditors" placeholder="e.g. Ravi, Priya" style="margin-bottom:.9rem;">
     <label style="margin-top:.2rem;">🎬 Theatre Room Access Code <span style="font-size:.68rem;color:var(--ink5);font-weight:300;">(client login password)</span></label>
     <input type="text" id="eTheatrePass" placeholder="e.g. review2025" style="margin-bottom:.3rem;">
-    <div style="font-size:.52rem;color:var(--ink5);margin-bottom:.9rem;">Client logs in at <b>theatre.html</b> with their couple name + this code</div>
+    <div style="font-size:.52rem;color:var(--ink5);margin-bottom:.9rem;">Client logs in at <a href="https://cloudixc.github.io/cloudix/theatre.html" target="_blank" style="color:#c43a3a;font-weight:700;text-decoration:underline;cursor:pointer;">theatre.html</a> with their couple name + this code</div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeEditCouple()">Cancel</button>
       <button class="btn btn-red" onclick="saveEditCouple()">Save Changes</button>
@@ -6120,7 +6411,7 @@ window.addEventListener('popstate', function(e) {
       document.getElementById('mainApp').style.display='';
       var _gh3=document.getElementById('globalHeader');if(_gh3)_gh3.style.display='';
       document.getElementById('dashView').style.display='';
-      setPageLabel('Client Lounge');
+      setPageLabel('Talent Lounge');
       renderDashboard();
       _applyRoleVisibility();
     } else {
@@ -6588,15 +6879,73 @@ const uesc = s => String(s||'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').repla
 function setPageLabel(l){var e=document.getElementById('ghPageLabel');if(e)e.textContent=l;}
 function setCompanyLabel(n){var e=document.getElementById('ghCompanyLabel');if(e)e.textContent=n||'';}
 
+// ── Directional scatter transition helper ──────────────────────────
+// direction: 'left', 'right', 'up' (home-style), 'down'
+// gatherDir: 'left', 'right', 'above', 'up' (home-style gather)
+function _scatterTransition(direction, callback, gatherTargetId, gatherDir) {
+  var views = ['companyDashView','mainApp','editorView','editingRoomView','theatreRoomView'];
+  var activeView = null;
+  views.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && el.style.display !== 'none' && el.offsetParent !== null) activeView = el;
+  });
+  
+  var scatterClass = 'scatter-leaving'; // default (home-style random)
+  if (direction === 'left') scatterClass = 'scatter-leaving-left';
+  else if (direction === 'right') scatterClass = 'scatter-leaving-right';
+  else if (direction === 'down') scatterClass = 'scatter-leaving-down';
+  // 'up' = default scatter-leaving (home-style)
+  
+  var gatherClass = 'gather-entering'; // default (home-style)
+  if (gatherDir === 'left') gatherClass = 'gather-entering-left';
+  else if (gatherDir === 'right') gatherClass = 'gather-entering-right';
+  else if (gatherDir === 'above') gatherClass = 'gather-entering-above';
+  // 'up' or undefined = default gather-entering (home-style)
+  
+  if (activeView) {
+    activeView.classList.add(scatterClass);
+    setTimeout(function() {
+      activeView.classList.remove(scatterClass);
+      callback();
+      // Apply gather animation to new view
+      if (gatherTargetId) {
+        var target = document.getElementById(gatherTargetId);
+        if (target && target.style.display !== 'none') {
+          target.classList.add(gatherClass);
+          setTimeout(function() { target.classList.remove(gatherClass); }, 700);
+        }
+      }
+    }, 480);
+  } else {
+    callback();
+    if (gatherTargetId) {
+      var target = document.getElementById(gatherTargetId);
+      if (target && target.style.display !== 'none') {
+        target.classList.add(gatherClass);
+        setTimeout(function() { target.classList.remove(gatherClass); }, 700);
+      }
+    }
+  }
+}
+
 // ── Editing Room navigation ──────────────────────────────────────
 function goToEditingRoom(){
-  ['companyDashView','mainApp','loginView','theatreRoomView'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
-  document.getElementById('editingRoomView').style.display='';
-  document.getElementById('globalHeader').style.display='';
-  setPageLabel('Editing Room');
-  renderEditingRoom();
-  _applyRoleVisibility();
-  _saveSession();
+  // Determine scatter direction based on where we're coming from
+  var cur_view = _getCurrentView();
+  var direction = 'right'; // default: most pages are to the left of editing room
+  var gatherDir = 'right';
+  if (cur_view === 'theatreRoom') { direction = 'right'; gatherDir = 'left'; } // theatre is to the right
+  else { direction = 'left'; gatherDir = 'right'; } // everything else is to the left
+  
+  _scatterTransition(direction, function() {
+    ['companyDashView','mainApp','loginView','theatreRoomView'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+    document.getElementById('editingRoomView').style.display='';
+    document.getElementById('globalHeader').style.display='';
+    setPageLabel('Editing Room');
+    renderEditingRoom();
+    _applyRoleVisibility();
+    _saveSession();
+  }, 'editingRoomView', gatherDir);
 }
 
 // ── THEATRE ROOM ─────────────────────────────────────────────────────
@@ -6607,15 +6956,26 @@ var _trPlayerType = null; // 'vimeo' | 'youtube'
 var _trPlayerReady = false;
 
 function goToTheatreRoom(){
-  ['companyDashView','mainApp','loginView','editingRoomView'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
-  document.getElementById('theatreRoomView').style.display='';
-  document.getElementById('globalHeader').style.display='';
-  setPageLabel('Theatre Room');
-  _trPlayerReady = false;
-  _trPlayer = null;
-  renderTheatreRoom();
-  _applyRoleVisibility();
-  _saveSession();
+  // Theatre is the rightmost view — everything scatters left
+  _scatterTransition('left', function() {
+    ['companyDashView','mainApp','loginView','editingRoomView'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+    document.getElementById('theatreRoomView').style.display='';
+    document.getElementById('globalHeader').style.display='';
+    setPageLabel('Theatre Room');
+    _trPlayerReady = false;
+    _trPlayer = null;
+    renderTheatreRoom();
+    _applyRoleVisibility();
+    _saveSession();
+  }, 'theatreRoomView', 'right');
+}
+
+function openStandaloneTheatre() {
+  // Open the standalone client-facing theatre page in a new tab
+  // Construct the URL relative to the current page
+  var base = window.location.href.replace(/[^\/]*$/, '');
+  var url = base + 'theatre.html';
+  window.open(url, '_blank');
 }
 
 function _trGetVideos(coupleId) {
@@ -6718,7 +7078,7 @@ function renderTheatreRoom() {
         '<input id="trCommentInput" placeholder="Leave a note at this moment..." onkeydown="if(event.key===\'Enter\')trPostComment()">' +
         '<button class="btn btn-red" style="font-size:.58rem;padding:.25rem .5rem;" onclick="trPostComment()">Post</button>' +
       '</div>' +
-      '<div id="trCurrentTime" style="font-family:\'Outfit\',sans-serif;font-size:.52rem;color:#533483;font-weight:700;margin-bottom:.5rem;">⏱ 0:00</div>' +
+      '<div id="trCurrentTime" style="font-family:\'Outfit\',sans-serif;font-size:.52rem;color:#c43a3a;font-weight:700;margin-bottom:.5rem;">⏱ 0:00</div>' +
       (commentsListHtml || '<div class="tr-empty" style="padding:.8rem;">No notes yet — pause the video and leave your first note</div>') +
     '</div>';
   }
@@ -7253,16 +7613,18 @@ function selectCoupleFromDash(id) {
     if (firstInst) setTimeout(() => { openEvModal(firstInst.id); }, 120);
     return;
   }
-  // Go directly from company dashboard to couple editor, no All Clients stop
-  cur = id;
-  document.getElementById('companyDashView').style.display = 'none';
-  document.getElementById('mainApp').style.display=''; var _gh3=document.getElementById('globalHeader');if(_gh3)_gh3.style.display='';
-  document.getElementById('dashView').style.display = 'none';
-  document.getElementById('editorView').style.display=''; setPageLabel('Production Office');
-  initYears();
-  renderCoupleCard();
-  renderMain();
-  renderCoupleSummary(); renderCoupleTimeline();
+  // Go directly from company dashboard to couple editor — use home-style scatter + gather
+  _scatterTransition('up', function() {
+    cur = id;
+    document.getElementById('companyDashView').style.display = 'none';
+    document.getElementById('mainApp').style.display=''; var _gh3=document.getElementById('globalHeader');if(_gh3)_gh3.style.display='';
+    document.getElementById('dashView').style.display = 'none';
+    document.getElementById('editorView').style.display=''; setPageLabel('Production Office');
+    initYears();
+    renderCoupleCard();
+    renderMain();
+    renderCoupleSummary(); renderCoupleTimeline();
+  }, 'editorView', 'up');
 }
 
 let _editorPrevView = null; // tracks where editor was before modal opened
@@ -7280,13 +7642,35 @@ function selectCouple(id) {
     }
     return;
   }
-  document.getElementById('dashView').style.display = 'none';
-  document.getElementById('editorView').style.display=''; setPageLabel('Production Office');
-  renderCoupleCard();
-  renderMain();
-  renderCoupleSummary(); renderCoupleTimeline();
-  _applyRoleVisibility();
-  _saveSession();
+  // From Talent Lounge to Production Office — use home-style scatter + gather
+  var dashView = document.getElementById('dashView');
+  if (dashView) {
+    dashView.classList.add('scatter-leaving');
+    setTimeout(function() {
+      dashView.classList.remove('scatter-leaving');
+      dashView.style.display = 'none';
+      document.getElementById('editorView').style.display=''; setPageLabel('Production Office');
+      renderCoupleCard();
+      renderMain();
+      renderCoupleSummary(); renderCoupleTimeline();
+      _applyRoleVisibility();
+      _saveSession();
+      // Gather animation on editor view
+      var ev = document.getElementById('editorView');
+      if (ev) {
+        ev.classList.add('gather-entering');
+        setTimeout(function() { ev.classList.remove('gather-entering'); }, 700);
+      }
+    }, 480);
+  } else {
+    document.getElementById('dashView').style.display = 'none';
+    document.getElementById('editorView').style.display=''; setPageLabel('Production Office');
+    renderCoupleCard();
+    renderMain();
+    renderCoupleSummary(); renderCoupleTimeline();
+    _applyRoleVisibility();
+    _saveSession();
+  }
 }
 
 function selectCoupleAndOpen(coupleId, instId) {
@@ -7330,28 +7714,40 @@ function _setupCoupleDOM(coupleId) {
 function _getCurrentView() {
   var cdv = document.getElementById('companyDashView');
   if (cdv && cdv.style.display !== 'none') return 'boardroom';
+  var tr = document.getElementById('theatreRoomView');
+  if (tr && tr.style.display !== 'none' && tr.offsetParent !== null) return 'theatreRoom';
   var er = document.getElementById('editingRoomView');
-  if (er && er.style.display !== 'none' && er.style.display !== '') return 'editingRoom';
+  if (er && er.style.display !== 'none' && er.offsetParent !== null) return 'editingRoom';
+  var ev = document.getElementById('editorView');
+  if (ev && ev.style.display !== 'none' && ev.offsetParent !== null) return 'productionOffice';
   var dv = document.getElementById('dashView');
   if (dv && dv.style.display !== 'none') return 'clientLounge';
   return 'boardroom';
 }
 
 function goToDashboard() {
-  var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
-  cur = null;
-  document.getElementById('editorView').style.display = 'none';
-  if (activeCompany) {
-    document.getElementById('mainApp').style.display = 'none';
-    document.getElementById('companyDashView').style.display=''; var _gh2=document.getElementById('globalHeader');if(_gh2)_gh2.style.display=''; setPageLabel('Boardroom');
-    renderDashPanels('coDashPanels','coDashBanner');
-    _applyRoleVisibility();
-  } else {
-    document.getElementById('dashView').style.display=''; setPageLabel('Client Lounge');
-    renderDashboard();
-    _applyRoleVisibility();
-  }
-  _saveSession();
+  // Boardroom is near the left — scatter right (current view goes right, boardroom enters from left)
+  var cur_view = _getCurrentView();
+  var direction = 'right'; // most views are to the right of boardroom
+  var gatherDir = 'left';
+  // If coming from home/login, we'd go right (forward) but that's handled by selectCompanyDash
+  
+  _scatterTransition(direction, function() {
+    var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
+    cur = null;
+    document.getElementById('editorView').style.display = 'none';
+    if (activeCompany) {
+      document.getElementById('mainApp').style.display = 'none';
+      document.getElementById('companyDashView').style.display=''; var _gh2=document.getElementById('globalHeader');if(_gh2)_gh2.style.display=''; setPageLabel('Boardroom');
+      renderDashPanels('coDashPanels','coDashBanner');
+      _applyRoleVisibility();
+    } else {
+      document.getElementById('dashView').style.display=''; setPageLabel('Talent Lounge');
+      renderDashboard();
+      _applyRoleVisibility();
+    }
+    _saveSession();
+  }, activeCompany ? 'companyDashView' : 'dashView', gatherDir);
 }
 
 // ── COUNTDOWN HELPERS ────────────────────────────────
@@ -7470,7 +7866,7 @@ function renderDashboard() {
         <div class="dash-year-head">
           <span class="dash-year-label">${y}</span>
           <span class="dash-year-line"></span>
-          <span class="dash-year-count">${mc.length} couple${mc.length!==1?'s':''}</span>
+          <span class="dash-year-count">${mc.length} talent${mc.length!==1?'s':''}</span>
         </div>
         <div class="couple-compact">${mc.map(c=>renderCoupleCompactHTML(c)).join('')}</div>
       </div>`;
@@ -7497,7 +7893,7 @@ function renderDashboard() {
       <div class="dash-year-head">
         <span class="dash-year-label">${y}</span>
         <span class="dash-year-line"></span>
-        <span class="dash-year-count">${allInYear.length} couple${allInYear.length!==1?'s':''}</span>
+        <span class="dash-year-count">${allInYear.length} talent${allInYear.length!==1?'s':''}</span>
       </div>
       ${monthsHtml}
     </div>`;
@@ -9250,7 +9646,64 @@ document.addEventListener('click', function(e) {
   if (!e.target.closest('.crew-suggest-wrap') && !e.target.closest('.crew-suggest-list')) {
     document.querySelectorAll('.crew-suggest-list').forEach(el => el.classList.remove('open'));
   }
+  if (!e.target.closest('.songs-dropdown')) {
+    document.querySelectorAll('.songs-dropdown').forEach(function(el){ el.classList.remove('open'); });
+  }
 });
+
+// ── BREADCRUMB PILL HOVER HIGHLIGHT ─────────────────────
+(function() {
+  const pillMap = {
+    'Home': 'glow-home',
+    'Boardroom': 'glow-blue',
+    'Talent Lounge': 'glow-gold',
+    'Production Office': 'glow-gold',
+    'Editing Room': 'glow-green',
+    'Theatre': 'glow-red'
+  };
+  
+  function findPill(btn, name) {
+    const hero = btn.closest('.co-dash-hero');
+    if (!hero) return null;
+    const pills = hero.querySelectorAll('.hero-sitemap-pill');
+    for (var i = 0; i < pills.length; i++) {
+      var txt = pills[i].textContent.trim();
+      if (txt === name || (name === 'Theatre' && txt === 'Theatre Room')) return pills[i];
+    }
+    return null;
+  }
+  
+  function getTarget(btn) {
+    var text = btn.textContent.replace(/[←→↓⌂🏢👥✂️🎬💍📚📜]/g, '').trim();
+    for (var key in pillMap) {
+      if (text.indexOf(key) !== -1 || (key === 'Theatre' && text.indexOf('Theatre') !== -1)) {
+        return { name: key === 'Theatre' ? 'Theatre' : key, cls: pillMap[key] };
+      }
+    }
+    return null;
+  }
+  
+  document.addEventListener('mouseover', function(e) {
+    var btn = e.target.closest('.co-dash-hero-btn');
+    if (!btn) return;
+    var target = getTarget(btn);
+    if (!target) return;
+    var pill = findPill(btn, target.name === 'Theatre' ? 'Theatre' : target.name);
+    if (pill && !pill.classList.contains('active-blue') && !pill.classList.contains('active-gold') && !pill.classList.contains('active-green') && !pill.classList.contains('active-purple') && !pill.classList.contains('active-red')) {
+      pill.classList.add(target.cls);
+      btn._hlPill = pill;
+      btn._hlCls = target.cls;
+    }
+  });
+  
+  document.addEventListener('mouseout', function(e) {
+    var btn = e.target.closest('.co-dash-hero-btn');
+    if (!btn || !btn._hlPill) return;
+    btn._hlPill.classList.remove(btn._hlCls);
+    btn._hlPill = null;
+    btn._hlCls = null;
+  });
+})();
 
 // ── LOCATION AUTOCOMPLETE (OpenStreetMap Nominatim) ──────
 let _locTimers = {};
@@ -11434,10 +11887,8 @@ function renderDashPanels(panelId, bannerId) {
     if (!allEditors.length || !hasSomething) {
       editingEl.innerHTML = `<div class="prod-panel">
         <div class="prod-panel-head">
-          <span class="prod-panel-title">In Production</span>
-          <span class="prod-panel-sub">Active edit projects</span>
+          <span class="prod-panel-sub">No active edit projects right now</span>
         </div>
-        <div class="prod-no-editors">No active edit projects right now</div>
       </div>`;
     } else {
       // Group back by editor for column layout
@@ -11598,7 +12049,6 @@ function renderDashPanels(panelId, bannerId) {
       const activeEdCount = allEditors.filter(ed=>(byEditor[ed]?.length)||(editorCoupleLevel[ed]?.length)).length;
       editingEl.innerHTML = `<div class="prod-panel">
         <div class="prod-panel-head">
-          <span class="prod-panel-title">In Production</span>
           <span class="prod-panel-sub">${totalActive} project${totalActive===1?'':'s'} · ${activeEdCount} editor${activeEdCount===1?'':'s'}</span>
           ${_isAdmin() ? '<button class="panel-assign-btn" style="margin-top:0;" onclick="openAssign(\'\')">+ Assign</button>' : ''}
         </div>
@@ -11686,7 +12136,6 @@ function renderDashPanels(panelId, bannerId) {
 
       revEl.innerHTML = `<div class="rev-panel">
         <div class="rev-panel-head">
-          <span class="rev-panel-title">Revisions</span>
           <span class="rev-panel-sub">${revGrouped.length} item${revGrouped.length===1?'':'s'} need${revGrouped.length===1?'s':''} attention</span>
         </div>
         <div class="rev-grid">${revCards}</div>
@@ -11879,7 +12328,6 @@ function renderDashPanels(panelId, bannerId) {
       const cards = grouped.map(p => renderDueCard(p, 'overdue-card')).join('');
       overdueEl.innerHTML = `<div class="overdue-panel">
         <div class="overdue-panel-head">
-          <span class="overdue-panel-title">Overdue</span>
           <span class="overdue-panel-sub">${grouped.length} project${grouped.length === 1 ? '' : 's'} past due</span>
         </div>
         <div class="overdue-grid">${cards}</div>
@@ -11899,7 +12347,6 @@ function renderDashPanels(panelId, bannerId) {
       const cards = grouped.map(p => renderDueCard(p, 'almostdue-card')).join('');
       almostDueEl.innerHTML = `<div class="almostdue-panel">
         <div class="almostdue-panel-head">
-          <span class="almostdue-panel-title">Almost Due</span>
           <span class="almostdue-panel-sub">${grouped.length} project${grouped.length === 1 ? '' : 's'} due within ${ALMOST_DUE_DAYS} days</span>
         </div>
         <div class="almostdue-grid">${cards}</div>
@@ -14418,7 +14865,8 @@ async function selectCompanyDash(id) {
   await loadCompanyData(id);
   document.getElementById('loginView').style.display = 'none';
   document.getElementById('mainApp').style.display = 'none';
-  document.getElementById('companyDashView').style.display=''; var _gh2=document.getElementById('globalHeader');if(_gh2)_gh2.style.display=''; setPageLabel('Boardroom');
+  document.getElementById('companyDashView').style.display='';
+  var _gh2=document.getElementById('globalHeader');if(_gh2)_gh2.style.display=''; setPageLabel('Boardroom');
   renderDashPanels('coDashPanels','coDashBanner');
   _applyRoleVisibility();
   _saveSession();
@@ -14429,12 +14877,12 @@ async function selectCompanyClients(id) {
   const co = companies.find(x=>x.id===id);
   const heroName = document.getElementById('allClientsHeroName');
   const heroIcon = document.getElementById('allClientsIcon');
-  if (heroName) heroName.textContent = 'Client Lounge';
+  if (heroName) heroName.textContent = 'Talent Lounge';
   if (heroIcon) heroIcon.textContent = '👥';
   document.getElementById('loginView').style.display = 'none';
   document.getElementById('companyDashView').style.display = 'none';
   document.getElementById('mainApp').style.display=''; var _gh3=document.getElementById('globalHeader');if(_gh3)_gh3.style.display='';
-  document.getElementById('dashView').style.display=''; setPageLabel('Client Lounge');
+  document.getElementById('dashView').style.display=''; setPageLabel('Talent Lounge');
   document.getElementById('editorView').style.display = 'none';
   renderDashboard();
   renderEditorFilter();
@@ -14478,39 +14926,88 @@ async function selectCompany(id) {
 }
 
 function goToAllCouples() {
+  // Determine scatter direction based on current view
+  var cur_view = _getCurrentView();
+  var direction = 'right'; // default
+  var gatherDir = 'left';
+  
+  // Talent Lounge is in the middle of the flow
+  // From Boardroom (left of TL): scatter boardroom left, TL enters from right
+  if (cur_view === 'boardroom') { direction = 'left'; gatherDir = 'right'; }
+  // From Editing Room (right of TL): scatter ER right, TL enters from left  
+  else if (cur_view === 'editingRoom') { direction = 'right'; gatherDir = 'left'; }
+  // From Theatre Room (far right): scatter TR right, TL enters from left
+  else if (cur_view === 'theatreRoom') { direction = 'right'; gatherDir = 'left'; }
+  // From Production Office (above TL): scatter down, TL enters from above — same as home animation
+  else if (cur_view === 'productionOffice') { direction = 'down'; gatherDir = 'above'; }
+  // Default from other views
+  else { direction = 'right'; gatherDir = 'left'; }
+  
   // Editor: save current view before switching (for modal close navigation)
   if (_isEditor()) _editorPrevView = _getCurrentView();
-  var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
-  // Update All Clients hero with company info
-  const co = companies.find(x=>x.id===activeCompany);
-  const heroName = document.getElementById('allClientsHeroName');
-  const heroIcon = document.getElementById('allClientsIcon');
-  if (heroName) heroName.textContent = 'Client Lounge';
-  if (heroIcon) heroIcon.textContent = '👥';
-  document.getElementById('companyDashView').style.display = 'none';
-  document.getElementById('mainApp').style.display=''; var _gh3=document.getElementById('globalHeader');if(_gh3)_gh3.style.display='';
-  document.getElementById('dashView').style.display=''; setPageLabel('Client Lounge');
-  document.getElementById('editorView').style.display = 'none';
-  initYears();
-  renderDashboard();
-  renderEditorFilter();
-  renderShooterFilter();
-  _applyRoleVisibility();
-  _saveSession();
+  
+  _scatterTransition(direction, function() {
+    var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
+    // Update All Clients hero with company info
+    const co = companies.find(x=>x.id===activeCompany);
+    const heroName = document.getElementById('allClientsHeroName');
+    const heroIcon = document.getElementById('allClientsIcon');
+    if (heroName) heroName.textContent = 'Talent Lounge';
+    if (heroIcon) heroIcon.textContent = '👥';
+    document.getElementById('companyDashView').style.display = 'none';
+    document.getElementById('mainApp').style.display=''; var _gh3=document.getElementById('globalHeader');if(_gh3)_gh3.style.display='';
+    document.getElementById('dashView').style.display=''; setPageLabel('Talent Lounge');
+    document.getElementById('editorView').style.display = 'none';
+    initYears();
+    renderDashboard();
+    renderEditorFilter();
+    renderShooterFilter();
+    _applyRoleVisibility();
+    _saveSession();
+  }, 'mainApp', gatherDir);
 }
 
 function backToLogin() {
-  var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
+  // Find the currently visible view to scatter
+  var views = ['companyDashView','mainApp','editorView','editingRoomView','theatreRoomView'];
+  var activeView = null;
+  views.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && el.style.display !== 'none' && el.offsetParent !== null) activeView = el;
+  });
+  
+  // If we found a visible view, scatter it
+  if (activeView) {
+    activeView.classList.add('scatter-leaving');
+    setTimeout(function() {
+      activeView.classList.remove('scatter-leaving');
+      _doBackToLogin();
+    }, 500);
+  } else {
+    _doBackToLogin();
+  }
+}
+
+function _doBackToLogin() {
+  var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';
+  var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
   activeCompany = null;
   _saveSession();
   cur = null;
   document.getElementById('mainApp').style.display = 'none';
   document.getElementById('companyDashView').style.display = 'none';
   document.getElementById('editorView').style.display = 'none';
-  document.getElementById('dashView').style.display=''; setPageLabel('Client Lounge');
-  document.getElementById('loginView').style.display=''; var _gh=document.getElementById('globalHeader');if(_gh)_gh.style.display='none'; setPageLabel('');
+  document.getElementById('dashView').style.display=''; setPageLabel('Talent Lounge');
+  var loginEl = document.getElementById('loginView');
+  var _gh=document.getElementById('globalHeader');if(_gh)_gh.style.display='none'; setPageLabel('');
+  loginEl.style.display='';
+  // Gather-in animation for home
+  loginEl.classList.add('gather-entering');
   renderCompanyGrid();
   _applyRoleVisibility();
+  setTimeout(function() {
+    loginEl.classList.remove('gather-entering');
+  }, 800);
 }
 
 function openNewCo() {

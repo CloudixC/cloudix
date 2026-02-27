@@ -20,6 +20,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:#444;border-radius:3px;}
 ::-webkit-scrollbar-thumb:hover{background:#666;}
+.ix-gold{color:var(--gold);}
 
 /* ── ANIMATIONS ──────────────────────────── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
@@ -29,15 +30,85 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes stampPulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
 
-/* ── LOADING ─────────────────────────────── */
-.loader-screen {
-  position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;z-index:9999;transition:opacity .5s;
+/* ── INTRO / LOADING ─────────────────────── */
+.intro-screen {
+  position:fixed;inset:0;background:#000;
+  z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
 }
-.loader-screen.hide{opacity:0;pointer-events:none;}
-.loader-logo{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.15em;color:var(--red);}
-.loader-bar{width:120px;height:3px;background:#333;border-radius:3px;margin-top:1rem;overflow:hidden;}
-.loader-bar-fill{width:0%;height:100%;background:var(--red);border-radius:3px;transition:width .3s;}
+.intro-screen.phase-fadeout {
+  opacity:0;
+  transition:opacity .8s ease-in-out;
+}
+.intro-screen.phase-gone { display:none;pointer-events:none; }
+
+.intro-title-group {
+  text-align:center;
+}
+
+.intro-main {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.5rem,7vw,5.5rem);
+  letter-spacing:.18em;
+  color:var(--red);
+  text-transform:uppercase;
+  line-height:1;
+  opacity:0;
+  animation:introTitleIn 1s ease-out .3s forwards;
+  text-shadow:0 0 60px rgba(229,9,20,.4), 0 0 120px rgba(229,9,20,.15);
+}
+.intro-sub {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1rem,2.5vw,2rem);
+  letter-spacing:.25em;
+  color:#fff;
+  text-transform:uppercase;
+  margin-top:.15em;
+  opacity:0;
+  animation:introTitleIn .8s ease-out .6s forwards;
+  text-shadow:0 0 40px rgba(255,255,255,.15);
+}
+.intro-powered {
+  font-size:clamp(.55rem,1.2vw,.72rem);
+  color:var(--text3);
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  margin-top:1.5em;
+  opacity:0;
+  animation:introPoweredIn 1s ease-out 1.8s forwards;
+}
+.intro-powered span {
+  color:var(--gold);
+  font-weight:700;
+}
+
+/* Subtle ambient glow */
+.intro-glow {
+  position:absolute;
+  width:300px;height:300px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(229,9,20,.12) 0%,transparent 70%);
+  filter:blur(60px);
+  pointer-events:none;
+  animation:introGlowPulse 3s ease-in-out infinite;
+}
+
+@keyframes introTitleIn {
+  0% { opacity:0; transform:scale(1.08); }
+  100% { opacity:1; transform:scale(1); }
+}
+@keyframes introPoweredIn {
+  0% { opacity:0; transform:translateY(8px); }
+  100% { opacity:1; transform:translateY(0); }
+}
+@keyframes introGlowPulse {
+  0%,100% { opacity:.5; transform:scale(1); }
+  50% { opacity:.8; transform:scale(1.15); }
+}
+
+/* Legacy loader refs kept for JS compat */
+.loader-screen { display:none; }
+.loader-bar-fill { width:0; }
 
 /* ── AUTH SCREEN ─────────────────────────── */
 .auth-screen {
@@ -143,19 +214,107 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
 }
 .video-card:hover{transform:scale(1.04);z-index:5;box-shadow:0 8px 30px rgba(0,0,0,.6);}
 .video-card-thumb {
-  aspect-ratio:16/9;background:var(--bg3);position:relative;overflow:hidden;
+  aspect-ratio:16/9;position:relative;overflow:hidden;
   display:flex;align-items:center;justify-content:center;
+  background:#111;
 }
-.video-card-thumb-icon{font-size:2rem;opacity:.2;}
+/* Cinematic gradient bg — each nth-child gets a different angle for variety */
+.video-card:nth-child(4n+1) .video-card-thumb{background:linear-gradient(145deg,#0f0a0a 0%,#1a1012 50%,#0d0b0b 100%);}
+.video-card:nth-child(4n+2) .video-card-thumb{background:linear-gradient(160deg,#100e0e 0%,#1a1214 50%,#0e0a0a 100%);}
+.video-card:nth-child(4n+3) .video-card-thumb{background:linear-gradient(130deg,#120d0d 0%,#181012 50%,#100c0c 100%);}
+.video-card:nth-child(4n+4) .video-card-thumb{background:linear-gradient(155deg,#0e0b0b 0%,#151012 50%,#0c0a0a 100%);}
+
+/* Ambient glow layer */
+.video-card-thumb::before {
+  content:'';position:absolute;inset:0;z-index:1;
+  background:
+    radial-gradient(ellipse at 25% 35%,rgba(229,9,20,.1) 0%,transparent 55%),
+    radial-gradient(ellipse at 75% 65%,rgba(212,168,83,.06) 0%,transparent 50%);
+  transition:all .4s;
+}
+.video-card:hover .video-card-thumb::before {
+  background:
+    radial-gradient(ellipse at 25% 35%,rgba(229,9,20,.18) 0%,transparent 55%),
+    radial-gradient(ellipse at 75% 65%,rgba(212,168,83,.1) 0%,transparent 50%);
+}
+
+/* Film frame border with gold accent */
+.video-card-thumb::after {
+  content:'';position:absolute;inset:8px;z-index:1;
+  border:1px solid rgba(212,168,83,.07);
+  border-radius:2px;
+  transition:border-color .3s;
+}
+.video-card:hover .video-card-thumb::after {
+  border-color:rgba(212,168,83,.15);
+}
+
+/* Center brand text on thumbnail */
+.video-card-brand {
+  position:absolute;z-index:2;text-align:center;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.video-card-brand-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.95rem;letter-spacing:.18em;
+  color:rgba(255,255,255,.06);
+  line-height:1;
+}
+.video-card-brand-title span{color:rgba(212,168,83,.09);}
+.video-card-brand-sub {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.45rem;letter-spacing:.3em;
+  color:rgba(255,255,255,.04);
+  text-transform:uppercase;
+  margin-top:.1em;
+}
+
+/* Play button */
+.video-card-play {
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(229,9,20,.08);
+  border:1.5px solid rgba(229,9,20,.25);
+  display:flex;align-items:center;justify-content:center;
+  z-index:3;transition:all .3s cubic-bezier(.22,1,.36,1);
+  backdrop-filter:blur(4px);
+}
+.video-card:hover .video-card-play {
+  background:rgba(229,9,20,.8);border-color:rgba(229,9,20,.9);
+  box-shadow:0 0 24px rgba(229,9,20,.35),0 0 60px rgba(229,9,20,.1);
+  transform:scale(1.12);
+}
+.video-card-play svg{width:15px;height:15px;fill:#fff;margin-left:2px;opacity:.5;transition:opacity .3s;}
+.video-card:hover .video-card-play svg{opacity:1;}
+
+/* Decorative corner accents */
+.video-card-corner-tl,.video-card-corner-br {
+  position:absolute;z-index:2;pointer-events:none;
+  width:16px;height:16px;
+  opacity:.08;transition:opacity .3s;
+}
+.video-card:hover .video-card-corner-tl,
+.video-card:hover .video-card-corner-br{opacity:.18;}
+.video-card-corner-tl {
+  top:5px;left:5px;
+  border-top:1px solid var(--gold);border-left:1px solid var(--gold);
+}
+.video-card-corner-br {
+  bottom:5px;right:5px;
+  border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);
+}
+
 .video-card-platform {
-  position:absolute;top:6px;right:6px;font-size:.45rem;font-weight:700;letter-spacing:.06em;
-  text-transform:uppercase;padding:.15rem .35rem;border-radius:3px;
+  position:absolute;top:10px;right:10px;font-size:.42rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:.15rem .4rem;border-radius:3px;z-index:3;
+  backdrop-filter:blur(4px);
 }
 .video-card-platform.vimeo{background:rgba(26,183,234,.85);color:#fff;}
 .video-card-platform.youtube{background:rgba(255,0,0,.85);color:#fff;}
 .video-card-notes {
-  position:absolute;bottom:6px;left:6px;font-size:.5rem;font-weight:700;
-  padding:.15rem .35rem;border-radius:3px;background:rgba(0,0,0,.7);color:var(--purple);
+  position:absolute;bottom:10px;left:10px;font-size:.5rem;font-weight:700;
+  padding:.15rem .4rem;border-radius:3px;background:rgba(0,0,0,.7);color:var(--gold);z-index:3;
+  backdrop-filter:blur(4px);
 }
 .video-card-body{padding:.6rem .7rem;}
 .video-card-title{font-size:.78rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -173,6 +332,11 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
   display:flex;align-items:center;justify-content:center;transition:all .2s;
 }
 .player-close:hover{background:var(--red);border-color:var(--red);}
+.player-brand {
+  position:fixed;top:18px;left:24px;z-index:210;
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.12em;color:var(--red);
+}
+.player-brand .ix-gold{color:var(--gold);}
 .player-inner{max-width:1100px;margin:0 auto;padding:60px 2rem 2rem;}
 .player-video{aspect-ratio:16/9;background:#000;border-radius:8px;overflow:hidden;margin-bottom:1.5rem;box-shadow:0 10px 50px rgba(0,0,0,.5);}
 .player-video iframe{width:100%;height:100%;border:none;}
@@ -183,35 +347,35 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
 /* ── COMMENT / NOTES SECTION ─────────────── */
 .notes-section{margin-top:1.5rem;}
 .notes-header{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.1em;color:var(--text2);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;}
-.notes-header-count{font-size:.55rem;font-family:'DM Sans',sans-serif;font-weight:700;color:var(--purple);background:rgba(139,92,246,.12);padding:.15rem .4rem;border-radius:10px;}
+.notes-header-count{font-size:.55rem;font-family:'DM Sans',sans-serif;font-weight:700;color:var(--gold);background:rgba(212,168,83,.1);padding:.15rem .4rem;border-radius:10px;}
 
 .note-input-bar {
   display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;
   background:var(--surface);border:1px solid #333;border-radius:6px;padding:.5rem .6rem;
   transition:border-color .2s;
 }
-.note-input-bar:focus-within{border-color:var(--purple);}
+.note-input-bar:focus-within{border-color:var(--gold);}
 .stamp-btn {
   flex-shrink:0;display:flex;align-items:center;gap:.3rem;
-  padding:.45rem .75rem;border-radius:4px;border:1px solid var(--purple2);
-  background:rgba(139,92,246,.1);color:var(--purple);font-family:'DM Sans',sans-serif;
+  padding:.45rem .75rem;border-radius:4px;border:1px solid var(--gold2);
+  background:rgba(212,168,83,.08);color:var(--gold);font-family:'DM Sans',sans-serif;
   font-size:.68rem;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap;
 }
-.stamp-btn:hover{background:rgba(139,92,246,.2);}
+.stamp-btn:hover{background:rgba(212,168,83,.18);}
 .stamp-btn:active{animation:stampPulse .2s;}
 .stamp-btn svg{width:14px;height:14px;fill:currentColor;}
-.note-time-display{font-size:.65rem;font-weight:700;color:var(--purple);font-family:'DM Sans',sans-serif;min-width:42px;}
+.note-time-display{font-size:.65rem;font-weight:700;color:var(--gold);font-family:'DM Sans',sans-serif;min-width:42px;}
 .note-input {
   flex:1;background:transparent;border:none;outline:none;color:#fff;
   font-family:'DM Sans',sans-serif;font-size:.78rem;
 }
 .note-input::placeholder{color:var(--text3);}
 .note-send {
-  flex-shrink:0;padding:.4rem .8rem;background:var(--purple);border:none;border-radius:4px;
+  flex-shrink:0;padding:.4rem .8rem;background:var(--red);border:none;border-radius:4px;
   color:#fff;font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:700;
   cursor:pointer;transition:all .15s;letter-spacing:.03em;
 }
-.note-send:hover{background:var(--purple2);}
+.note-send:hover{background:var(--red2);}
 
 .notes-list{display:flex;flex-direction:column;gap:.35rem;}
 .note-item {
@@ -222,11 +386,11 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
 .note-item:hover{border-color:#333;background:var(--surface);}
 .note-timestamp {
   flex-shrink:0;padding:.2rem .45rem;border-radius:4px;
-  background:rgba(139,92,246,.08);color:var(--purple);
+  background:rgba(212,168,83,.08);color:var(--gold);
   font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:700;
   cursor:pointer;transition:all .15s;min-width:42px;text-align:center;
 }
-.note-timestamp:hover{background:rgba(139,92,246,.2);}
+.note-timestamp:hover{background:rgba(212,168,83,.18);}
 .note-content{flex:1;min-width:0;}
 .note-text{font-size:.78rem;color:var(--text);line-height:1.5;}
 .note-author{font-size:.58rem;color:var(--text3);margin-top:.2rem;}
@@ -260,12 +424,18 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
-<div class="loader-screen" id="loaderScreen">
-  <div class="loader-logo">CLOUD IX</div>
-  <div style="font-size:.6rem;color:#666;letter-spacing:.3em;text-transform:uppercase;margin-top:.3rem;">Theatre</div>
-  <div class="loader-bar"><div class="loader-bar-fill" id="loaderFill"></div></div>
+<!-- CINEMATIC INTRO -->
+<div class="intro-screen" id="introScreen">
+  <div class="intro-glow"></div>
+  <div class="intro-title-group" id="introTitleGroup">
+    <div class="intro-main">Cloud <span class="ix-gold">IX</span></div>
+    <div class="intro-sub">Theatre Room</div>
+    <div class="intro-powered">powered by Cloud <span>IX</span> Concierge</div>
+  </div>
 </div>
+
+<!-- HIDDEN LOADER COMPAT -->
+<div class="loader-screen" id="loaderScreen"><div class="loader-bar-fill" id="loaderFill"></div></div>
 
 <!-- AUTH SCREEN -->
 <div id="authScreen" style="display:none;">
@@ -273,7 +443,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
     <div class="auth-bg-pattern"></div>
     <div class="auth-card">
       <div class="auth-brand">
-        <div class="auth-brand-title">CLOUD IX</div>
+        <div class="auth-brand-title">CLOUD <span class="ix-gold">IX</span></div>
         <div class="auth-brand-sub">Theatre Room</div>
       </div>
       <label class="auth-label">Couple Name</label>
@@ -285,7 +455,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
       </div>
       <button class="auth-btn" onclick="trLogin()">SIGN IN</button>
       <div class="auth-error" id="trAuthError"></div>
-      <div class="auth-footer">Powered by Cloud IX Concierge</div>
+      <div class="auth-footer">Powered by Cloud <span class="ix-gold">IX</span> Concierge</div>
     </div>
   </div>
 </div>
@@ -294,7 +464,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
 <div id="mainScreen" style="display:none;">
   <!-- NAV -->
   <nav class="nav" id="navBar">
-    <div class="nav-logo">CLOUD IX</div>
+    <div class="nav-logo">CLOUD <span class="ix-gold">IX</span></div>
     <div class="nav-right">
       <span class="nav-couple" id="navCoupleName"></span>
       <div style="position:relative;">
@@ -315,6 +485,7 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
 
 <!-- PLAYER OVERLAY -->
 <div class="player-overlay" id="playerOverlay">
+  <div class="player-brand">CLOUD <span class="ix-gold">IX</span></div>
   <button class="player-close" onclick="trClosePlayer()">✕</button>
   <div class="player-inner" id="playerInner"></div>
 </div>
@@ -400,7 +571,14 @@ async function trLogin(){
           _videos=c.theatreVideos||[];
           sessionStorage.setItem('tr_session',JSON.stringify({companyId:co.id,coupleId:c.id,coupleName:c.name}));
           setLoader(100);
-          setTimeout(function(){showMain();},300);
+          setTimeout(function(){
+            document.getElementById('authScreen').style.display='none';
+            document.getElementById('mainScreen').style.display='';
+            var initials=(_couple.name||'??').split(/\s*&\s*/).map(function(n){return n.charAt(0).toUpperCase();}).join('');
+            document.getElementById('navAvatar').textContent=initials;
+            document.getElementById('navCoupleName').textContent=_couple.name;
+            renderContent();
+          },300);
           return;
         }
       }
@@ -439,14 +617,25 @@ function trLogout(){
 }
 
 // ── MAIN VIEW ──────────────────────────────────────────
+function dismissIntro(cb){
+  var intro=document.getElementById('introScreen');
+  if(!intro||intro.classList.contains('phase-gone')){if(cb)cb();return;}
+  intro.classList.add('phase-fadeout');
+  setTimeout(function(){
+    intro.classList.add('phase-gone');
+    if(cb)cb();
+  },850);
+}
+
 function showMain(){
-  document.getElementById('loaderScreen').classList.add('hide');
-  document.getElementById('authScreen').style.display='none';
-  document.getElementById('mainScreen').style.display='';
-  var initials=(_couple.name||'??').split(/\s*&\s*/).map(function(n){return n.charAt(0).toUpperCase();}).join('');
-  document.getElementById('navAvatar').textContent=initials;
-  document.getElementById('navCoupleName').textContent=_couple.name;
-  renderContent();
+  dismissIntro(function(){
+    document.getElementById('authScreen').style.display='none';
+    document.getElementById('mainScreen').style.display='';
+    var initials=(_couple.name||'??').split(/\s*&\s*/).map(function(n){return n.charAt(0).toUpperCase();}).join('');
+    document.getElementById('navAvatar').textContent=initials;
+    document.getElementById('navCoupleName').textContent=_couple.name;
+    renderContent();
+  });
 }
 
 function renderContent(){
@@ -524,7 +713,13 @@ function videoCard(v,idx){
   var nc=(v.comments||[]).length;
   return '<div class="video-card" onclick="trOpenPlayer('+idx+')">'+
     '<div class="video-card-thumb">'+
-      '<div class="video-card-thumb-icon">▶</div>'+
+      '<div class="video-card-corner-tl"></div>'+
+      '<div class="video-card-corner-br"></div>'+
+      '<div class="video-card-brand">'+
+        '<div class="video-card-brand-title">CLOUD <span>IX</span></div>'+
+        '<div class="video-card-brand-sub">Theatre</div>'+
+      '</div>'+
+      '<div class="video-card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>'+
       '<span class="video-card-platform '+(v.type||'vimeo')+'">'+esc(v.type||'vimeo')+'</span>'+
       (nc?'<span class="video-card-notes">💬 '+nc+'</span>':'')+
     '</div>'+
@@ -703,10 +898,15 @@ document.addEventListener('click',function(e){
   setLoader(10);
   var restored=await tryRestoreSession();
   if(restored){
-    showMain();
+    // Wait for intro to finish then show main
+    setTimeout(function(){ showMain(); },3200);
   }else{
-    document.getElementById('loaderScreen').classList.add('hide');
-    document.getElementById('authScreen').style.display='';
+    // Wait for intro to finish then fade to login
+    setTimeout(function(){
+      dismissIntro(function(){
+        document.getElementById('authScreen').style.display='';
+      });
+    },3200);
   }
 })();
 </script>
