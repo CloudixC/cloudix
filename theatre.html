@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud IX Theatre</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root {
+  --bg:#141414; --bg2:#1a1a1a; --bg3:#222; --surface:#2a2a2a;
+  --text:#e5e5e5; --text2:#999; --text3:#666;
+  --red:#e50914; --red2:#b20710; --red-glow:rgba(229,9,20,.3);
+  --purple:#8b5cf6; --purple2:#7c3aed; --purple-glow:rgba(139,92,246,.25);
+  --gold:#d4a853; --gold2:#b8922e;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+::selection{background:var(--purple);color:#fff;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#444;border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:#666;}
+
+/* ── ANIMATIONS ──────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 20px var(--red-glow)}50%{box-shadow:0 0 40px var(--red-glow),0 0 60px rgba(229,9,20,.1)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes stampPulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+
+/* ── LOADING ─────────────────────────────── */
+.loader-screen {
+  position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;z-index:9999;transition:opacity .5s;
+}
+.loader-screen.hide{opacity:0;pointer-events:none;}
+.loader-logo{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.15em;color:var(--red);}
+.loader-bar{width:120px;height:3px;background:#333;border-radius:3px;margin-top:1rem;overflow:hidden;}
+.loader-bar-fill{width:0%;height:100%;background:var(--red);border-radius:3px;transition:width .3s;}
+
+/* ── AUTH SCREEN ─────────────────────────── */
+.auth-screen {
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,#000 0%,#141414 100%);
+  position:relative;overflow:hidden;
+}
+.auth-bg-pattern {
+  position:absolute;inset:0;opacity:.03;
+  background:repeating-linear-gradient(45deg,transparent,transparent 35px,#fff 35px,#fff 36px);
+}
+.auth-card {
+  width:380px;max-width:90vw;background:rgba(0,0,0,.75);
+  border:1px solid #333;border-radius:6px;padding:3rem 2.5rem;
+  backdrop-filter:blur(20px);animation:fadeUp .6s ease-out;
+  position:relative;z-index:1;
+}
+.auth-brand{text-align:center;margin-bottom:2rem;}
+.auth-brand-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.12em;color:var(--red);}
+.auth-brand-sub{font-size:.72rem;color:var(--text3);letter-spacing:.2em;text-transform:uppercase;margin-top:.2rem;}
+.auth-label{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);margin-bottom:.4rem;display:block;}
+.auth-input {
+  width:100%;padding:.75rem 1rem;background:#333;border:1px solid #444;border-radius:4px;
+  color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;
+  transition:border-color .2s;margin-bottom:1rem;
+}
+.auth-input:focus{border-color:var(--red);}
+.auth-input-wrap{position:relative;}
+.auth-input-wrap .auth-input{padding-right:2.5rem;}
+.auth-eye{position:absolute;right:10px;top:50%;transform:translateY(-70%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:.8rem;padding:4px;}
+.auth-btn {
+  width:100%;padding:.8rem;background:var(--red);border:none;border-radius:4px;
+  color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.15em;
+  cursor:pointer;transition:all .2s;
+}
+.auth-btn:hover{background:var(--red2);box-shadow:0 4px 20px var(--red-glow);}
+.auth-btn:active{transform:scale(.98);}
+.auth-error{color:var(--red);font-size:.72rem;text-align:center;margin-top:.8rem;min-height:1rem;}
+.auth-footer{text-align:center;margin-top:1.5rem;font-size:.65rem;color:var(--text3);}
+
+/* ── NAV BAR ─────────────────────────────── */
+.nav {
+  position:fixed;top:0;left:0;right:0;height:56px;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;padding:0 2rem;
+  background:linear-gradient(180deg,rgba(0,0,0,.9) 0%,transparent 100%);
+  transition:background .3s;
+}
+.nav.scrolled{background:rgba(20,20,20,.97);backdrop-filter:blur(10px);border-bottom:1px solid #222;}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.12em;color:var(--red);}
+.nav-right{display:flex;align-items:center;gap:1rem;}
+.nav-couple{font-size:.7rem;color:var(--gold);font-weight:700;letter-spacing:.06em;}
+.nav-avatar {
+  width:32px;height:32px;border-radius:4px;background:var(--red);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;
+  font-size:.9rem;letter-spacing:.05em;cursor:pointer;transition:all .2s;border:2px solid transparent;
+}
+.nav-avatar:hover{border-color:var(--red);}
+.nav-menu {
+  position:absolute;top:48px;right:0;background:#1a1a1a;border:1px solid #333;border-radius:4px;
+  padding:.4rem 0;min-width:140px;display:none;animation:slideDown .15s ease-out;
+}
+.nav-menu.open{display:block;}
+.nav-menu-item{padding:.5rem 1rem;font-size:.72rem;color:var(--text2);cursor:pointer;transition:background .15s;}
+.nav-menu-item:hover{background:#2a2a2a;color:#fff;}
+
+/* ── HERO BILLBOARD ──────────────────────── */
+.hero {
+  position:relative;height:65vh;min-height:400px;max-height:600px;
+  display:flex;align-items:flex-end;padding:0 4%;
+  background:linear-gradient(180deg,transparent 0%,rgba(20,20,20,.4) 50%,var(--bg) 100%);
+}
+.hero-vignette {
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(20,20,20,.95) 0%,rgba(20,20,20,.4) 40%,transparent 70%),
+             linear-gradient(0deg,var(--bg) 0%,transparent 40%);
+  z-index:1;
+}
+.hero-content{position:relative;z-index:2;padding-bottom:3rem;max-width:550px;animation:fadeUp .8s ease-out;}
+.hero-tag{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.06em;line-height:1;margin-bottom:.5rem;}
+.hero-meta{font-size:.72rem;color:var(--text2);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+.hero-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--text3);}
+.hero-desc{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:1.2rem;max-width:420px;}
+.hero-btn {
+  display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.8rem;
+  background:rgba(255,255,255,.95);border:none;border-radius:4px;color:#000;
+  font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;
+}
+.hero-btn:hover{background:#fff;transform:scale(1.02);}
+.hero-btn svg{width:18px;height:18px;fill:currentColor;}
+
+/* ── VIDEO ROWS ──────────────────────────── */
+.content-area{padding:0 4%;position:relative;z-index:2;margin-top:-2rem;}
+.row{margin-bottom:2.5rem;}
+.row-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.1em;color:var(--text);margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem;}
+.row-count{font-size:.55rem;font-weight:700;font-family:'DM Sans',sans-serif;letter-spacing:.06em;color:var(--text3);background:#2a2a2a;padding:.15rem .4rem;border-radius:10px;}
+.row-scroll{display:flex;gap:.6rem;overflow-x:auto;padding-bottom:.5rem;scroll-snap-type:x mandatory;}
+.row-scroll::-webkit-scrollbar{height:4px;}
+
+.video-card {
+  flex:0 0 280px;scroll-snap-align:start;border-radius:6px;overflow:hidden;
+  background:var(--bg2);cursor:pointer;transition:all .25s;position:relative;
+}
+.video-card:hover{transform:scale(1.04);z-index:5;box-shadow:0 8px 30px rgba(0,0,0,.6);}
+.video-card-thumb {
+  aspect-ratio:16/9;background:var(--bg3);position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.video-card-thumb-icon{font-size:2rem;opacity:.2;}
+.video-card-platform {
+  position:absolute;top:6px;right:6px;font-size:.45rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:.15rem .35rem;border-radius:3px;
+}
+.video-card-platform.vimeo{background:rgba(26,183,234,.85);color:#fff;}
+.video-card-platform.youtube{background:rgba(255,0,0,.85);color:#fff;}
+.video-card-notes {
+  position:absolute;bottom:6px;left:6px;font-size:.5rem;font-weight:700;
+  padding:.15rem .35rem;border-radius:3px;background:rgba(0,0,0,.7);color:var(--purple);
+}
+.video-card-body{padding:.6rem .7rem;}
+.video-card-title{font-size:.78rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.video-card-event{font-size:.6rem;color:var(--text3);margin-top:.15rem;}
+
+/* ── PLAYER MODAL ────────────────────────── */
+.player-overlay {
+  position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);
+  display:none;animation:fadeIn .2s;overflow-y:auto;
+}
+.player-overlay.open{display:block;}
+.player-close {
+  position:fixed;top:16px;right:20px;z-index:210;width:36px;height:36px;border-radius:50%;
+  background:#222;border:1px solid #444;color:#fff;font-size:1.1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.player-close:hover{background:var(--red);border-color:var(--red);}
+.player-inner{max-width:1100px;margin:0 auto;padding:60px 2rem 2rem;}
+.player-video{aspect-ratio:16/9;background:#000;border-radius:8px;overflow:hidden;margin-bottom:1.5rem;box-shadow:0 10px 50px rgba(0,0,0,.5);}
+.player-video iframe{width:100%;height:100%;border:none;}
+.player-title-bar{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.player-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;}
+.player-event{font-size:.68rem;color:var(--text3);margin-top:.2rem;}
+
+/* ── COMMENT / NOTES SECTION ─────────────── */
+.notes-section{margin-top:1.5rem;}
+.notes-header{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.1em;color:var(--text2);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;}
+.notes-header-count{font-size:.55rem;font-family:'DM Sans',sans-serif;font-weight:700;color:var(--purple);background:rgba(139,92,246,.12);padding:.15rem .4rem;border-radius:10px;}
+
+.note-input-bar {
+  display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;
+  background:var(--surface);border:1px solid #333;border-radius:6px;padding:.5rem .6rem;
+  transition:border-color .2s;
+}
+.note-input-bar:focus-within{border-color:var(--purple);}
+.stamp-btn {
+  flex-shrink:0;display:flex;align-items:center;gap:.3rem;
+  padding:.45rem .75rem;border-radius:4px;border:1px solid var(--purple2);
+  background:rgba(139,92,246,.1);color:var(--purple);font-family:'DM Sans',sans-serif;
+  font-size:.68rem;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.stamp-btn:hover{background:rgba(139,92,246,.2);}
+.stamp-btn:active{animation:stampPulse .2s;}
+.stamp-btn svg{width:14px;height:14px;fill:currentColor;}
+.note-time-display{font-size:.65rem;font-weight:700;color:var(--purple);font-family:'DM Sans',sans-serif;min-width:42px;}
+.note-input {
+  flex:1;background:transparent;border:none;outline:none;color:#fff;
+  font-family:'DM Sans',sans-serif;font-size:.78rem;
+}
+.note-input::placeholder{color:var(--text3);}
+.note-send {
+  flex-shrink:0;padding:.4rem .8rem;background:var(--purple);border:none;border-radius:4px;
+  color:#fff;font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:700;
+  cursor:pointer;transition:all .15s;letter-spacing:.03em;
+}
+.note-send:hover{background:var(--purple2);}
+
+.notes-list{display:flex;flex-direction:column;gap:.35rem;}
+.note-item {
+  display:flex;gap:.6rem;align-items:flex-start;padding:.6rem .7rem;
+  border-radius:6px;background:var(--bg2);border:1px solid transparent;
+  transition:all .15s;
+}
+.note-item:hover{border-color:#333;background:var(--surface);}
+.note-timestamp {
+  flex-shrink:0;padding:.2rem .45rem;border-radius:4px;
+  background:rgba(139,92,246,.08);color:var(--purple);
+  font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:700;
+  cursor:pointer;transition:all .15s;min-width:42px;text-align:center;
+}
+.note-timestamp:hover{background:rgba(139,92,246,.2);}
+.note-content{flex:1;min-width:0;}
+.note-text{font-size:.78rem;color:var(--text);line-height:1.5;}
+.note-author{font-size:.58rem;color:var(--text3);margin-top:.2rem;}
+.note-delete{flex-shrink:0;background:none;border:none;color:var(--text3);cursor:pointer;opacity:0;transition:all .15s;font-size:.7rem;padding:2px 4px;}
+.note-item:hover .note-delete{opacity:1;}
+.note-delete:hover{color:var(--red);}
+
+.empty-notes{text-align:center;padding:2rem;color:var(--text3);font-size:.78rem;font-style:italic;}
+
+/* ── TOAST ───────────────────────────────── */
+.tr-toast {
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:#222;color:#fff;border:1px solid #444;border-radius:6px;
+  padding:.6rem 1.2rem;font-size:.72rem;font-weight:600;z-index:999;
+  transition:transform .3s cubic-bezier(.22,1,.36,1);pointer-events:none;
+}
+.tr-toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media(max-width:768px){
+  .hero{height:45vh;min-height:280px;}
+  .hero-title{font-size:2rem;}
+  .hero-content{padding-bottom:2rem;}
+  .content-area{padding:0 3%;}
+  .video-card{flex:0 0 200px;}
+  .player-inner{padding:50px 1rem 1rem;}
+  .nav{padding:0 1rem;}
+  .auth-card{padding:2rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loader-screen" id="loaderScreen">
+  <div class="loader-logo">CLOUD IX</div>
+  <div style="font-size:.6rem;color:#666;letter-spacing:.3em;text-transform:uppercase;margin-top:.3rem;">Theatre</div>
+  <div class="loader-bar"><div class="loader-bar-fill" id="loaderFill"></div></div>
+</div>
+
+<!-- AUTH SCREEN -->
+<div id="authScreen" style="display:none;">
+  <div class="auth-screen">
+    <div class="auth-bg-pattern"></div>
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="auth-brand-title">CLOUD IX</div>
+        <div class="auth-brand-sub">Theatre Room</div>
+      </div>
+      <label class="auth-label">Couple Name</label>
+      <input class="auth-input" id="trAuthCouple" placeholder="e.g. Patel & Sharma" onkeydown="if(event.key==='Enter')document.getElementById('trAuthPass').focus()">
+      <label class="auth-label">Access Code</label>
+      <div class="auth-input-wrap">
+        <input class="auth-input" id="trAuthPass" type="password" placeholder="Enter your code" onkeydown="if(event.key==='Enter')trLogin()">
+        <button class="auth-eye" onclick="trTogglePass()">👁</button>
+      </div>
+      <button class="auth-btn" onclick="trLogin()">SIGN IN</button>
+      <div class="auth-error" id="trAuthError"></div>
+      <div class="auth-footer">Powered by Cloud IX Concierge</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainScreen" style="display:none;">
+  <!-- NAV -->
+  <nav class="nav" id="navBar">
+    <div class="nav-logo">CLOUD IX</div>
+    <div class="nav-right">
+      <span class="nav-couple" id="navCoupleName"></span>
+      <div style="position:relative;">
+        <div class="nav-avatar" id="navAvatar" onclick="document.getElementById('navMenu').classList.toggle('open')"></div>
+        <div class="nav-menu" id="navMenu">
+          <div class="nav-menu-item" onclick="trLogout()">Sign Out</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO BILLBOARD -->
+  <div class="hero" id="heroBillboard"></div>
+
+  <!-- CONTENT -->
+  <div class="content-area" id="contentArea"></div>
+</div>
+
+<!-- PLAYER OVERLAY -->
+<div class="player-overlay" id="playerOverlay">
+  <button class="player-close" onclick="trClosePlayer()">✕</button>
+  <div class="player-inner" id="playerInner"></div>
+</div>
+
+<!-- TOAST -->
+<div class="tr-toast" id="trToast"></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────
+const SUPABASE_URL = 'https://lbnbceaexamjnghbayns.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxibmJjZWFleGFtam5naGJheW5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwODIyNDUsImV4cCI6MjA4NzY1ODI0NX0.Yerr57763y4qj5x8C0HHYE0vWbA23l_nDZDVheYAFcQ';
+const REST = SUPABASE_URL + '/rest/v1/app_data';
+const hdrs = { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' };
+
+let _couple = null;       // matched couple object
+let _companyId = null;    // which company this couple belongs to
+let _allCouples = [];     // all couples for this company
+let _videos = [];         // theatreVideos array for selected couple
+let _activeVideo = null;  // index of playing video
+let _player = null;
+let _playerType = null;
+let _playerReady = false;
+let _timeInterval = null;
+
+// ── HELPERS ─────────────────────────────────────────────
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+function fmtTime(s){s=Math.floor(s||0);var m=Math.floor(s/60),ss=s%60;return m+':'+(ss<10?'0':'')+ss;}
+
+function toast(msg){
+  var el=document.getElementById('trToast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(el._t);
+  el._t=setTimeout(function(){el.classList.remove('show');},2500);
+}
+
+// ── SUPABASE FETCH ──────────────────────────────────────
+async function dbGet(key){
+  var r=await fetch(REST+'?key=eq.'+encodeURIComponent(key)+'&select=value',{headers:hdrs});
+  var d=await r.json();
+  return d.length?d[0].value:null;
+}
+async function dbSet(key,value){
+  await fetch(REST,{method:'POST',headers:{...hdrs,'Prefer':'resolution=merge-duplicates'},
+    body:JSON.stringify({key:key,value:value})});
+}
+
+// ── LOADING ─────────────────────────────────────────────
+function setLoader(pct){document.getElementById('loaderFill').style.width=pct+'%';}
+
+// ── AUTH ────────────────────────────────────────────────
+function trTogglePass(){
+  var inp=document.getElementById('trAuthPass');
+  var btn=inp.parentElement.querySelector('.auth-eye');
+  if(inp.type==='password'){inp.type='text';btn.textContent='🙈';}
+  else{inp.type='password';btn.textContent='👁';}
+}
+
+async function trLogin(){
+  var nameInput=document.getElementById('trAuthCouple').value.trim().toLowerCase();
+  var passInput=document.getElementById('trAuthPass').value.trim();
+  var errEl=document.getElementById('trAuthError');
+  errEl.textContent='';
+  if(!nameInput){errEl.textContent='Enter your couple name';return;}
+  if(!passInput){errEl.textContent='Enter your access code';return;}
+
+  // Search all companies for a matching couple with theatrePass
+  try {
+    setLoader(20);
+    var companies=await dbGet('mt6_companies');
+    if(!companies||!companies.length){errEl.textContent='No companies found';return;}
+    setLoader(40);
+
+    for(var ci=0;ci<companies.length;ci++){
+      var co=companies[ci];
+      var couples=await dbGet('mt6_c_'+co.id);
+      if(!couples)continue;
+      setLoader(40+Math.floor(50*(ci/companies.length)));
+
+      for(var i=0;i<couples.length;i++){
+        var c=couples[i];
+        if((c.name||'').trim().toLowerCase()===nameInput && c.theatrePass===passInput){
+          _couple=c; _companyId=co.id; _allCouples=couples;
+          _videos=c.theatreVideos||[];
+          sessionStorage.setItem('tr_session',JSON.stringify({companyId:co.id,coupleId:c.id,coupleName:c.name}));
+          setLoader(100);
+          setTimeout(function(){showMain();},300);
+          return;
+        }
+      }
+    }
+    setLoader(0);
+    errEl.textContent='Couple name or access code not recognised';
+  } catch(e){
+    setLoader(0);
+    errEl.textContent='Connection error — please try again';
+    console.error(e);
+  }
+}
+
+async function tryRestoreSession(){
+  try{
+    var s=JSON.parse(sessionStorage.getItem('tr_session')||'null');
+    if(!s)return false;
+    setLoader(30);
+    var couples=await dbGet('mt6_c_'+s.companyId);
+    if(!couples)return false;
+    setLoader(70);
+    var c=couples.find(function(x){return x.id===s.coupleId;});
+    if(!c)return false;
+    _couple=c;_companyId=s.companyId;_allCouples=couples;_videos=c.theatreVideos||[];
+    setLoader(100);
+    return true;
+  }catch(e){return false;}
+}
+
+function trLogout(){
+  sessionStorage.removeItem('tr_session');
+  document.getElementById('navMenu').classList.remove('open');
+  document.getElementById('mainScreen').style.display='none';
+  document.getElementById('authScreen').style.display='';
+  _couple=null;_videos=[];
+}
+
+// ── MAIN VIEW ──────────────────────────────────────────
+function showMain(){
+  document.getElementById('loaderScreen').classList.add('hide');
+  document.getElementById('authScreen').style.display='none';
+  document.getElementById('mainScreen').style.display='';
+  var initials=(_couple.name||'??').split(/\s*&\s*/).map(function(n){return n.charAt(0).toUpperCase();}).join('');
+  document.getElementById('navAvatar').textContent=initials;
+  document.getElementById('navCoupleName').textContent=_couple.name;
+  renderContent();
+}
+
+function renderContent(){
+  _videos=_couple.theatreVideos||[];
+  renderHero();
+  renderRows();
+}
+
+function renderHero(){
+  var hero=document.getElementById('heroBillboard');
+  if(!_videos.length){
+    hero.innerHTML='<div class="hero-vignette"></div><div class="hero-content">'+
+      '<div class="hero-tag">Welcome</div>'+
+      '<div class="hero-title">'+esc(_couple.name)+'</div>'+
+      '<div class="hero-desc">Your videos will appear here once your editing team uploads them for review. Check back soon!</div>'+
+    '</div>';
+    return;
+  }
+  // Feature the latest video
+  var latest=_videos[_videos.length-1];
+  var noteCount=(latest.comments||[]).length;
+  hero.innerHTML='<div class="hero-vignette"></div><div class="hero-content">'+
+    '<div class="hero-tag">Latest Upload</div>'+
+    '<div class="hero-title">'+esc(latest.title||'Untitled')+'</div>'+
+    '<div class="hero-meta">'+
+      '<span>'+esc(latest.event||'')+'</span>'+
+      (latest.event?'<span class="hero-meta-dot"></span>':'')+
+      '<span style="text-transform:capitalize;">'+latest.type+'</span>'+
+      '<span class="hero-meta-dot"></span>'+
+      '<span>'+noteCount+' Note'+(noteCount!==1?'s':'')+'</span>'+
+    '</div>'+
+    '<div class="hero-desc">Watch, review, and leave timestamped notes for your editing team.</div>'+
+    '<button class="hero-btn" onclick="trOpenPlayer('+(_videos.length-1)+')">'+
+      '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play'+
+    '</button>'+
+  '</div>';
+}
+
+function renderRows(){
+  var area=document.getElementById('contentArea');
+  if(!_videos.length){area.innerHTML='';return;}
+
+  // Group by event
+  var groups={};var noEvent=[];
+  _videos.forEach(function(v,i){
+    v._idx=i;
+    if(v.event){if(!groups[v.event])groups[v.event]=[];groups[v.event].push(v);}
+    else noEvent.push(v);
+  });
+
+  var html='';
+
+  // All videos row
+  html+='<div class="row"><div class="row-title">All Videos <span class="row-count">'+_videos.length+'</span></div>';
+  html+='<div class="row-scroll">'+_videos.map(function(v,i){return videoCard(v,i);}).join('')+'</div></div>';
+
+  // Event rows
+  Object.keys(groups).forEach(function(event){
+    var vids=groups[event];
+    html+='<div class="row"><div class="row-title">'+esc(event)+' <span class="row-count">'+vids.length+'</span></div>';
+    html+='<div class="row-scroll">'+vids.map(function(v){return videoCard(v,v._idx);}).join('')+'</div></div>';
+  });
+
+  // Videos with notes
+  var withNotes=_videos.filter(function(v){return(v.comments||[]).length>0;});
+  if(withNotes.length){
+    html+='<div class="row"><div class="row-title">Has Notes <span class="row-count">'+withNotes.length+'</span></div>';
+    html+='<div class="row-scroll">'+withNotes.map(function(v){return videoCard(v,v._idx);}).join('')+'</div></div>';
+  }
+
+  area.innerHTML=html;
+}
+
+function videoCard(v,idx){
+  var nc=(v.comments||[]).length;
+  return '<div class="video-card" onclick="trOpenPlayer('+idx+')">'+
+    '<div class="video-card-thumb">'+
+      '<div class="video-card-thumb-icon">▶</div>'+
+      '<span class="video-card-platform '+(v.type||'vimeo')+'">'+esc(v.type||'vimeo')+'</span>'+
+      (nc?'<span class="video-card-notes">💬 '+nc+'</span>':'')+
+    '</div>'+
+    '<div class="video-card-body">'+
+      '<div class="video-card-title">'+esc(v.title||'Untitled')+'</div>'+
+      '<div class="video-card-event">'+esc(v.event||'No event')+'</div>'+
+    '</div>'+
+  '</div>';
+}
+
+// ── VIDEO PLAYER ────────────────────────────────────────
+function trOpenPlayer(idx){
+  _activeVideo=idx;
+  var v=_videos[idx];if(!v)return;
+  _player=null;_playerReady=false;
+
+  var embedUrl=v.type==='vimeo'
+    ?'https://player.vimeo.com/video/'+v.videoId+'?badge=0&autopause=0'+(v.hash?'&h='+v.hash:'')
+    :'https://www.youtube.com/embed/'+v.videoId+'?enablejsapi=1&origin='+encodeURIComponent(location.origin);
+
+  var sortedNotes=(v.comments||[]).slice().sort(function(a,b){return(a.time||0)-(b.time||0);});
+  var notesHtml=sortedNotes.length?sortedNotes.map(function(c,ci){
+    var origIdx=(v.comments||[]).indexOf(c);
+    return '<div class="note-item">'+
+      '<span class="note-timestamp" onclick="trSeekTo('+(c.time||0)+')">'+fmtTime(c.time)+'</span>'+
+      '<div class="note-content"><div class="note-text">'+esc(c.text)+'</div>'+
+      '<div class="note-author">'+esc(c.author||'')+' · '+(c.at?new Date(c.at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'')+'</div></div>'+
+      '<button class="note-delete" onclick="trDeleteNote('+origIdx+')" title="Delete">✕</button>'+
+    '</div>';
+  }).join(''):'<div class="empty-notes">No notes yet — pause the video and leave your first note</div>';
+
+  var nc=(v.comments||[]).length;
+  document.getElementById('playerInner').innerHTML=
+    '<div class="player-video"><iframe id="trFrame" src="'+embedUrl+'" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>'+
+    '<div class="player-title-bar"><div><div class="player-title">'+esc(v.title||'Untitled')+'</div>'+
+    '<div class="player-event">'+esc(v.event||'')+'</div></div></div>'+
+    '<div class="notes-section">'+
+      '<div class="notes-header">Notes <span class="notes-header-count">'+nc+'</span></div>'+
+      '<div class="note-input-bar">'+
+        '<button class="stamp-btn" onclick="trStamp()"><svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Stamp</button>'+
+        '<span class="note-time-display" id="noteTimeDisplay">0:00</span>'+
+        '<input class="note-input" id="noteInput" placeholder="Leave a note at this moment..." onkeydown="if(event.key===\'Enter\')trPostNote()">'+
+        '<button class="note-send" onclick="trPostNote()">Post</button>'+
+      '</div>'+
+      '<div class="notes-list" id="notesList">'+notesHtml+'</div>'+
+    '</div>';
+
+  document.getElementById('playerOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(function(){initPlayer(v);},400);
+}
+
+function trClosePlayer(){
+  document.getElementById('playerOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  _player=null;_playerReady=false;
+  if(_timeInterval)clearInterval(_timeInterval);
+  document.getElementById('playerInner').innerHTML='';
+}
+
+function initPlayer(vid){
+  _playerType=vid.type;
+  var frame=document.getElementById('trFrame');
+  if(!frame)return;
+  if(vid.type==='vimeo'){
+    if(!window.Vimeo){
+      var s=document.createElement('script');s.src='https://player.vimeo.com/api/player.js';
+      s.onload=function(){try{_player=new Vimeo.Player(frame);_playerReady=true;}catch(e){}};
+      document.head.appendChild(s);
+    }else{try{_player=new Vimeo.Player(frame);_playerReady=true;}catch(e){}}
+  }else{
+    if(!window.YT||!window.YT.Player){
+      if(!window._ytLoading){window._ytLoading=true;var s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);}
+      window.onYouTubeIframeAPIReady=function(){try{_player=new YT.Player('trFrame',{events:{onReady:function(){_playerReady=true;}}});}catch(e){}};
+    }else{try{_player=new YT.Player('trFrame',{events:{onReady:function(){_playerReady=true;}}});}catch(e){}}
+  }
+  startTimeUpdater();
+}
+
+function getCurrentTime(cb){
+  if(!_playerReady||!_player){cb(0);return;}
+  if(_playerType==='vimeo'){_player.getCurrentTime().then(cb).catch(function(){cb(0);});}
+  else{try{cb(_player.getCurrentTime?_player.getCurrentTime():0);}catch(e){cb(0);}}
+}
+function pausePlayer(){
+  if(!_playerReady||!_player)return;
+  if(_playerType==='vimeo'){_player.pause().catch(function(){});}
+  else{try{_player.pauseVideo();}catch(e){}}
+}
+function trSeekTo(s){
+  if(!_playerReady||!_player)return;
+  if(_playerType==='vimeo'){_player.setCurrentTime(s).catch(function(){});}
+  else{try{_player.seekTo(s,true);}catch(e){}}
+}
+
+function startTimeUpdater(){
+  if(_timeInterval)clearInterval(_timeInterval);
+  _timeInterval=setInterval(function(){
+    getCurrentTime(function(t){
+      var el=document.getElementById('noteTimeDisplay');
+      if(el)el.textContent=fmtTime(t);
+    });
+  },500);
+}
+
+// ── NOTES ──────────────────────────────────────────────
+function trStamp(){
+  pausePlayer();
+  getCurrentTime(function(t){
+    var el=document.getElementById('noteTimeDisplay');
+    if(el)el.textContent='⏸ '+fmtTime(t);
+    var inp=document.getElementById('noteInput');
+    if(inp){inp.dataset.stamp=t;inp.focus();}
+  });
+}
+
+async function trPostNote(){
+  if(_activeVideo===null||!_couple)return;
+  var inp=document.getElementById('noteInput');
+  var text=(inp.value||'').trim();
+  if(!text){toast('Type a note first');inp.focus();return;}
+  var stamp=parseFloat(inp.dataset.stamp||'0');
+  if(!inp.dataset.stamp)pausePlayer();
+
+  getCurrentTime(async function(t){
+    var time=inp.dataset.stamp?stamp:t;
+    if(!_videos[_activeVideo])return;
+    if(!_videos[_activeVideo].comments)_videos[_activeVideo].comments=[];
+    _videos[_activeVideo].comments.push({
+      time:time,text:text,
+      author:_couple.name||'Client',
+      at:new Date().toISOString()
+    });
+    _couple.theatreVideos=_videos;
+    // Save to cloud
+    try{
+      var allCouples=await dbGet('mt6_c_'+_companyId);
+      if(allCouples){
+        var idx=allCouples.findIndex(function(c){return c.id===_couple.id;});
+        if(idx!==-1){allCouples[idx].theatreVideos=_videos;await dbSet('mt6_c_'+_companyId,allCouples);}
+      }
+    }catch(e){console.error('Save error:',e);}
+    inp.value='';inp.dataset.stamp='';
+    trOpenPlayer(_activeVideo); // re-render notes
+    toast('Note added at '+fmtTime(time));
+  });
+}
+
+async function trDeleteNote(idx){
+  if(_activeVideo===null||!_videos[_activeVideo])return;
+  _videos[_activeVideo].comments.splice(idx,1);
+  _couple.theatreVideos=_videos;
+  try{
+    var allCouples=await dbGet('mt6_c_'+_companyId);
+    if(allCouples){
+      var ci=allCouples.findIndex(function(c){return c.id===_couple.id;});
+      if(ci!==-1){allCouples[ci].theatreVideos=_videos;await dbSet('mt6_c_'+_companyId,allCouples);}
+    }
+  }catch(e){console.error(e);}
+  trOpenPlayer(_activeVideo);
+  toast('Note removed');
+}
+
+// ── SCROLL NAV EFFECT ──────────────────────────────────
+window.addEventListener('scroll',function(){
+  document.getElementById('navBar').classList.toggle('scrolled',window.scrollY>30);
+});
+// Close menu on outside click
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.nav-avatar')&&!e.target.closest('.nav-menu'))
+    document.getElementById('navMenu').classList.remove('open');
+});
+
+// ── INIT ───────────────────────────────────────────────
+(async function(){
+  setLoader(10);
+  var restored=await tryRestoreSession();
+  if(restored){
+    showMain();
+  }else{
+    document.getElementById('loaderScreen').classList.add('hide');
+    document.getElementById('authScreen').style.display='';
+  }
+})();
+</script>
+</body>
+</html>
