@@ -1822,12 +1822,14 @@ function coAddVideoRow(existing){
   }).join('');
 
   div.innerHTML=
-    '<div style="display:flex;gap:.5rem;align-items:flex-end;width:100%;">'+
+    '<div style="display:flex;gap:.5rem;align-items:flex-end;width:100%;flex-wrap:wrap;">'+
       '<div class="co-vr-field" style="flex:2;"><label>Title</label><input placeholder="e.g. Ceremony Highlights" value="'+esc((existing?existing.title:''))+'" data-field="title"></div>'+
-      '<div class="co-vr-field"><label>Video ID</label><input placeholder="e.g. 123456789" value="'+esc((existing?existing.videoId:''))+'" data-field="videoId"></div>'+
-      '<div class="co-vr-field" style="flex:.6;"><label>Platform</label><select data-field="type"><option value="vimeo"'+(existing&&existing.type==='vimeo'?' selected':'')+'>Vimeo</option><option value="youtube"'+(existing&&existing.type==='youtube'?' selected':'')+'>YouTube</option></select></div>'+
+      '<div class="co-vr-field" style="flex:3;"><label>Video URL or ID</label><input placeholder="Paste full Vimeo/YouTube link or just the ID" value="'+esc(existing?(existing.url||existing.videoId):'')+'" data-field="videoUrl" oninput="coParseVideoUrl(this)"></div>'+
+      '<input type="hidden" data-field="videoId" value="'+esc((existing?existing.videoId:''))+'">'+
+      '<input type="hidden" data-field="type" value="'+esc((existing?existing.type:'vimeo'))+'">'+
+      '<input type="hidden" data-field="hash" value="'+esc((existing&&existing.hash?existing.hash:''))+'">'+
       '<div class="co-vr-field"><label>Event</label><input placeholder="e.g. Wedding Day" value="'+esc((existing?existing.event:''))+'" data-field="event"></div>'+
-      (existing&&existing.hash?'<input type="hidden" data-field="hash" value="'+esc(existing.hash)+'">':'')+
+      '<div class="co-vr-platform" id="'+id+'_platform" style="font-size:.55rem;color:var(--text3);min-width:60px;padding-bottom:4px;">'+(existing&&existing.videoId?'<span style="color:'+(existing.type==='youtube'?'#ff0000':'#1ab7ea')+';">●</span> '+(existing.type==='youtube'?'YouTube':'Vimeo')+' · '+existing.videoId:'')+'</div>'+
       '<button class="co-vr-remove" onclick="this.closest(\'.co-video-row\').remove()">✕</button>'+
     '</div>'+
     /* Preview player */
@@ -1852,6 +1854,66 @@ function coAddVideoRow(existing){
   list.appendChild(div);
 }
 
+function coParseVideoUrl(input){
+  var val=(input.value||'').trim();
+  var row=input.closest('.co-video-row');
+  var idField=row.querySelector('[data-field="videoId"]');
+  var typeField=row.querySelector('[data-field="type"]');
+  var hashField=row.querySelector('[data-field="hash"]');
+  var platformEl=row.querySelector('.co-vr-platform');
+
+  // YouTube patterns
+  var ytMatch=val.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?.*v=|embed\/|v\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+  if(ytMatch){
+    idField.value=ytMatch[1];
+    typeField.value='youtube';
+    hashField.value='';
+    platformEl.innerHTML='<span style="color:#ff0000;">●</span> YouTube · '+ytMatch[1];
+    return;
+  }
+
+  // Vimeo patterns:
+  // https://vimeo.com/123456789
+  // https://vimeo.com/123456789/abcdef1234  (private hash)
+  // https://player.vimeo.com/video/123456789?h=abcdef1234
+  // https://vimeo.com/manage/videos/123456789
+  var vimeoMatch=val.match(/vimeo\.com\/(?:manage\/videos\/|video\/)?(\d{6,12})(?:\/([a-f0-9]+))?/);
+  if(vimeoMatch){
+    idField.value=vimeoMatch[1];
+    typeField.value='vimeo';
+    hashField.value=vimeoMatch[2]||'';
+    platformEl.innerHTML='<span style="color:#1ab7ea;">●</span> Vimeo · '+vimeoMatch[1]+(vimeoMatch[2]?' (private)':'');
+    // Also check for hash in query params
+    var hMatch=val.match(/[?&]h=([a-f0-9]+)/);
+    if(hMatch)hashField.value=hMatch[1];
+    return;
+  }
+
+  // Plain numeric = assume Vimeo ID
+  if(/^\d{6,12}$/.test(val)){
+    idField.value=val;
+    typeField.value='vimeo';
+    hashField.value='';
+    platformEl.innerHTML='<span style="color:#1ab7ea;">●</span> Vimeo · '+val;
+    return;
+  }
+
+  // Plain alphanumeric 11 chars = assume YouTube ID
+  if(/^[a-zA-Z0-9_-]{11}$/.test(val)){
+    idField.value=val;
+    typeField.value='youtube';
+    hashField.value='';
+    platformEl.innerHTML='<span style="color:#ff0000;">●</span> YouTube · '+val;
+    return;
+  }
+
+  // Clear if unrecognized
+  if(!val){
+    idField.value='';typeField.value='vimeo';hashField.value='';
+    platformEl.innerHTML='';
+  }
+}
+
 var _coPreviewPlayers={};
 var _coPreviewIntervals={};
 
@@ -1870,7 +1932,7 @@ function coLoadPreview(btn){
   var hash=videoRow.querySelector('[data-field="hash"]');
   hash=hash?hash.value:'';
 
-  if(!vidId){toast('Enter a Video ID first');return;}
+  if(!vidId){toast('Paste a video URL first');return;}
 
   btn.style.display='none';
   var playerDiv=wrap.querySelector('.co-preview-player');
