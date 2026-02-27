@@ -471,8 +471,18 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
   text-shadow:0 1px 10px rgba(0,0,0,.5);
 }
 .landing-tagline {
-  font-size:.82rem;color:var(--text2);margin-bottom:2rem;
+  display:flex;align-items:center;gap:1rem;justify-content:center;
+  margin-top:.8rem;margin-bottom:2.5rem;flex-wrap:wrap;
+}
+.landing-tagline span {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.85rem;letter-spacing:.18em;
+  color:#fff;
   text-shadow:0 1px 10px rgba(0,0,0,.5);
+}
+.landing-tagline .tl-dot {
+  width:5px;height:5px;border-radius:50%;background:var(--gold);
+  flex-shrink:0;box-shadow:0 0 8px rgba(212,168,83,.4);
 }
 .landing-cta {
   display:inline-flex;align-items:center;gap:.6rem;
@@ -540,7 +550,9 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
     <div class="landing-content">
       <div class="landing-title">Your Wedding Films, One Screen Away</div>
       <div class="landing-subtitle">Review edits, leave timestamped notes, and collaborate with your editing team — all in one beautiful theatre.</div>
-      <div class="landing-tagline">Private. Personal. Cinematic.</div>
+      <div class="landing-tagline">
+        <span>Private</span><div class="tl-dot"></div><span>Personal</span><div class="tl-dot"></div><span>Cinematic</span>
+      </div>
       <button class="landing-cta" onclick="showAuthScreen()">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> GET STARTED
       </button>
