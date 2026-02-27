@@ -432,16 +432,16 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
   background:
     linear-gradient(0deg,
       rgba(0,0,0,1) 0%,
-      rgba(0,0,0,.85) 8%,
-      rgba(0,0,0,.4) 30%,
-      rgba(0,0,0,.35) 50%,
-      rgba(0,0,0,.4) 65%,
-      rgba(0,0,0,.85) 90%,
+      rgba(0,0,0,.9) 10%,
+      rgba(0,0,0,.55) 30%,
+      rgba(0,0,0,.5) 50%,
+      rgba(0,0,0,.55) 65%,
+      rgba(0,0,0,.9) 90%,
       rgba(0,0,0,1) 100%
     ),
     radial-gradient(ellipse at center,
-      rgba(0,0,0,0) 0%,
-      rgba(0,0,0,.6) 100%
+      rgba(0,0,0,.15) 0%,
+      rgba(0,0,0,.7) 100%
     );
 }
 
@@ -540,7 +540,10 @@ html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-seri
 <div id="landingScreen" style="display:none;">
   <div class="landing">
     <nav class="landing-nav">
-      <div class="landing-logo">CLOUD <span class="ix-gold">IX</span></div>
+      <div>
+        <div class="landing-logo">CLOUD <span class="ix-gold">IX</span></div>
+        <div style="font-size:.55rem;color:var(--text3);letter-spacing:.2em;text-transform:uppercase;margin-top:-.1rem;">Theatre Room</div>
+      </div>
       <button class="landing-signin-btn" onclick="showAuthScreen()">Sign In</button>
     </nav>
 
