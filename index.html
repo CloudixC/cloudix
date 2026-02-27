@@ -1640,6 +1640,13 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   margin-top:.45rem;
 }
 .cc-editor-chip {
+  display:inline-flex;align-items:center;gap:.2rem;
+}
+.cc-editor-pic {
+  width:14px;height:14px;border-radius:50%;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;
+  background:var(--gold);color:#fff;font-size:.4rem;font-weight:700;flex-shrink:0;
+}
+.cc-editor-pic img { width:100%;height:100%;object-fit:cover; }
   display:inline-flex; align-items:center; gap:.25rem;
   font-size:.58rem; font-weight:600; letter-spacing:.04em;
   background:var(--gold-wash); border:1px solid var(--gold-line);
@@ -1905,7 +1912,29 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .company-card.add-new { border-style:dashed; }
 .company-card.add-new:hover { border-color:var(--gold-line); background:var(--gold-wash); }
 .company-card.add-new .company-card-icon { font-size:1.5rem; color:var(--ink5); }
+.co-delete-btn {
+  position:absolute; top:6px; right:6px; width:20px; height:20px; border-radius:50%;
+  border:1px solid rgba(220,38,38,.2); background:rgba(220,38,38,.06); color:#dc2626;
+  font-size:.55rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  opacity:0; transition:opacity .15s; z-index:2;
+}
+.company-card:hover .co-delete-btn { opacity:1; }
+.co-delete-btn:hover { background:rgba(220,38,38,.15); border-color:rgba(220,38,38,.4); }
 .login-footer { margin-top:2rem; font-family:'Outfit',sans-serif; font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink5); text-align:center; }
+
+/* Background colour swatches */
+.bg-swatch {
+  width:28px; height:28px; border-radius:50%; border:2px solid var(--rule2);
+  cursor:pointer; transition:transform .15s, border-color .15s, box-shadow .15s;
+  position:relative; padding:0; outline:none;
+}
+.bg-swatch:hover { transform:scale(1.15); border-color:var(--gold); }
+.bg-swatch.active { border-color:var(--gold); box-shadow:0 0 0 3px rgba(154,123,60,.25); transform:scale(1.1); }
+.bg-swatch-custom {
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:.7rem; background:conic-gradient(red,yellow,lime,aqua,blue,magenta,red) !important;
+  overflow:hidden;
+}
 
 /* Auth login */
 #authScreen {
@@ -1937,6 +1966,10 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .auth-user-badge .badge-avatar {
   width:20px;height:20px;border-radius:50%;background:var(--gold);color:#fff;
   display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;
+  overflow:hidden; flex-shrink:0;
+}
+.auth-user-badge .badge-avatar img {
+  width:100%;height:100%;object-fit:cover;
 }
 .auth-user-badge .badge-name { font-weight:600;color:var(--ink); }
 .auth-user-badge .badge-role { opacity:.6; }
@@ -1992,6 +2025,7 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .users-table .u-role { font-size:.6rem;padding:.15rem .4rem;border-radius:10px;font-weight:600; }
 .users-table .u-role.admin { background:rgba(220,38,38,.08);color:#b91c1c; }
 .users-table .u-role.editor { background:rgba(37,99,235,.08);color:#1d4ed8; }
+.users-table .u-role.editorplus { background:rgba(154,123,60,.12);color:#9a7b3c; }
 .users-add { display:flex;gap:.4rem;margin-top:.8rem;flex-wrap:wrap; }
 .users-add input,.users-add select { font:inherit;font-size:.72rem;padding:.35rem .5rem;border:1px solid var(--rule);border-radius:5px;background:var(--card); }
 .users-add input { flex:1;min-width:80px; }
@@ -2067,7 +2101,9 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   background:var(--gold-wash); border:1px solid var(--gold-line);
   display:flex; align-items:center; justify-content:center;
   font-family:'Outfit',sans-serif; font-size:.62rem; font-weight:700;
-  color:var(--gold); flex-shrink:0;
+  color:var(--gold); flex-shrink:0; overflow:hidden;
+}
+.editor-avatar img { width:100%;height:100%;object-fit:cover; }
 }
 .editor-info { flex:1; min-width:0; }
 .editor-name {
@@ -2299,8 +2335,9 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   background:var(--forest-dim); border:1px solid rgba(45,74,62,.18);
   display:flex; align-items:center; justify-content:center;
   font-family:'Outfit',sans-serif; font-size:.62rem; font-weight:700;
-  color:var(--forest); flex-shrink:0;
+  color:var(--forest); flex-shrink:0; overflow:hidden;
 }
+.shooter-avatar img { width:100%;height:100%;object-fit:cover; }
 .shooter-name {
   font-family:'Outfit',sans-serif; font-size:.75rem; font-weight:600; color:var(--ink2); flex:1;
 }
@@ -2723,7 +2760,7 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 }
 .co-dash-hero-name {
   font-family:'Cormorant Garamond',serif; font-size:1.7rem;
-  font-weight:300; font-style:italic; color:#f5f0e8; letter-spacing:.02em;
+  font-weight:700; font-style:italic; color:#f5f0e8; letter-spacing:.02em;
 }
 .co-dash-hero-sub {
   font-family:'Outfit',sans-serif; font-size:.58rem; font-weight:500;
@@ -3181,8 +3218,9 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
   display:flex; align-items:center; justify-content:center;
   font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600;
   color:var(--gold); flex-shrink:0;
-  box-shadow:0 1px 6px rgba(154,123,60,.12);
+  box-shadow:0 1px 6px rgba(154,123,60,.12); overflow:hidden;
 }
+.prod-editor-avatar img { width:100%;height:100%;object-fit:cover; }
 .prod-editor-name {
   font-family:'Outfit',sans-serif; font-size:.9rem; font-weight:500;
   color:var(--ink2); flex:1; min-width:0;
@@ -5014,22 +5052,96 @@ body { padding-top:56px; }
   color:#fff; font-weight:800; box-shadow:0 0 0 2px rgba(255,255,255,.1);
 }
 .hero-sitemap-pill.active-blue {
-  background:#2563eb; border-color:#2563eb;
-  color:#fff; font-weight:800; box-shadow:0 0 0 2px rgba(37,99,235,.35);
+  background:rgba(255,255,255,.95); border-color:#fff;
+  color:#2563eb; font-weight:800; box-shadow:0 0 0 2px rgba(255,255,255,.2);
 }
 .hero-sitemap-pill.active-gold {
-  background:#9a7b3c; border-color:#9a7b3c;
-  color:#fff; font-weight:800; box-shadow:0 0 0 2px rgba(154,123,60,.35);
+  background:rgba(255,255,255,.95); border-color:#fff;
+  color:#9a7b3c; font-weight:800; box-shadow:0 0 0 2px rgba(255,255,255,.2);
 }
 .hero-sitemap-pill.active-green {
-  background:#2d4a3e; border-color:#2d4a3e;
-  color:#fff; font-weight:800; box-shadow:0 0 0 2px rgba(45,74,62,.35);
+  background:rgba(255,255,255,.95); border-color:#fff;
+  color:#2d6b4a; font-weight:800; box-shadow:0 0 0 2px rgba(255,255,255,.2);
+}
+.hero-sitemap-pill.active-purple {
+  background:rgba(255,255,255,.95); border-color:#fff;
+  color:#533483; font-weight:800; box-shadow:0 0 0 2px rgba(255,255,255,.2);
 }
 .hero-sitemap-pill.clickable { cursor: default; }
 .hero-sitemap-sep { font-size:.46rem; color:rgba(255,255,255,.18); }
 /* Green Editing Room button */
 .co-dash-hero-btn.er-btn { background:var(--forest); color:#fff; border:1.5px solid var(--forest); }
 .co-dash-hero-btn.er-btn:hover { background:#1e5c3a; border-color:#1e5c3a; }
+/* Purple Theatre Room button */
+.co-dash-hero-btn.tr-btn { background:#533483; color:#fff; border:1.5px solid #533483; }
+.co-dash-hero-btn.tr-btn:hover { background:#6b44a0; }
+
+/* ── Theatre Room ─────────────────────────────────── */
+.tr-couple-select { display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1.5rem; }
+.tr-couple-pill {
+  font-family:'Outfit',sans-serif; font-size:.62rem; font-weight:600;
+  padding:.3rem .7rem; border-radius:20px; cursor:pointer;
+  border:1px solid var(--rule2); background:var(--card); color:var(--ink3); transition:all .15s;
+}
+.tr-couple-pill:hover { border-color:var(--gold-line); }
+.tr-couple-pill.on { background:#533483; color:#fff; border-color:#533483; }
+
+.tr-video-list { display:flex; flex-direction:column; gap:.6rem; margin-bottom:1rem; }
+.tr-video-card {
+  background:var(--card); border:1px solid var(--rule); border-radius:10px;
+  padding:.6rem .8rem; cursor:pointer; transition:all .15s; display:flex; align-items:center; gap:.6rem;
+}
+.tr-video-card:hover { border-color:var(--gold-line); box-shadow:0 2px 12px rgba(0,0,0,.06); }
+.tr-video-card.active { border-color:#533483; box-shadow:0 0 0 2px rgba(83,52,131,.2); }
+.tr-video-title { font-family:'Cormorant Garamond',serif; font-size:.9rem; font-weight:600; color:var(--ink); }
+.tr-video-meta { font-family:'Outfit',sans-serif; font-size:.5rem; color:var(--ink5); margin-top:.1rem; }
+.tr-video-badge { display:inline-block; font-size:.45rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:.08rem .3rem; border-radius:10px; }
+.tr-video-badge.vimeo { background:rgba(26,183,234,.1); color:#1ab7ea; }
+.tr-video-badge.youtube { background:rgba(255,0,0,.08); color:#c00; }
+.tr-video-comments-count { font-family:'Outfit',sans-serif; font-size:.5rem; color:var(--ink5); }
+
+.tr-player-wrap {
+  background:#000; border-radius:10px; overflow:hidden; margin-bottom:.8rem;
+  position:relative; aspect-ratio:16/9; max-height:480px;
+}
+.tr-player-wrap iframe { width:100%; height:100%; border:none; }
+
+.tr-add-form { display:flex; gap:.4rem; align-items:center; flex-wrap:wrap; margin-bottom:1.2rem; }
+.tr-add-form input {
+  font-family:'Outfit',sans-serif; font-size:.62rem; padding:.35rem .5rem;
+  border:1px solid var(--rule2); border-radius:6px; background:var(--card); color:var(--ink2);
+}
+
+.tr-comment-bar { display:flex; gap:.4rem; align-items:center; margin-bottom:.6rem; }
+.tr-comment-bar input {
+  flex:1; font-family:'Outfit',sans-serif; font-size:.62rem; padding:.35rem .5rem;
+  border:1px solid var(--rule2); border-radius:6px; background:var(--card); color:var(--ink2);
+}
+.tr-timestamp-btn {
+  font-family:'Outfit',sans-serif; font-size:.55rem; font-weight:700;
+  padding:.3rem .55rem; border-radius:6px; border:1px solid #533483;
+  background:rgba(83,52,131,.08); color:#533483; cursor:pointer; white-space:nowrap;
+}
+.tr-timestamp-btn:hover { background:rgba(83,52,131,.18); }
+
+.tr-comments-list { display:flex; flex-direction:column; gap:.35rem; }
+.tr-comment-item {
+  display:flex; gap:.5rem; align-items:flex-start;
+  padding:.45rem .6rem; border-radius:8px; background:var(--card); border:1px solid var(--rule);
+}
+.tr-comment-time {
+  font-family:'Outfit',sans-serif; font-size:.58rem; font-weight:700;
+  color:#533483; cursor:pointer; white-space:nowrap; min-width:45px;
+  padding:.1rem .3rem; border-radius:4px; background:rgba(83,52,131,.06);
+}
+.tr-comment-time:hover { background:rgba(83,52,131,.15); }
+.tr-comment-body { font-family:'Outfit',sans-serif; font-size:.62rem; color:var(--ink2); flex:1; line-height:1.5; }
+.tr-comment-author { font-size:.48rem; color:var(--ink5); margin-top:.1rem; }
+.tr-comment-delete {
+  font-size:.5rem; opacity:.3; cursor:pointer; padding:.1rem .2rem; border:none; background:none; color:var(--ink);
+}
+.tr-comment-delete:hover { opacity:.8; color:#dc2626; }
+.tr-empty { font-family:'Outfit',sans-serif; font-size:.7rem; color:var(--ink5); text-align:center; padding:2rem; font-style:italic; }
 
 
 /* ══ EDITING ROOM ═══════════════════════════════════════════════════════════ */
@@ -5125,7 +5237,10 @@ body { padding-top:56px; }
     </div>
     <div class="login-label">Sign In</div>
     <input type="text" class="auth-input" id="authUser" placeholder="Username" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('authPass').focus()">
-    <input type="password" class="auth-input" id="authPass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    <div style="position:relative;">
+      <input type="password" class="auth-input" id="authPass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()" style="padding-right:2rem;">
+      <button type="button" onclick="togglePassVis('authPass',this)" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:.7rem;opacity:.5;padding:2px;">👁</button>
+    </div>
     <button class="auth-btn" onclick="doLogin()">Sign In</button>
     <div class="auth-error" id="authError"></div>
   </div>
@@ -5140,11 +5255,38 @@ body { padding-top:56px; }
 <div class="users-overlay" id="usersOverlay" onclick="if(event.target===this)closeUserMgmt()">
   <div class="users-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;">
-      <div class="users-title">User Management</div>
+      <div class="users-title" id="userMgmtTitle">Settings</div>
       <button class="btn btn-outline btn-sm" style="font-size:.6rem;" onclick="closeUserMgmt()">✕ Close</button>
     </div>
     <div id="usersListWrap"></div>
     <div id="usersAddWrap"></div>
+    <div style="margin-top:1rem;">
+      <div style="font-family:'Outfit',sans-serif;font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;">Profile Picture</div>
+      <div style="display:flex;align-items:center;gap:.75rem;">
+        <div id="profilePicPreview" style="width:48px;height:48px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font:700 1rem/1 'Outfit',sans-serif;overflow:hidden;border:2px solid var(--rule2);flex-shrink:0;"></div>
+        <div style="display:flex;flex-direction:column;gap:.3rem;">
+          <label class="btn btn-outline btn-sm" style="font-size:.55rem;cursor:pointer;display:inline-block;text-align:center;">
+            📷 Choose Photo
+            <input type="file" accept="image/*" onchange="handleProfilePic(this)" style="display:none;">
+          </label>
+          <button class="btn btn-outline btn-sm" style="font-size:.5rem;opacity:.6;" onclick="removeProfilePic()">Remove</button>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:1rem;">
+      <div style="font-family:'Outfit',sans-serif;font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;">Change Password</div>
+      <div style="display:flex;align-items:flex-end;gap:.5rem;">
+        <div style="flex:1;position:relative;">
+          <input id="selfNewPass" type="password" placeholder="New password" style="font-family:'Outfit',sans-serif;font-size:.62rem;width:100%;padding:.3rem 2rem .3rem .4rem;border:1px solid var(--rule2);border-radius:4px;background:var(--card);color:var(--ink2);box-sizing:border-box;">
+          <button type="button" onclick="togglePassVis('selfNewPass',this)" style="position:absolute;right:4px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:.6rem;opacity:.5;padding:2px;">👁</button>
+        </div>
+        <button class="btn btn-outline btn-sm" style="font-size:.55rem;white-space:nowrap;" onclick="selfChangePassword()">Update</button>
+      </div>
+    </div>
+    <div style="margin-top:1rem;">
+      <div style="font-family:'Outfit',sans-serif;font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.5rem;">Background Colour</div>
+      <div id="modalBgPicker" style="display:flex;gap:.4rem;flex-wrap:wrap;"></div>
+    </div>
     <div style="margin-top:1rem;text-align:center;">
       <button class="btn btn-outline btn-sm" style="font-size:.6rem;" onclick="doLogout()">🚪 Sign Out</button>
     </div>
@@ -5161,13 +5303,12 @@ body { padding-top:56px; }
 
   <!-- Signed-in indicator -->
   <div id="loginUserBanner" style="display:none;text-align:center;margin-bottom:1.5rem;">
-    <div style="display:inline-flex;align-items:center;gap:.5rem;background:var(--warm-white);border:1px solid var(--rule2);border-radius:20px;padding:.35rem .8rem .35rem .4rem;">
-      <div id="loginBannerAvatar" style="width:26px;height:26px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;"></div>
+    <div style="display:inline-flex;align-items:center;gap:.5rem;background:var(--warm-white);border:1px solid var(--rule2);border-radius:20px;padding:.35rem .8rem .35rem .4rem;cursor:pointer;" onclick="openUserMenu()">
+      <div id="loginBannerAvatar" style="width:26px;height:26px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;overflow:hidden;"></div>
       <div style="text-align:left;">
         <div style="font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:600;color:var(--ink);line-height:1.2;" id="loginBannerName"></div>
         <div style="font-family:'Outfit',sans-serif;font-size:.52rem;color:var(--ink5);letter-spacing:.04em;" id="loginBannerRole"></div>
       </div>
-      <button onclick="doLogout()" style="margin-left:.4rem;font-family:'Outfit',sans-serif;font-size:.5rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink5);background:none;border:1px solid var(--rule);border-radius:10px;padding:.15rem .4rem;cursor:pointer;">Sign Out</button>
     </div>
   </div>
 
@@ -5219,21 +5360,22 @@ body { padding-top:56px; }
 </div>
 
 <div id="companyDashView" style="display:none">
-  <div class="co-dash-hero">
+  <div class="co-dash-hero" style="background:linear-gradient(135deg,#142244 0%,#1b3268 50%,#2563eb 100%);">
     <div class="co-dash-hero-inner">
       <div class="co-dash-hero-left">
-        <div class="co-dash-hero-icon" id="coDashIcon">🎬</div>
+        <div class="co-dash-hero-icon" id="coDashIcon">🏢</div>
         <div>
-          <div class="co-dash-hero-name" id="coDashName">Company</div>
+          <div class="co-dash-hero-name" id="coDashName" style="color:#b8ccf5;">Company</div>
           
         </div>
       </div>
       <div class="co-dash-hero-right">
-        <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill active-blue">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span></div>
+        <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill active-blue">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
         <div class="co-dash-hero-actions">
           <button class="co-dash-hero-btn nav-companies" onclick="backToLogin()">⌂ Home</button>
-          <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">Client Lounge →</button>
-          <button class="co-dash-hero-btn er-btn" onclick="goToEditingRoom()">Editing Room →→</button>
+          <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">👥 Client Lounge →</button>
+          <button class="co-dash-hero-btn er-btn" onclick="goToEditingRoom()">✂️ Editing Room →→</button>
+          <button class="co-dash-hero-btn tr-btn" onclick="goToTheatreRoom()">🎬 Theatre →→→</button>
         </div>
       </div>
     </div>
@@ -5273,22 +5415,23 @@ body { padding-top:56px; }
 <div class="app" id="mainApp" style="display:none">
   <!-- ── DASHBOARD VIEW ── -->
   <div id="dashView">
-    <div class="co-dash-hero">
+    <div class="co-dash-hero" style="background:linear-gradient(135deg,#2e2310 0%,#4a3820 50%,#9a7b3c 100%);">
       <div class="co-dash-hero-inner">
         <div class="co-dash-hero-left">
           <div class="co-dash-hero-icon" id="allClientsIcon">👥</div>
           <div>
-            <div class="co-dash-hero-name" id="allClientsHeroName">Client Lounge</div>
+            <div class="co-dash-hero-name" id="allClientsHeroName" style="color:#e8d5a8;">Client Lounge</div>
           </div>
         </div>
         <div class="co-dash-hero-right">
-          <div class="hero-sitemap"><span class="hero-sitemap-pill" onclick="backToLogin()" style="cursor:pointer">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill" onclick="goToDashboard()" style="cursor:pointer">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill active-gold">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span></div>
+          <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill active-gold">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
           <div class="co-dash-hero-actions">
             <button class="co-dash-hero-btn nav-companies" onclick="backToLogin()">⌂ Home</button>
             <button class="co-dash-hero-btn secondary admin-only" onclick="openBackup()" title="Backup &amp; Restore">💾 Backup</button>
             <button class="co-dash-hero-btn primary admin-only" onclick="openAddCouple()">+ Add Client</button>
-            <button class="co-dash-hero-btn nav-dashboard" onclick="goToDashboard()">← Boardroom</button>
-            <button class="co-dash-hero-btn er-btn" onclick="goToEditingRoom()">Editing Room →</button>
+            <button class="co-dash-hero-btn nav-dashboard" onclick="goToDashboard()">← Boardroom 🏢</button>
+            <button class="co-dash-hero-btn er-btn" onclick="goToEditingRoom()">✂️ Editing Room →</button>
+            <button class="co-dash-hero-btn tr-btn" onclick="goToTheatreRoom()">🎬 Theatre →→</button>
           </div>
         </div>
       </div>
@@ -5325,25 +5468,25 @@ body { padding-top:56px; }
 
   <!-- ── EDITOR VIEW ── -->
   <div id="editorView" style="display:none">
-    <div class="co-dash-hero">
+    <div class="co-dash-hero" style="background:linear-gradient(135deg,#2e2310 0%,#4a3820 50%,#9a7b3c 100%);">
       <div class="co-dash-hero-inner">
         <div class="co-dash-hero-left">
           <div class="co-dash-hero-icon" id="coupleHeroIcon">💍</div>
           <div>
-            <div class="co-dash-hero-name" id="coupleHeroName">Couple</div>
+            <div class="co-dash-hero-name" id="coupleHeroName" style="color:#e8d5a8;">Couple</div>
             <div style="font-family:'Outfit',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,213,168,.5);margin-top:.15rem;">Production Office</div>
           </div>
         </div>
         <div class="co-dash-hero-right">
-          <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill active-gold">Production Office</span></span><span class="hero-sitemap-pill" onclick="goToAllCouples()" style="cursor:pointer">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span></div>
+          <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill active-gold">Production Office</span></span><span class="hero-sitemap-pill">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
           <div class="co-dash-hero-actions">
             <button class="co-dash-hero-btn nav-companies" onclick="backToLogin()">⌂ Home</button>
             <button class="co-dash-hero-btn secondary admin-only" onclick="openBackup()" title="Backup &amp; Restore">💾 Backup</button>
             <button class="co-dash-hero-btn secondary" onclick="openLibrary()">Song Library</button>
             <button class="co-dash-hero-btn secondary" onclick="openHistory()">Song History</button>
-            <button class="co-dash-hero-btn nav-dashboard" onclick="goToDashboard()">↓ Boardroom</button>
-            <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">↓ Client Lounge</button>
-            <button class="co-dash-hero-btn er-btn" onclick="goToEditingRoom()">↓ Editing Room</button>
+            <button class="co-dash-hero-btn nav-dashboard" onclick="goToDashboard()">↓ Boardroom 🏢</button>
+            <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">↓ Client Lounge 👥</button>
+            <button class="co-dash-hero-btn er-btn" onclick="goToEditingRoom()">↓ Editing Room ✂️</button>
           </div>
         </div>
       </div>
@@ -5369,26 +5512,51 @@ body { padding-top:56px; }
 
 <!-- ══ EDITING ROOM VIEW ══════════════════════════════════════════════════ -->
 <div id="editingRoomView" style="display:none">
-  <div class="co-dash-hero">
+  <div class="co-dash-hero" style="background:linear-gradient(135deg,#132e20 0%,#1e4a35 50%,#2d6b4a 100%);">
     <div class="co-dash-hero-inner">
       <div class="co-dash-hero-left">
         <div class="co-dash-hero-icon">✂️</div>
-        <div><div class="co-dash-hero-name">Editing Room</div></div>
+        <div><div class="co-dash-hero-name" style="color:#b8e0cc;">Editing Room</div></div>
       </div>
       <div class="co-dash-hero-right">
-        <div class="hero-sitemap"><span class="hero-sitemap-pill" onclick="backToLogin()" style="cursor:pointer">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill" onclick="goToDashboard()" style="cursor:pointer">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill" onclick="goToAllCouples()" style="cursor:pointer">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill active-green">Editing Room</span></div>
+        <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill active-green">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Theatre Room</span></div>
         <div class="co-dash-hero-actions">
           <button class="co-dash-hero-btn nav-companies" onclick="backToLogin()">⌂ Home</button>
           <button class="co-dash-hero-btn secondary" onclick="openLibrary()">Song Library</button>
           <button class="co-dash-hero-btn secondary" onclick="openHistory()">Song History</button>
-          <button class="co-dash-hero-btn nav-dashboard" onclick="goToDashboard()">←← Boardroom</button>
-          <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">← Client Lounge</button>
+          <button class="co-dash-hero-btn nav-dashboard" onclick="goToDashboard()">←← Boardroom 🏢</button>
+          <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">← Client Lounge 👥</button>
+          <button class="co-dash-hero-btn tr-btn" onclick="goToTheatreRoom()">🎬 Theatre →</button>
         </div>
       </div>
     </div>
   </div>
   <div class="co-dash-content" style="padding-top:2rem;">
     <div id="erBody"></div>
+  </div>
+</div>
+
+<!-- ══ THEATRE ROOM VIEW ══════════════════════════════════════════════════ -->
+<div id="theatreRoomView" style="display:none">
+  <div class="co-dash-hero" style="background:linear-gradient(135deg,#2d1b4e 0%,#3d2463 50%,#533483 100%);">
+    <div class="co-dash-hero-inner">
+      <div class="co-dash-hero-left">
+        <div class="co-dash-hero-icon">🎬</div>
+        <div><div class="co-dash-hero-name" style="color:#e2d4f5;">Theatre Room</div></div>
+      </div>
+      <div class="co-dash-hero-right">
+        <div class="hero-sitemap"><span class="hero-sitemap-pill">Home</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Boardroom</span><span class="hero-sitemap-sep">›</span><span style="position:relative;display:inline-flex;align-items:center;"><span style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:.15rem;white-space:nowrap;"><span class="hero-sitemap-pill">Production Office</span></span><span class="hero-sitemap-pill">Client Lounge</span></span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill">Editing Room</span><span class="hero-sitemap-sep">›</span><span class="hero-sitemap-pill active-purple">Theatre Room</span></div>
+        <div class="co-dash-hero-actions">
+          <button class="co-dash-hero-btn nav-companies" onclick="backToLogin()">⌂ Home</button>
+          <button class="co-dash-hero-btn nav-dashboard" onclick="goToDashboard()">←← Boardroom 🏢</button>
+          <button class="co-dash-hero-btn primary" onclick="goToAllCouples()">← Client Lounge 👥</button>
+          <button class="co-dash-hero-btn er-btn" onclick="goToEditingRoom()">← Editing Room ✂️</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="co-dash-content" style="padding-top:1.5rem;">
+    <div id="theatreBody"></div>
   </div>
 </div>
 
@@ -5427,6 +5595,9 @@ body { padding-top:56px; }
     </div>
     <label style="margin-top:.2rem;">Editors Assigned <span style="font-size:.68rem;color:var(--ink5);font-weight:300;">(comma separated)</span></label>
     <input type="text" id="cEditors" placeholder="e.g. Ravi, Priya" style="margin-bottom:.9rem;">
+    <label style="margin-top:.2rem;">🎬 Theatre Room Access Code <span style="font-size:.68rem;color:var(--ink5);font-weight:300;">(client login password)</span></label>
+    <input type="text" id="cTheatrePass" placeholder="e.g. review2025" style="margin-bottom:.3rem;">
+    <div style="font-size:.52rem;color:var(--ink5);margin-bottom:.9rem;">Client logs in at <b>theatre.html</b> with their couple name + this code</div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeAddCouple()">Cancel</button>
       <button class="btn btn-red" onclick="addCouple()">Add Couple</button>
@@ -5469,6 +5640,9 @@ body { padding-top:56px; }
     </div>
     <label style="margin-top:.2rem;">Editors Assigned <span style="font-size:.68rem;color:var(--ink5);font-weight:300;">(comma separated)</span></label>
     <input type="text" id="eEditors" placeholder="e.g. Ravi, Priya" style="margin-bottom:.9rem;">
+    <label style="margin-top:.2rem;">🎬 Theatre Room Access Code <span style="font-size:.68rem;color:var(--ink5);font-weight:300;">(client login password)</span></label>
+    <input type="text" id="eTheatrePass" placeholder="e.g. review2025" style="margin-bottom:.3rem;">
+    <div style="font-size:.52rem;color:var(--ink5);margin-bottom:.9rem;">Client logs in at <b>theatre.html</b> with their couple name + this code</div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeEditCouple()">Cancel</button>
       <button class="btn btn-red" onclick="saveEditCouple()">Save Changes</button>
@@ -5565,6 +5739,7 @@ function _xhr(method, url, body) {
   return new Promise(function(resolve, reject) {
     var x = new XMLHttpRequest();
     x.open(method, url, true);
+    x.timeout = 10000; // 10s timeout
     Object.keys(_hdrs).forEach(function(k) { x.setRequestHeader(k, _hdrs[k]); });
     if (method === 'POST') x.setRequestHeader('Prefer', 'resolution=merge-duplicates');
     x.onload = function() {
@@ -5572,10 +5747,11 @@ function _xhr(method, url, body) {
         try { resolve(JSON.parse(x.responseText || '[]')); }
         catch(e) { resolve([]); }
       } else {
-        reject(new Error('HTTP ' + x.status + ': ' + x.responseText));
+        reject(new Error('HTTP ' + x.status));
       }
     };
-    x.onerror = function() { reject(new Error('Network error (XHR)')); };
+    x.onerror = function() { reject(new Error('Network error')); };
+    x.ontimeout = function() { reject(new Error('Timeout')); };
     x.send(body ? JSON.stringify(body) : null);
   });
 }
@@ -5632,34 +5808,49 @@ function _cloudFlash(msg, color) {
 // ── Cloud save (fire-and-forget, batched) ───────────────
 let _cloudSaveQueue = {};
 let _cloudSaveTimer = null;
+let _cloudFlushing = false;
+let _cloudFailCount = 0;
 
 function cloudSave(key, value) {
   if (!_cloudReady) return;
   _cloudSaveQueue[key] = value;
   if (_cloudSaveTimer) clearTimeout(_cloudSaveTimer);
-  _cloudSaveTimer = setTimeout(_cloudFlush, 300);
+  // Reset fail count so sync can resume after pause
+  _cloudFailCount = 0;
+  _cloudSaveTimer = setTimeout(_cloudFlush, 600);
 }
 
 async function _cloudFlush() {
-  if (!_cloudReady || !Object.keys(_cloudSaveQueue).length) return;
+  if (_cloudFlushing || !Object.keys(_cloudSaveQueue).length) return;
+  _cloudFlushing = true;
   const batch = { ..._cloudSaveQueue };
   _cloudSaveQueue = {};
   _cloudSaveTimer = null;
   _suppressRealtimeRefresh = true;
   try {
-    const rows = Object.entries(batch).map(([k, v]) => ({
-      key: k,
-      value: typeof v === 'string' ? JSON.parse(v) : v
-    }));
+    const rows = Object.entries(batch).map(([k, v]) => {
+      var val = v;
+      if (typeof v === 'string') { try { val = JSON.parse(v); } catch(e) { val = v; } }
+      return { key: k, value: val };
+    });
     await _dbUpsert(rows);
     _cloudFlash('☁️ Synced', '#22c55e');
+    _cloudFailCount = 0;
   } catch (e) {
-    console.warn('Cloud save error:', e);
-    _cloudFlash('☁️ Sync failed', '#ef4444');
+    console.warn('Cloud save error:', e.message);
+    _cloudFailCount++;
+    // Put failed items back
     Object.entries(batch).forEach(([k, v]) => {
       if (!_cloudSaveQueue[k]) _cloudSaveQueue[k] = v;
     });
+    if (_cloudFailCount <= 3) {
+      _cloudFlash('☁️ Retrying...', '#f59e0b');
+      setTimeout(_cloudFlush, 2000 * _cloudFailCount);
+    } else {
+      _cloudFlash('☁️ Sync paused', '#ef4444');
+    }
   }
+  _cloudFlushing = false;
   setTimeout(() => { _suppressRealtimeRefresh = false; }, 2000);
 }
 
@@ -5726,7 +5917,11 @@ async function _cloudPoll() {
       _cloudFlash('☁️ Updated by teammate', '#8b5cf6');
       _reloadActiveData();
     }
-  } catch (e) { /* silent poll failure */ }
+  } catch (e) {
+    // On poll failure, reset timestamp to avoid getting stuck
+    // Next successful poll will catch up
+    console.warn('Poll error:', e.message);
+  }
 }
 
 // ── Reload active data from localStorage (after cloud push) ─
@@ -5741,10 +5936,14 @@ function _reloadActiveData() {
     songLib  = ld(coKey('mt6_lib'),  {});
     songHist = ld(coKey('mt6_hist'), {});
     normaliseInsts();
+    // Update hashes so next sv() doesn't re-push unchanged data
+    var dm = { [coKey('mt6_c')]: couples, [coKey('mt6_s')]: songs, [coKey('mt6_i')]: insts, [coKey('mt6_lib')]: songLib, [coKey('mt6_hist')]: songHist };
+    Object.entries(dm).forEach(function(e){ _lastSavedHashes[e[0]] = JSON.stringify(e[1]).length + '_' + (Array.isArray(e[1]) ? e[1].length : Object.keys(e[1]).length); });
     if (document.getElementById('companyDashView')?.style.display !== 'none') {
       renderDashPanels('coDashPanels','coDashBanner');
     } else if (document.getElementById('mainApp')?.style.display !== 'none') {
-      renderAll();
+      if (cur) { renderCoupleCard(); renderSections(); renderCoupleSummary(); renderCoupleTimeline(); }
+      else { renderDashboard(); }
     }
   } catch (e) { console.warn('Reload error:', e); }
 }
@@ -5794,11 +5993,20 @@ async function cloudPushAll() {
 // ════════════════════════════════════════════════════════
 // AUTH & USER MANAGEMENT
 // ════════════════════════════════════════════════════════
-let _appUsers = []; // [{username, password, displayName, role:'admin'|'editor'}]
+let _appUsers = []; // [{username, password, displayName, role:'admin'|'editor'|'editor+', companies:[]}]
 let _currentUser = null; // set after login
 
-function _isAdmin() { return _currentUser && _currentUser.role === 'admin'; }
-function _isEditor() { return _currentUser && _currentUser.role === 'editor'; }
+function _isGlobalAdmin() { return _currentUser && _currentUser.role === 'admin'; }
+function _isEditorPlus() { return _currentUser && _currentUser.role === 'editor+'; }
+// Editor+ acts as admin only for companies they own
+function _isEditorPlusOwner() {
+  if (!_currentUser || _currentUser.role !== 'editor+') return false;
+  return activeCompany && (_currentUser.companies || []).indexOf(activeCompany) !== -1;
+}
+// _isAdmin() returns true for global admin OR editor+ in their own company
+function _isAdmin() { return _currentUser && (_currentUser.role === 'admin' || _isEditorPlusOwner()); }
+// _isEditor() returns true for regular editors OR editor+ in someone else's company
+function _isEditor() { return _currentUser && (_currentUser.role === 'editor' || (_currentUser.role === 'editor+' && !_isEditorPlusOwner())); }
 function _editorName() { return _currentUser ? _currentUser.displayName : ''; }
 
 // Load users from localStorage (synced from cloud)
@@ -5814,7 +6022,147 @@ function _loadUsers() {
 
 // Check for existing session — disabled, require login each time
 function _checkSession() {
-  return false;
+  try {
+    var sess = JSON.parse(localStorage.getItem('mt6_session') || 'null');
+    if (!sess || !sess.username) return false;
+    var user = _appUsers.find(function(u) { return u.username === sess.username; });
+    if (!user) return false;
+    _currentUser = user;
+    return sess; // returns { username, companyId, view }
+  } catch(e) { return false; }
+}
+
+function _saveSession() {
+  if (!_currentUser) return;
+  var view = 'companies';
+  if (activeCompany) {
+    var cdv = document.getElementById('companyDashView');
+    var ma = document.getElementById('mainApp');
+    var erv = document.getElementById('editingRoomView');
+    var trv = document.getElementById('theatreRoomView');
+    if (trv && trv.style.display !== 'none') view = 'theatreRoom';
+    else if (erv && erv.style.display !== 'none') view = 'editingRoom';
+    else if (cdv && cdv.style.display !== 'none') view = 'boardroom';
+    else if (ma && ma.style.display !== 'none') {
+      var ev = document.getElementById('editorView');
+      var dv = document.getElementById('dashView');
+      if (ev && ev.style.display !== 'none' && cur) view = 'productionOffice';
+      else if (dv && dv.style.display !== 'none') view = 'clientLounge';
+    }
+  }
+  var state = {
+    username: _currentUser.username,
+    companyId: activeCompany || null,
+    coupleId: cur || null,
+    view: view
+  };
+  localStorage.setItem('mt6_session', JSON.stringify(state));
+  // Push browser history so back/forward buttons work
+  _pushHistory(state);
+}
+
+var _historyNav = false; // flag to prevent pushing state during popstate
+function _pushHistory(state) {
+  if (_historyNav) return; // don't push when navigating via back/forward
+  try {
+    var current = history.state;
+    // Only push if view actually changed
+    if (!current || current.view !== state.view || current.companyId !== state.companyId || current.coupleId !== state.coupleId) {
+      history.pushState(state, '', '');
+    }
+  } catch(e) {}
+}
+
+// Handle browser back/forward
+window.addEventListener('popstate', function(e) {
+  if (!e.state || !_currentUser) return;
+  var s = e.state;
+  _historyNav = true; // prevent _saveSession from pushing state back
+  
+  // Navigate to the right view
+  if (!s.companyId) {
+    // Back to company picker
+    if (activeCompany) {
+      activeCompany = null; cur = null;
+      var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
+      document.getElementById('mainApp').style.display = 'none';
+      document.getElementById('companyDashView').style.display = 'none';
+      document.getElementById('editorView').style.display = 'none';
+      document.getElementById('loginView').style.display='';
+      var _gh=document.getElementById('globalHeader');if(_gh)_gh.style.display='none';
+      setPageLabel('');
+      renderCompanyGrid();
+      _applyRoleVisibility();
+    }
+  } else if (s.view === 'boardroom') {
+    if (activeCompany === s.companyId) {
+      // Same company, just switch view
+      cur = null;
+      var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
+      document.getElementById('editorView').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'none';
+      document.getElementById('loginView').style.display = 'none';
+      document.getElementById('companyDashView').style.display='';
+      var _gh2=document.getElementById('globalHeader');if(_gh2)_gh2.style.display='';
+      setPageLabel('Boardroom');
+      renderDashPanels('coDashPanels','coDashBanner');
+      _applyRoleVisibility();
+    } else {
+      selectCompanyDash(s.companyId);
+    }
+  } else if (s.view === 'clientLounge') {
+    if (activeCompany === s.companyId) {
+      cur = null;
+      var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
+      document.getElementById('editorView').style.display = 'none';
+      document.getElementById('companyDashView').style.display = 'none';
+      document.getElementById('loginView').style.display = 'none';
+      document.getElementById('mainApp').style.display='';
+      var _gh3=document.getElementById('globalHeader');if(_gh3)_gh3.style.display='';
+      document.getElementById('dashView').style.display='';
+      setPageLabel('Client Lounge');
+      renderDashboard();
+      _applyRoleVisibility();
+    } else {
+      selectCompanyClients(s.companyId);
+    }
+  } else if (s.view === 'productionOffice' && s.coupleId) {
+    if (activeCompany === s.companyId) {
+      cur = s.coupleId;
+      var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
+      document.getElementById('companyDashView').style.display = 'none';
+      document.getElementById('loginView').style.display = 'none';
+      document.getElementById('mainApp').style.display='';
+      var _gh4=document.getElementById('globalHeader');if(_gh4)_gh4.style.display='';
+      document.getElementById('dashView').style.display = 'none';
+      document.getElementById('editorView').style.display='';
+      setPageLabel('Production Office');
+      renderCoupleCard(); renderMain(); renderCoupleSummary(); renderCoupleTimeline();
+      _applyRoleVisibility();
+    } else {
+      selectCompanyClients(s.companyId).then(function(){ selectCouple(s.coupleId); });
+    }
+  } else if (s.view === 'editingRoom') {
+    if (activeCompany === s.companyId) {
+      goToEditingRoom();
+    } else {
+      selectCompanyDash(s.companyId).then(function(){ goToEditingRoom(); });
+    }
+  } else if (s.view === 'theatreRoom') {
+    if (activeCompany === s.companyId) {
+      goToTheatreRoom();
+    } else {
+      selectCompanyDash(s.companyId).then(function(){ goToTheatreRoom(); });
+    }
+  }
+  
+  // Update localStorage session to match
+  localStorage.setItem('mt6_session', JSON.stringify(s));
+  _historyNav = false;
+});
+
+function _clearSession() {
+  localStorage.removeItem('mt6_session');
 }
 
 let _usersLoaded = false; // true once cloud users have been pulled
@@ -5828,7 +6176,7 @@ function doLogin() {
   errEl.textContent = '';
   if (!username || !password) { errEl.textContent = 'Enter username and password'; return; }
   var user = _appUsers.find(function(u){return u.username.toLowerCase() === username && u.password === password;});
-  if (user) { _currentUser = user; _showApp(); return; }
+  if (user) { _currentUser = user; _saveSession(); _showApp(); return; }
   // Not found locally — try cloud pull if we haven't loaded yet
   if (!_usersLoaded) {
     errEl.textContent = 'Checking credentials...';
@@ -5850,7 +6198,7 @@ async function _pullUsersAndRetry(username, password) {
     }
     _usersLoaded = true;
     var user = _appUsers.find(function(u){return u.username.toLowerCase() === username && u.password === password;});
-    if (user) { _currentUser = user; _showApp(); return; }
+    if (user) { _currentUser = user; _saveSession(); _showApp(); return; }
   } catch(e) {
     console.warn('Cloud user pull failed:', e);
     // Fallback: try direct fetch in case XHR wrapper isn't working
@@ -5867,7 +6215,7 @@ async function _pullUsersAndRetry(username, password) {
         localStorage.setItem('mt6_users', JSON.stringify(_appUsers));
         _usersLoaded = true;
         var user2 = _appUsers.find(function(u){return u.username.toLowerCase() === username && u.password === password;});
-        if (user2) { _currentUser = user2; _showApp(); return; }
+        if (user2) { _currentUser = user2; _saveSession(); _showApp(); return; }
       }
     } catch(e2) { console.warn('Fetch fallback also failed:', e2); }
   }
@@ -5877,6 +6225,7 @@ async function _pullUsersAndRetry(username, password) {
 }
 
 function doLogout() {
+  _clearSession();
   _currentUser = null;
   closeUserMgmt();
   document.getElementById('authBadge').style.display = 'none';
@@ -5908,16 +6257,19 @@ function _showApp() {
   var badge = document.getElementById('authBadge');
   var initials = _currentUser.displayName.split(' ').map(function(w){return (w[0]||'').toUpperCase();}).join('').slice(0,2);
   document.getElementById('badgeAvatar').textContent = initials;
+  _applyProfilePic();
   document.getElementById('badgeName').textContent = _currentUser.displayName;
-  document.getElementById('badgeRole').textContent = _currentUser.role === 'admin' ? '(Admin)' : '(Editor)';
+  document.getElementById('badgeRole').textContent = _currentUser.role === 'admin' ? '(Admin)' : _currentUser.role === 'editor+' ? '(Editor+)' : '(Editor)';
   badge.style.display = '';
   // Update login page banner
   var banner = document.getElementById('loginUserBanner');
   if (banner) {
     banner.style.display = '';
-    document.getElementById('loginBannerAvatar').textContent = initials;
+    document.getElementById('loginBannerAvatar').innerHTML = _currentUser.profilePic
+      ? '<img src="' + _currentUser.profilePic + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
+      : initials;
     document.getElementById('loginBannerName').textContent = _currentUser.displayName;
-    document.getElementById('loginBannerRole').textContent = _currentUser.role === 'admin' ? 'Administrator' : 'Editor';
+    document.getElementById('loginBannerRole').textContent = _currentUser.role === 'admin' ? 'Administrator' : _currentUser.role === 'editor+' ? 'Editor+' : 'Editor';
   }
   // Hide admin-only elements for editors
   _applyRoleVisibility();
@@ -5931,16 +6283,21 @@ function _applyRoleVisibility() {
 }
 
 function openUserMenu() {
-  if (_isAdmin()) {
-    openUserMgmt();
-  } else {
-    // Editor: simple menu with just sign out
-    if (confirm('Sign out as ' + _currentUser.displayName + '?')) doLogout();
-  }
+  openUserMgmt();
 }
 
 function openUserMgmt() {
-  renderUsersList();
+  var titleEl = document.getElementById('userMgmtTitle');
+  if (_isGlobalAdmin()) {
+    if (titleEl) titleEl.textContent = 'User Management';
+    renderUsersList();
+  } else {
+    if (titleEl) titleEl.textContent = 'Settings';
+    document.getElementById('usersListWrap').innerHTML = '';
+    document.getElementById('usersAddWrap').innerHTML = '';
+  }
+  _renderModalBgPicker();
+  _applyProfilePic();
   document.getElementById('usersOverlay').classList.add('open');
 }
 function closeUserMgmt() {
@@ -5952,20 +6309,24 @@ function renderUsersList() {
   var addEl = document.getElementById('usersAddWrap');
   var rows = _appUsers.map(function(u, idx) {
     var isSelf = _currentUser && _currentUser.username === u.username;
-    var roleClass = u.role === 'admin' ? 'admin' : 'editor';
+    var roleOpts = ['editor','editor+','admin'].map(function(r) {
+      var label = r === 'editor+' ? 'Editor+' : r.charAt(0).toUpperCase() + r.slice(1);
+      return '<option value="' + r + '"' + (u.role === r ? ' selected' : '') + '>' + label + '</option>';
+    }).join('');
     return '<tr>' +
       '<td style="font-weight:600;">' + esc(u.displayName) + (isSelf ? ' <span style="font-size:.55rem;color:var(--gold);">(you)</span>' : '') + '</td>' +
       '<td>' + esc(u.username) + '</td>' +
-      '<td><span class="u-role ' + roleClass + '">' + u.role + '</span></td>' +
+      '<td><input class="um-pass-input" value="' + esc(u.password) + '" onchange="changeUserPass(' + idx + ',this.value)" style="font-family:\'Outfit\',sans-serif;font-size:.62rem;width:80px;padding:.15rem .3rem;border:1px solid var(--rule2);border-radius:4px;background:var(--card);color:var(--ink2);"></td>' +
+      '<td><select class="um-role-sel" onchange="changeUserRole(' + idx + ',this.value)" style="font-family:\'Outfit\',sans-serif;font-size:.58rem;padding:.15rem .25rem;border:1px solid var(--rule2);border-radius:4px;background:var(--card);color:var(--ink2);">' + roleOpts + '</select></td>' +
       '<td>' + (isSelf ? '' : '<button class="btn btn-outline btn-sm" style="font-size:.55rem;padding:.1rem .3rem;" onclick="removeUser('+idx+')">✕</button>') + '</td>' +
     '</tr>';
   }).join('');
-  listEl.innerHTML = '<table class="users-table"><thead><tr><th>Name</th><th>Username</th><th>Role</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>';
+  listEl.innerHTML = '<table class="users-table"><thead><tr><th>Name</th><th>Username</th><th>Password</th><th>Role</th><th></th></tr></thead><tbody>' + rows + '</tbody></table>';
   addEl.innerHTML = '<div class="users-add">' +
     '<input id="nuName" placeholder="Display Name">' +
     '<input id="nuUser" placeholder="Username">' +
-    '<input id="nuPass" placeholder="Password" type="password">' +
-    '<select id="nuRole"><option value="editor">Editor</option><option value="admin">Admin</option></select>' +
+    '<input id="nuPass" placeholder="Password">' +
+    '<select id="nuRole"><option value="editor">Editor</option><option value="editor+">Editor+</option><option value="admin">Admin</option></select>' +
     '<button class="btn btn-red" style="font-size:.65rem;padding:.3rem .6rem;white-space:nowrap;" onclick="addUser()">+ Add</button>' +
   '</div>';
 }
@@ -5977,7 +6338,9 @@ function addUser() {
   var role = document.getElementById('nuRole').value;
   if (!name || !user || !pass) { toast('Fill in all fields'); return; }
   if (_appUsers.some(function(u){return u.username.toLowerCase()===user;})) { toast('Username already exists'); return; }
-  _appUsers.push({ username:user, password:pass, displayName:name, role:role });
+  var newUser = { username:user, password:pass, displayName:name, role:role };
+  if (role === 'editor+') newUser.companies = [];
+  _appUsers.push(newUser);
   _saveUsers();
   renderUsersList();
   toast('User added: ' + name);
@@ -5990,6 +6353,61 @@ function removeUser(idx) {
   _saveUsers();
   renderUsersList();
   toast('User removed');
+}
+
+function changeUserRole(idx, newRole) {
+  var u = _appUsers[idx]; if (!u) return;
+  u.role = newRole;
+  if (newRole === 'editor+' && !u.companies) u.companies = [];
+  // Update current user if changing self
+  if (_currentUser && _currentUser.username === u.username) {
+    _currentUser.role = newRole;
+    if (newRole === 'editor+' && !_currentUser.companies) _currentUser.companies = [];
+    document.getElementById('badgeRole').textContent = newRole === 'admin' ? '(Admin)' : newRole === 'editor+' ? '(Editor+)' : '(Editor)';
+  }
+  _saveUsers();
+  toast(u.displayName + ' → ' + (newRole === 'editor+' ? 'Editor+' : newRole));
+}
+
+function changeUserPass(idx, newPass) {
+  var u = _appUsers[idx]; if (!u) return;
+  newPass = newPass.trim();
+  if (!newPass) { toast('Password cannot be empty'); renderUsersList(); return; }
+  u.password = newPass;
+  if (_currentUser && _currentUser.username === u.username) {
+    _currentUser.password = newPass;
+  }
+  _saveUsers();
+  toast('Password updated for ' + u.displayName);
+}
+
+function selfChangePassword() {
+  var inp = document.getElementById('selfNewPass');
+  var newPass = (inp.value || '').trim();
+  if (!newPass) { toast('Enter a new password'); inp.focus(); return; }
+  if (!_currentUser) return;
+  _currentUser.password = newPass;
+  var u = _appUsers.find(function(x){ return x.username === _currentUser.username; });
+  if (u) u.password = newPass;
+  _saveUsers();
+  inp.value = '';
+  inp.type = 'password'; // reset visibility
+  toast('Password updated');
+}
+
+function togglePassVis(inputId, btn) {
+  var inp = document.getElementById(inputId);
+  if (!inp) return;
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    btn.textContent = '🙈';
+    btn.style.opacity = '.8';
+  } else {
+    inp.type = 'password';
+    btn.textContent = '👁';
+    btn.style.opacity = '.5';
+  }
+  inp.focus();
 }
 
 function _saveUsers() {
@@ -6114,6 +6532,8 @@ let editingCoupleId = null;
 let activeCompany = null;
 const coKey = k => k + '_' + (activeCompany || 'default');
 
+let _lastSavedHashes = {};
+
 const sv = () => {
   if (!activeCompany) return;
   localStorage.setItem(coKey('mt6_c'),    JSON.stringify(couples));
@@ -6123,14 +6543,41 @@ const sv = () => {
   localStorage.setItem(coKey('mt6_oy'),   JSON.stringify(openYr));
   localStorage.setItem(coKey('mt6_lib'),  JSON.stringify(songLib));
   localStorage.setItem(coKey('mt6_hist'), JSON.stringify(songHist));
-  // Cloud sync
-  cloudSave(coKey('mt6_c'),    couples);
-  cloudSave(coKey('mt6_s'),    songs);
-  cloudSave(coKey('mt6_i'),    insts);
-  cloudSave(coKey('mt6_os'),   openSec);
-  cloudSave(coKey('mt6_oy'),   openYr);
-  cloudSave(coKey('mt6_lib'),  songLib);
-  cloudSave(coKey('mt6_hist'), songHist);
+  // Cloud sync — only push keys that changed
+  const dataMap = {
+    [coKey('mt6_c')]: couples,
+    [coKey('mt6_s')]: songs,
+    [coKey('mt6_i')]: insts,
+    [coKey('mt6_lib')]: songLib,
+    [coKey('mt6_hist')]: songHist
+  };
+  Object.entries(dataMap).forEach(([k, v]) => {
+    const hash = JSON.stringify(v).length + '_' + (Array.isArray(v) ? v.length : Object.keys(v).length);
+    if (_lastSavedHashes[k] !== hash) {
+      _lastSavedHashes[k] = hash;
+      cloudSave(k, v);
+    }
+  });
+};
+
+// Local-only save — no cloud push (used after cloud pull to persist normalisation)
+const _svLocal = () => {
+  if (!activeCompany) return;
+  localStorage.setItem(coKey('mt6_c'),    JSON.stringify(couples));
+  localStorage.setItem(coKey('mt6_s'),    JSON.stringify(songs));
+  localStorage.setItem(coKey('mt6_i'),    JSON.stringify(insts));
+  localStorage.setItem(coKey('mt6_os'),   JSON.stringify(openSec));
+  localStorage.setItem(coKey('mt6_oy'),   JSON.stringify(openYr));
+  localStorage.setItem(coKey('mt6_lib'),  JSON.stringify(songLib));
+  localStorage.setItem(coKey('mt6_hist'), JSON.stringify(songHist));
+  // Update hashes so next sv() doesn't re-push the same data
+  const dataMap = {
+    [coKey('mt6_c')]: couples, [coKey('mt6_s')]: songs, [coKey('mt6_i')]: insts,
+    [coKey('mt6_lib')]: songLib, [coKey('mt6_hist')]: songHist
+  };
+  Object.entries(dataMap).forEach(([k, v]) => {
+    _lastSavedHashes[k] = JSON.stringify(v).length + '_' + (Array.isArray(v) ? v.length : Object.keys(v).length);
+  });
 };
 
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,5);
@@ -6143,12 +6590,340 @@ function setCompanyLabel(n){var e=document.getElementById('ghCompanyLabel');if(e
 
 // ── Editing Room navigation ──────────────────────────────────────
 function goToEditingRoom(){
-  ['companyDashView','mainApp','loginView'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+  ['companyDashView','mainApp','loginView','theatreRoomView'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
   document.getElementById('editingRoomView').style.display='';
   document.getElementById('globalHeader').style.display='';
   setPageLabel('Editing Room');
   renderEditingRoom();
   _applyRoleVisibility();
+  _saveSession();
+}
+
+// ── THEATRE ROOM ─────────────────────────────────────────────────────
+var _trCouple = null;    // selected couple id
+var _trVideo = null;     // selected video index
+var _trPlayer = null;    // player reference (Vimeo/YouTube)
+var _trPlayerType = null; // 'vimeo' | 'youtube'
+var _trPlayerReady = false;
+
+function goToTheatreRoom(){
+  ['companyDashView','mainApp','loginView','editingRoomView'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+  document.getElementById('theatreRoomView').style.display='';
+  document.getElementById('globalHeader').style.display='';
+  setPageLabel('Theatre Room');
+  _trPlayerReady = false;
+  _trPlayer = null;
+  renderTheatreRoom();
+  _applyRoleVisibility();
+  _saveSession();
+}
+
+function _trGetVideos(coupleId) {
+  var co = couples.find(function(c){ return c.id === coupleId; });
+  return co && co.theatreVideos ? co.theatreVideos : [];
+}
+
+function _trSaveVideos(coupleId, videos) {
+  var co = couples.find(function(c){ return c.id === coupleId; });
+  if (!co) return;
+  co.theatreVideos = videos;
+  sv();
+}
+
+function _trParseUrl(url) {
+  url = (url||'').trim();
+  // Vimeo — handles vimeo.com/ID, vimeo.com/video/ID, vimeo.com/ID/HASH, vimeo.com/manage/videos/ID
+  var vm = url.match(/vimeo\.com\/(?:manage\/videos\/|video\/)?(\d+)(?:\/([a-zA-Z0-9]+))?/);
+  if (vm) return { type:'vimeo', id:vm[1], hash:vm[2]||null };
+  // YouTube — handles watch?v=, youtu.be/, embed/, shorts/
+  var yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (yt) return { type:'youtube', id:yt[1], hash:null };
+  return null;
+}
+
+function _trFmtTime(secs) {
+  secs = Math.floor(secs || 0);
+  var m = Math.floor(secs / 60);
+  var s = secs % 60;
+  return m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function renderTheatreRoom() {
+  var body = document.getElementById('theatreBody');
+  if (!body) return;
+
+  // Couple selector
+  var pillsHtml = couples.map(function(c) {
+    var on = _trCouple === c.id ? ' on' : '';
+    return '<span class="tr-couple-pill' + on + '" onclick="trSelectCouple(\'' + c.id + '\')">' + esc(c.name) + '</span>';
+  }).join('');
+
+  if (!_trCouple && couples.length) _trCouple = couples[0].id;
+  if (!_trCouple) { body.innerHTML = '<div class="tr-empty">No couples yet</div>'; return; }
+
+  var videos = _trGetVideos(_trCouple);
+  if (_trVideo === null && videos.length) _trVideo = 0;
+  if (_trVideo !== null && _trVideo >= videos.length) _trVideo = videos.length ? 0 : null;
+
+  var videoListHtml = videos.map(function(v, i) {
+    var active = _trVideo === i ? ' active' : '';
+    var badge = v.type === 'vimeo' ? '<span class="tr-video-badge vimeo">Vimeo</span>' : '<span class="tr-video-badge youtube">YouTube</span>';
+    var commentCount = (v.comments || []).length;
+    return '<div class="tr-video-card' + active + '" onclick="trSelectVideo(' + i + ')">' +
+      '<div style="flex:1;min-width:0;">' +
+        '<div class="tr-video-title">' + esc(v.title || 'Untitled') + ' ' + badge + '</div>' +
+        '<div class="tr-video-meta">' + esc(v.event || '') + (commentCount ? ' · ' + commentCount + ' note' + (commentCount>1?'s':'') : '') + '</div>' +
+      '</div>' +
+      ((_isAdmin() || _isEditorPlusOwner()) ? '<button class="tr-comment-delete" onclick="event.stopPropagation();trRemoveVideo(' + i + ')" title="Remove">✕</button>' : '') +
+    '</div>';
+  }).join('');
+
+  // Add video form (admin or editor+ in own company)
+  var canManageVideos = _isAdmin() || _isEditorPlusOwner();
+  var addFormHtml = canManageVideos ? '<div class="tr-add-form">' +
+    '<input id="trAddUrl" placeholder="Paste Vimeo or YouTube URL" style="flex:1;min-width:200px;" onkeydown="if(event.key===\'Enter\')trAddVideo()">' +
+    '<input id="trAddTitle" placeholder="Title (optional)" style="width:120px;" onkeydown="if(event.key===\'Enter\')trAddVideo()">' +
+    '<input id="trAddEvent" placeholder="Event (optional)" style="width:100px;" onkeydown="if(event.key===\'Enter\')trAddVideo()">' +
+    '<button class="btn btn-red" style="font-size:.6rem;padding:.3rem .5rem;white-space:nowrap;" onclick="trAddVideo()">+ Add Video</button>' +
+  '</div>' : '';
+
+  // Player + comments for selected video
+  var playerHtml = '';
+  var commentsHtml = '';
+  if (_trVideo !== null && videos[_trVideo]) {
+    var vid = videos[_trVideo];
+    var embedUrl = vid.type === 'vimeo'
+      ? 'https://player.vimeo.com/video/' + vid.videoId + '?badge=0&autopause=0' + (vid.hash ? '&h=' + vid.hash : '')
+      : 'https://www.youtube.com/embed/' + vid.videoId + '?enablejsapi=1&origin=' + encodeURIComponent(location.origin);
+
+    playerHtml = '<div class="tr-player-wrap"><iframe id="trPlayerFrame" src="' + embedUrl + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>';
+
+    // Comments sorted by timestamp
+    var sortedComments = (vid.comments || []).slice().sort(function(a,b){ return (a.time||0) - (b.time||0); });
+    var commentsListHtml = sortedComments.map(function(c, ci) {
+      var origIdx = (vid.comments || []).indexOf(c);
+      return '<div class="tr-comment-item">' +
+        '<span class="tr-comment-time" onclick="trSeekTo(' + (c.time||0) + ')" title="Jump to ' + _trFmtTime(c.time) + '">' + _trFmtTime(c.time) + '</span>' +
+        '<div style="flex:1;min-width:0;">' +
+          '<div class="tr-comment-body">' + esc(c.text) + '</div>' +
+          '<div class="tr-comment-author">' + esc(c.author || '') + '</div>' +
+        '</div>' +
+        '<button class="tr-comment-delete" onclick="trDeleteComment(' + origIdx + ')" title="Delete">✕</button>' +
+      '</div>';
+    }).join('');
+
+    commentsHtml = '<div class="tr-comment-section">' +
+      '<div class="tr-comment-bar">' +
+        '<button class="tr-timestamp-btn" onclick="trStampComment()" title="Pause video & capture timestamp">⏸ Stamp</button>' +
+        '<input id="trCommentInput" placeholder="Leave a note at this moment..." onkeydown="if(event.key===\'Enter\')trPostComment()">' +
+        '<button class="btn btn-red" style="font-size:.58rem;padding:.25rem .5rem;" onclick="trPostComment()">Post</button>' +
+      '</div>' +
+      '<div id="trCurrentTime" style="font-family:\'Outfit\',sans-serif;font-size:.52rem;color:#533483;font-weight:700;margin-bottom:.5rem;">⏱ 0:00</div>' +
+      (commentsListHtml || '<div class="tr-empty" style="padding:.8rem;">No notes yet — pause the video and leave your first note</div>') +
+    '</div>';
+  }
+
+  body.innerHTML =
+    '<div class="tr-couple-select">' + pillsHtml + '</div>' +
+    addFormHtml +
+    '<div style="display:grid;grid-template-columns:' + (videos.length ? '260px 1fr' : '1fr') + ';gap:1.2rem;align-items:start;">' +
+      (videos.length ? '<div><div style="font-family:\'Outfit\',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:.4rem;">Videos</div><div class="tr-video-list">' + videoListHtml + '</div></div>' : '') +
+      '<div>' + (playerHtml ? playerHtml + commentsHtml : '<div class="tr-empty">Add a Vimeo or YouTube link to get started</div>') + '</div>' +
+    '</div>';
+
+  // Init player API after DOM renders
+  if (_trVideo !== null && videos[_trVideo]) {
+    setTimeout(function(){ _trInitPlayer(videos[_trVideo]); }, 300);
+  }
+}
+
+function _trInitPlayer(vid) {
+  _trPlayerReady = false;
+  _trPlayer = null;
+  _trPlayerType = vid.type;
+  var frame = document.getElementById('trPlayerFrame');
+  if (!frame) return;
+
+  if (vid.type === 'vimeo') {
+    // Load Vimeo Player API if needed
+    if (!window.Vimeo) {
+      var s = document.createElement('script');
+      s.src = 'https://player.vimeo.com/api/player.js';
+      s.onload = function() { _trInitVimeo(frame); };
+      document.head.appendChild(s);
+    } else {
+      _trInitVimeo(frame);
+    }
+  } else if (vid.type === 'youtube') {
+    // Load YouTube IFrame API if needed
+    if (!window.YT || !window.YT.Player) {
+      if (!window._ytApiLoading) {
+        window._ytApiLoading = true;
+        var s = document.createElement('script');
+        s.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(s);
+      }
+      window.onYouTubeIframeAPIReady = function() { _trInitYouTube(frame); };
+    } else {
+      _trInitYouTube(frame);
+    }
+  }
+  // Start time display updater
+  _trStartTimeUpdater();
+}
+
+function _trInitVimeo(frame) {
+  try {
+    _trPlayer = new Vimeo.Player(frame);
+    _trPlayerReady = true;
+  } catch(e) { console.warn('Vimeo init error:', e); }
+}
+
+function _trInitYouTube(frame) {
+  try {
+    _trPlayer = new YT.Player('trPlayerFrame', { events:{
+      onReady: function(){ _trPlayerReady = true; }
+    }});
+  } catch(e) { console.warn('YouTube init error:', e); }
+}
+
+var _trTimeInterval = null;
+function _trStartTimeUpdater() {
+  if (_trTimeInterval) clearInterval(_trTimeInterval);
+  _trTimeInterval = setInterval(function() {
+    _trGetCurrentTime(function(t) {
+      var el = document.getElementById('trCurrentTime');
+      if (el) el.textContent = '⏱ ' + _trFmtTime(t);
+    });
+  }, 500);
+}
+
+function _trGetCurrentTime(cb) {
+  if (!_trPlayerReady || !_trPlayer) { cb(0); return; }
+  if (_trPlayerType === 'vimeo') {
+    _trPlayer.getCurrentTime().then(function(t){ cb(t); }).catch(function(){ cb(0); });
+  } else if (_trPlayerType === 'youtube') {
+    try { cb(_trPlayer.getCurrentTime ? _trPlayer.getCurrentTime() : 0); } catch(e) { cb(0); }
+  } else { cb(0); }
+}
+
+function _trPause() {
+  if (!_trPlayerReady || !_trPlayer) return;
+  if (_trPlayerType === 'vimeo') {
+    _trPlayer.pause().catch(function(){});
+  } else if (_trPlayerType === 'youtube') {
+    try { _trPlayer.pauseVideo(); } catch(e) {}
+  }
+}
+
+function trSeekTo(secs) {
+  if (!_trPlayerReady || !_trPlayer) return;
+  if (_trPlayerType === 'vimeo') {
+    _trPlayer.setCurrentTime(secs).catch(function(){});
+  } else if (_trPlayerType === 'youtube') {
+    try { _trPlayer.seekTo(secs, true); } catch(e) {}
+  }
+}
+
+function trSelectCouple(id) {
+  _trCouple = id; _trVideo = null; _trPlayer = null; _trPlayerReady = false;
+  renderTheatreRoom();
+}
+
+function trSelectVideo(idx) {
+  _trVideo = idx; _trPlayer = null; _trPlayerReady = false;
+  renderTheatreRoom();
+}
+
+function trAddVideo() {
+  try {
+    var urlEl = document.getElementById('trAddUrl');
+    var titleEl = document.getElementById('trAddTitle');
+    var eventEl = document.getElementById('trAddEvent');
+    if (!urlEl) { toast('Form not found — try refreshing'); return; }
+    var url = urlEl.value;
+    if (!url || !url.trim()) { toast('Paste a video URL first'); urlEl.focus(); return; }
+    var parsed = _trParseUrl(url);
+    if (!parsed) { toast('Paste a valid Vimeo or YouTube URL'); urlEl.focus(); return; }
+    if (!_trCouple) { toast('Select a couple first'); return; }
+    var videos = _trGetVideos(_trCouple);
+    videos.push({
+      videoId: parsed.id,
+      type: parsed.type,
+      hash: parsed.hash || null,
+      title: (titleEl && titleEl.value||'').trim() || (parsed.type === 'vimeo' ? 'Vimeo Video' : 'YouTube Video'),
+      event: (eventEl && eventEl.value||'').trim(),
+      comments: [],
+      addedAt: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+    });
+    _trSaveVideos(_trCouple, videos);
+    _trVideo = videos.length - 1;
+    renderTheatreRoom();
+    toast('Video added');
+  } catch(e) {
+    console.error('trAddVideo error:', e);
+    toast('Error adding video: ' + e.message);
+  }
+}
+
+function trRemoveVideo(idx) {
+  var videos = _trGetVideos(_trCouple);
+  if (!videos[idx]) return;
+  if (!confirm('Remove "' + (videos[idx].title||'this video') + '"?')) return;
+  videos.splice(idx, 1);
+  _trSaveVideos(_trCouple, videos);
+  if (_trVideo >= videos.length) _trVideo = videos.length ? 0 : null;
+  _trPlayer = null; _trPlayerReady = false;
+  renderTheatreRoom();
+  toast('Video removed');
+}
+
+function trStampComment() {
+  _trPause();
+  _trGetCurrentTime(function(t) {
+    var el = document.getElementById('trCurrentTime');
+    if (el) el.textContent = '⏸ Paused at ' + _trFmtTime(t);
+    var inp = document.getElementById('trCommentInput');
+    if (inp) { inp.dataset.stamp = t; inp.focus(); }
+  });
+}
+
+function trPostComment() {
+  if (_trVideo === null || !_trCouple) return;
+  var inp = document.getElementById('trCommentInput');
+  var text = (inp.value||'').trim();
+  if (!text) { toast('Type a note first'); inp.focus(); return; }
+  var stamp = parseFloat(inp.dataset.stamp || '0');
+  // If no stamp yet, grab current time
+  if (!inp.dataset.stamp) {
+    _trPause();
+  }
+  _trGetCurrentTime(function(t) {
+    var time = inp.dataset.stamp ? stamp : t;
+    var videos = _trGetVideos(_trCouple);
+    if (!videos[_trVideo]) return;
+    if (!videos[_trVideo].comments) videos[_trVideo].comments = [];
+    videos[_trVideo].comments.push({
+      time: time,
+      text: text,
+      author: _currentUser ? _currentUser.displayName : 'Unknown',
+      at: new Date().toISOString()
+    });
+    _trSaveVideos(_trCouple, videos);
+    inp.value = ''; inp.dataset.stamp = '';
+    renderTheatreRoom();
+    // Re-select same video to keep player
+    toast('Note added at ' + _trFmtTime(time));
+  });
+}
+
+function trDeleteComment(idx) {
+  if (_trVideo === null || !_trCouple) return;
+  var videos = _trGetVideos(_trCouple);
+  if (!videos[_trVideo] || !videos[_trVideo].comments[idx]) return;
+  videos[_trVideo].comments.splice(idx, 1);
+  _trSaveVideos(_trCouple, videos);
+  renderTheatreRoom();
 }
 
 // ── Editing Room save helper ─────────────────────────────────────
@@ -6440,7 +7215,8 @@ function addCouple() {
   const editDueDate = document.getElementById('cEditDueDate').value || '';
   const editDueDuration = document.getElementById('cEditDueDuration').value.trim() || '';
   const editors = (document.getElementById('cEditors').value || '').split(',').map(e=>e.trim()).filter(Boolean);
-  const c = { id:uid(), name, year, month, weddingTypes, eventDate, editors, completedAt:null, editDueDate, editDueDuration };
+  const theatrePass = (document.getElementById('cTheatrePass').value || '').trim();
+  const c = { id:uid(), name, year, month, weddingTypes, eventDate, editors, completedAt:null, editDueDate, editDueDuration, theatrePass };
   couples.push(c); sv();
   closeAddCouple();
   populateFilterYears(); populateFilterTypes();
@@ -6510,6 +7286,7 @@ function selectCouple(id) {
   renderMain();
   renderCoupleSummary(); renderCoupleTimeline();
   _applyRoleVisibility();
+  _saveSession();
 }
 
 function selectCoupleAndOpen(coupleId, instId) {
@@ -6561,11 +7338,10 @@ function _getCurrentView() {
 }
 
 function goToDashboard() {
-  var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';
+  var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
   cur = null;
   document.getElementById('editorView').style.display = 'none';
   if (activeCompany) {
-    // Go back to company dashboard
     document.getElementById('mainApp').style.display = 'none';
     document.getElementById('companyDashView').style.display=''; var _gh2=document.getElementById('globalHeader');if(_gh2)_gh2.style.display=''; setPageLabel('Boardroom');
     renderDashPanels('coDashPanels','coDashBanner');
@@ -6575,6 +7351,7 @@ function goToDashboard() {
     renderDashboard();
     _applyRoleVisibility();
   }
+  _saveSession();
 }
 
 // ── COUNTDOWN HELPERS ────────────────────────────────
@@ -6785,7 +7562,7 @@ function renderCoupleCardHTML(c) {
       </div>`
     : '';
   const editorsHtml = (c.editors||[]).length
-    ? `<div class="cc-editors">${(c.editors||[]).map(e=>`<span class="cc-editor-chip">✂️ ${esc(e)}</span>`).join('')}</div>`
+    ? `<div class="cc-editors">${(c.editors||[]).map(e=>`<span class="cc-editor-chip"><span class="cc-editor-pic">${_userAvatar(e)}</span> ${esc(e)}</span>`).join('')}</div>`
     : '';
   const completedLine = `${isEditComplete && c.editCompletedAt ? `<div class="cc-complete-date" style="color:var(--forest);">✂️ Edits done ${esc(c.editCompletedAt)}</div>` : ''}${isShootComplete && c.shootCompletedAt ? `<div class="cc-complete-date" style="color:#2563eb;">📷 Shoots done ${esc(c.shootCompletedAt)}</div>` : ''}${isComplete && c.completedAt ? `<div class="cc-complete-date">🎉 Fully complete ${esc(c.completedAt)}</div>` : ''}`;
   const completeBanner = isComplete
@@ -6957,19 +7734,19 @@ function patchSummaryEvent(iid) {
   const timeStr = inst.timeFrom && inst.timeTo ? `${inst.timeFrom} – ${inst.timeTo}` : inst.timeFrom || inst.timeTo || '';
 
   const shooterParts = [];
-  if (inst.shooter && inst.shooter.trim() && inst.shooter !== 'N/A') shooterParts.push(esc(inst.shooter));
+  if (inst.shooter && inst.shooter.trim() && inst.shooter !== 'N/A') shooterParts.push(_userAvatarMini(inst.shooter)+esc(inst.shooter));
   if (showPhotoSvc) (inst.photographers||[]).forEach((n,i) => {
     if (n&&n.trim()&&n!=='N/A') {
       const cams = (inst.photographerCameras||[])[i];
       const camBadge = cams && cams > 1 ? ` <span class="cse-role">${cams}🎬</span>` : '';
-      shooterParts.push(esc(n)+' <span class="cse-role">Photo</span>'+camBadge);
+      shooterParts.push(_userAvatarMini(n)+esc(n)+' <span class="cse-role">Photo</span>'+camBadge);
     }
   });
   if (showVideoSvc) (inst.videographers||[]).forEach((n,i) => {
     if (n&&n.trim()&&n!=='N/A') {
       const cams = (inst.videographerCameras||[])[i];
       const camBadge = cams && cams > 1 ? ` <span class="cse-role">${cams}🎬</span>` : '';
-      shooterParts.push(esc(n)+' <span class="cse-role">Video</span>'+camBadge);
+      shooterParts.push(_userAvatarMini(n)+esc(n)+' <span class="cse-role">Video</span>'+camBadge);
     }
   });
 
@@ -6981,9 +7758,9 @@ function patchSummaryEvent(iid) {
   }
 
   const editorParts = [];
-  if (showPhotoSvc && inst.photoEditor) editorParts.push(esc(inst.photoEditor) + ' <span class="cse-role">Photo</span>');
-  if (showVideoSvc && inst.videoEditor) editorParts.push(esc(inst.videoEditor) + ' <span class="cse-role">Video</span>');
-  if (!editorParts.length && (showPhotoSvc || showVideoSvc) && inst.editor) editorParts.push(esc(inst.editor));
+  if (showPhotoSvc && inst.photoEditor) editorParts.push(_userAvatarMini(inst.photoEditor)+esc(inst.photoEditor) + ' <span class="cse-role">Photo</span>');
+  if (showVideoSvc && inst.videoEditor) editorParts.push(_userAvatarMini(inst.videoEditor)+esc(inst.videoEditor) + ' <span class="cse-role">Video</span>');
+  if (!editorParts.length && (showPhotoSvc || showVideoSvc) && inst.editor) editorParts.push(_userAvatarMini(inst.editor)+esc(inst.editor));
 
   const driveParts = [];
   if (showPhotoSvc && inst.photoEditingDrive) driveParts.push('📷 ' + esc(inst.photoEditingDrive));
@@ -7103,29 +7880,29 @@ function renderCoupleSummary() {
     const shooterParts = [];
     // Legacy shooter field (no specific role)
     if (inst.shooter && inst.shooter.trim() && inst.shooter !== 'N/A') {
-      shooterParts.push(esc(inst.shooter));
+      shooterParts.push(_userAvatarMini(inst.shooter)+esc(inst.shooter));
     }
     // Photographers — only if photo service active
     const showPhotoSvc2 = !!(inst.servicePhoto||inst.services==='photo'||inst.services==='both');
     const showVideoSvc2 = !!(inst.serviceVideo||inst.services==='video'||inst.services==='both');
     if (showPhotoSvc2) (inst.photographers||[]).forEach((n,i) => {
       if (n && n.trim() && n !== 'N/A') {
-        const already = shooterParts.some(p => p === esc(n));
+        const already = shooterParts.some(p => p.includes(esc(n)));
         if (!already) {
           const cams = (inst.photographerCameras||[])[i];
           const camBadge = cams && cams > 1 ? ` <span class="cse-role">${cams}🎬</span>` : '';
-          shooterParts.push(esc(n) + ' <span class="cse-role">Photo</span>' + camBadge);
+          shooterParts.push(_userAvatarMini(n)+esc(n) + ' <span class="cse-role">Photo</span>' + camBadge);
         }
       }
     });
     // Videographers — only if video service active
     if (showVideoSvc2) (inst.videographers||[]).forEach((n,i) => {
       if (n && n.trim() && n !== 'N/A') {
-        const already = shooterParts.some(p => p.startsWith(esc(n)));
+        const already = shooterParts.some(p => p.includes(esc(n)));
         if (!already) {
           const cams = (inst.videographerCameras||[])[i];
           const camBadge = cams && cams > 1 ? ` <span class="cse-role">${cams}🎬</span>` : '';
-          shooterParts.push(esc(n) + ' <span class="cse-role">Video</span>' + camBadge);
+          shooterParts.push(_userAvatarMini(n)+esc(n) + ' <span class="cse-role">Video</span>' + camBadge);
         }
       }
     });
@@ -7157,9 +7934,9 @@ function renderCoupleSummary() {
 
     // Editors — filtered by active services
     const editorParts = [];
-    if (showPhotoSvc2 && inst.photoEditor) editorParts.push(esc(inst.photoEditor) + ' <span class="cse-role">Photo</span>');
-    if (showVideoSvc2 && inst.videoEditor) editorParts.push(esc(inst.videoEditor) + ' <span class="cse-role">Video</span>');
-    if (!editorParts.length && (showPhotoSvc2 || showVideoSvc2) && inst.editor) editorParts.push(esc(inst.editor));
+    if (showPhotoSvc2 && inst.photoEditor) editorParts.push(_userAvatarMini(inst.photoEditor)+esc(inst.photoEditor) + ' <span class="cse-role">Photo</span>');
+    if (showVideoSvc2 && inst.videoEditor) editorParts.push(_userAvatarMini(inst.videoEditor)+esc(inst.videoEditor) + ' <span class="cse-role">Video</span>');
+    if (!editorParts.length && (showPhotoSvc2 || showVideoSvc2) && inst.editor) editorParts.push(_userAvatarMini(inst.editor)+esc(inst.editor));
     const editorsHtml = editorParts.length
       ? `<div class="cse-row" data-cse="editors"><span class="cse-icon">✂️</span><span class="cse-val">${editorParts.join('<br>')}</span></div>`
       : '';
@@ -7284,7 +8061,7 @@ function renderCoupleCard() {
     </div>
     <div class="cic-date">${MO[c.month]} ${c.year}</div>
     ${typeTags ? `<div class="cic-types">${typeTags}</div>` : ''}
-    ${(c.editors||[]).length ? `<div class="cc-editors" style="margin-top:.4rem;">${(c.editors||[]).map(e=>`<span class="cc-editor-chip">✂️ ${esc(e)}</span>`).join('')}</div>` : ''}
+    ${(c.editors||[]).length ? `<div class="cc-editors" style="margin-top:.4rem;">${(c.editors||[]).map(e=>`<span class="cc-editor-chip"><span class="cc-editor-pic">${_userAvatar(e)}</span> ${esc(e)}</span>`).join('')}</div>` : ''}
     ${isComplete && c.completedAt ? `<div class="cc-complete-date" style="margin-top:.35rem;">🎉 Completed ${esc(c.completedAt)}</div>` : ''}
     <div class="cic-countdown ${cdClass}">
       <div class="cic-cd-days" style="color:${cdStroke};">${cdDaysDisp}</div>
@@ -7352,6 +8129,7 @@ function openEditCouple(id) {
   document.getElementById('eEditDueDate').value = c.editDueDate || '';
   document.getElementById('eEditDueDuration').value = c.editDueDuration || (c.editDueDate ? '' : '90d');
   document.getElementById('eEditors').value = (c.editors||[]).join(', ');
+  document.getElementById('eTheatrePass').value = c.theatrePass || '';
   document.querySelectorAll('#editWeddingTypeGrid .wt-btn').forEach(b => {
     b.classList.toggle('selected', (c.weddingTypes||[]).includes(b.dataset.wt));
   });
@@ -7375,6 +8153,7 @@ function saveEditCouple() {
   const c = couples.find(x=>x.id===editingCoupleId); if (!c) return;
   c.name = name; c.year = year; c.month = month; c.weddingTypes = weddingTypes; c.eventDate = eventDate; c.editors = editors;
   c.editDueDate = editDueDate; c.editDueDuration = editDueDuration;
+  c.theatrePass = (document.getElementById('eTheatrePass').value||'').trim();
   sv();
   closeEditCouple();
   populateFilterYears(); populateFilterTypes();
@@ -7812,7 +8591,6 @@ function renderJourneyOverview() {
           <span class="ctl-film-title">◉ Client Journey</span>
           <span class="ctl-film-header-label" id="film-label-bar-main">&nbsp;</span>
           <div style="display:flex;align-items:center;gap:.7rem;">
-            <span class="ctl-film-fraction">${done} of ${total} complete</span>
             <button onclick="openTimeline('${co.id}')" style="font-family:'Outfit',sans-serif;font-size:.52rem;font-weight:700;letter-spacing:.08em;padding:.18rem .55rem;border-radius:20px;border:1px solid rgba(154,123,60,.4);background:rgba(154,123,60,.1);color:var(--gold-lt);cursor:pointer;text-transform:uppercase;">View All →</button>
           </div>
         </div>
@@ -9413,9 +10191,9 @@ function buildSec(inst) {
         <div class="ev-panel-body" onclick="event.stopPropagation()">
           <div class="song-add">
             <div class="lang-pick" id="lp${inst.id}">
-              <button class="lpbtn on" data-lang="en" onclick="setLangPick('${inst.id}','en',this)">EN</button>
+              <button class="lpbtn" data-lang="en" onclick="setLangPick('${inst.id}','en',this)">EN</button>
               <button class="lpbtn" data-lang="hi" onclick="setLangPick('${inst.id}','hi',this)">HI</button>
-              <button class="lpbtn" data-lang="pa" onclick="setLangPick('${inst.id}','pa',this)">PA</button>
+              <button class="lpbtn on" data-lang="pa" onclick="setLangPick('${inst.id}','pa',this)">PA</button>
               <button class="lpbtn" data-lang="inst" onclick="setLangPick('${inst.id}','inst',this)" title="Instrumental">🎻</button>
             </div>
             <div class="suggest-wrap">
@@ -10597,7 +11375,7 @@ function renderDashPanels(panelId, bannerId) {
 
     const safeEd = esc(ed).replace(/'/g, "\'");
     return `<div class="editor-row">
-      <div class="editor-avatar">${initials}</div>
+      <div class="editor-avatar">${_userAvatar(ed)}</div>
       <div class="editor-info">
         <div class="editor-name">✂️ ${esc(ed)}</div>
         ${newBlock}${changesBlock}${unsetBlock}${coupleBlock}${noActive}
@@ -10809,7 +11587,7 @@ function renderDashPanels(panelId, bannerId) {
 
           return `<div class="prod-editor-col">
             <div class="prod-editor-name-row">
-              <div class="prod-editor-avatar">${initials}</div>
+              <div class="prod-editor-avatar">${_userAvatar(ed)}</div>
               <div class="prod-editor-name">${esc(ed)}</div>
               <div class="prod-editor-count">${countDisplay}</div>
             </div>
@@ -11249,7 +12027,7 @@ function renderDashPanels(panelId, bannerId) {
 
     return `<div class="shooter-block">
       <div class="shooter-block-head">
-        <div class="shooter-avatar">${initials}</div>
+        <div class="shooter-avatar">${_userAvatar(displayName)}</div>
         <div class="shooter-name">📷 ${esc(displayName)}</div>
       </div>
       ${upcomingHtml}
@@ -11512,7 +12290,7 @@ function _renderEditorAnalytics(records) {
       '<thead><tr>' +
         '<th colspan="3" style="font-size:.7rem;padding-bottom:.4rem;">' +
           '<span style="display:inline-flex;align-items:center;gap:.4rem;">' +
-            '<span style="width:22px;height:22px;border-radius:50%;background:var(--gold);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;">' + initials + '</span>' +
+            '<span style="width:22px;height:22px;border-radius:50%;background:var(--gold);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;overflow:hidden;">' + _userAvatar(ed) + '</span>' +
             esc(ed) +
             '<span style="font-weight:400;color:var(--muted);margin-left:.2rem;">avg ' +
               '<span class="' + overallCls + '" style="font-weight:700;">' + _fmtAvgDays(overallAvg) + '</span>' +
@@ -12408,7 +13186,7 @@ function renderEditorFilter() {
   bar.style.display='flex';
   bar.innerHTML = `<span class="editor-filter-label">👤 Editor</span>
     <span class="editor-chip${editorFilter===''?' on':''}" onclick="setEditorFilter('')">All</span>
-    ${editors.map(e=>`<span class="editor-chip${editorFilter===e?' on':''}" onclick="setEditorFilter('${esc(e).replace(/'/g,"\'")}')">✂️ ${esc(e)}</span>`).join('')}`;
+    ${editors.map(e=>`<span class="editor-chip${editorFilter===e?' on':''}" onclick="setEditorFilter('${esc(e).replace(/'/g,"\'")}')"><span class="cc-editor-pic">${_userAvatar(e)}</span> ${esc(e)}</span>`).join('')}`;
 }
 
 function setEditorFilter(ed) {
@@ -12428,7 +13206,7 @@ function renderShooterFilter() {
   bar.style.display='flex';
   bar.innerHTML = `<span class="editor-filter-label">📷 Shooter</span>
     <span class="editor-chip${shooterFilter===''?' on':''}" onclick="setShooterFilter('')">All</span>
-    ${shooters.map(s=>`<span class="editor-chip${shooterFilter===s?' on':''}" onclick="setShooterFilter('${esc(s).replace(/'/g,"\'")}')">📷 ${esc(s)}</span>`).join('')}`;
+    ${shooters.map(s=>`<span class="editor-chip${shooterFilter===s?' on':''}" onclick="setShooterFilter('${esc(s).replace(/'/g,"\'")}')"><span class="cc-editor-pic">${_userAvatar(s)}</span> ${esc(s)}</span>`).join('')}`;
 }
 
 function setShooterFilter(sh) {
@@ -12791,7 +13569,7 @@ function setLangPick(iid, lang, btn) {
 }
 
 function getLangPick(iid) {
-  return document.querySelector(`#lp${iid} .lpbtn.on`)?.dataset.lang || 'en';
+  return document.querySelector(`#lp${iid} .lpbtn.on`)?.dataset.lang || 'pa';
 }
 
 function setSongLang(sid, btn, newLang) {
@@ -13384,6 +14162,116 @@ function selectDevice(layout) {
   renderCompanyGrid();
 }
 
+// ── Background colour picker ──────────────────────────────
+var _bgSwatches = [
+  {c:'#f9f6f0',n:'Parchment'},{c:'#fdf8f4',n:'Cream'},{c:'#f5f0e8',n:'Warm Sand'},
+  {c:'#f0ece4',n:'Linen'},{c:'#eee8de',n:'Wheat'},{c:'#f4f1eb',n:'Bone'},
+  {c:'#f0f2f6',n:'Ice Blue'},{c:'#eef2ed',n:'Sage'},{c:'#f5f0f5',n:'Lavender'},
+  {c:'#f8f0f0',n:'Blush'},{c:'#ffffff',n:'White'},{c:'#0e0e12',n:'Midnight'}
+];
+
+function setBgColor(color) {
+  document.documentElement.style.setProperty('--canvas', color);
+  localStorage.setItem('mt6_bg_color', color);
+  document.querySelectorAll('.bg-swatch').forEach(function(el) {
+    el.classList.toggle('active', el.dataset.bg === color);
+  });
+  var lv = document.getElementById('loginView'); if (lv) lv.style.background = color;
+  var as = document.getElementById('authScreen'); if (as) as.style.background = color;
+}
+
+// ── Profile Picture ──────────────────────────────────────
+function handleProfilePic(input) {
+  if (!input.files || !input.files[0] || !_currentUser) return;
+  var file = input.files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var size = 96;
+      canvas.width = size; canvas.height = size;
+      var ctx = canvas.getContext('2d');
+      var sx = 0, sy = 0, sw = img.width, sh = img.height;
+      if (sw > sh) { sx = (sw - sh) / 2; sw = sh; }
+      else { sy = (sh - sw) / 2; sh = sw; }
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, size, size);
+      var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+      // Save into user record
+      _currentUser.profilePic = dataUrl;
+      var u = _appUsers.find(function(x){ return x.username === _currentUser.username; });
+      if (u) u.profilePic = dataUrl;
+      localStorage.setItem('mt6_users', JSON.stringify(_appUsers));
+      cloudSave('mt6_users', _appUsers);
+      _applyProfilePic();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeProfilePic() {
+  if (!_currentUser) return;
+  delete _currentUser.profilePic;
+  var u = _appUsers.find(function(x){ return x.username === _currentUser.username; });
+  if (u) delete u.profilePic;
+  localStorage.setItem('mt6_users', JSON.stringify(_appUsers));
+  cloudSave('mt6_users', _appUsers);
+  _applyProfilePic();
+}
+
+function _applyProfilePic() {
+  if (!_currentUser) return;
+  var pic = _currentUser.profilePic || null;
+  var initials = _currentUser.displayName.split(' ').map(function(w){ return (w[0]||'').toUpperCase(); }).join('').slice(0,2);
+  var badgeEl = document.getElementById('badgeAvatar');
+  if (badgeEl) {
+    badgeEl.innerHTML = pic ? '<img src="' + pic + '" alt="">' : initials;
+  }
+  var previewEl = document.getElementById('profilePicPreview');
+  if (previewEl) {
+    previewEl.innerHTML = pic ? '<img src="' + pic + '" alt="" style="width:100%;height:100%;object-fit:cover;">' : initials;
+  }
+}
+
+// Get avatar HTML for any user by display name — returns <img> or initials text
+function _userAvatar(displayName) {
+  var initials = (displayName||'').split(' ').map(function(w){ return (w[0]||'').toUpperCase(); }).join('').slice(0,2) || '?';
+  var user = _appUsers.find(function(u){ return u.displayName === displayName; });
+  if (user && user.profilePic) {
+    return '<img src="' + user.profilePic + '" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+  }
+  return initials;
+}
+
+// Inline mini avatar (14px circle) for use in text rows
+function _userAvatarMini(displayName) {
+  var user = _appUsers.find(function(u){ return u.displayName === displayName; });
+  if (user && user.profilePic) {
+    return '<span style="display:inline-block;width:14px;height:14px;border-radius:50%;overflow:hidden;vertical-align:middle;margin-right:3px;"><img src="' + user.profilePic + '" style="width:100%;height:100%;object-fit:cover;"></span>';
+  }
+  return '';
+}
+
+function _renderModalBgPicker() {
+  var el = document.getElementById('modalBgPicker'); if (!el) return;
+  var saved = localStorage.getItem('mt6_bg_color') || '#f9f6f0';
+  el.innerHTML = _bgSwatches.map(function(s) {
+    return '<button class="bg-swatch' + (s.c === saved ? ' active' : '') + '" data-bg="' + s.c + '" onclick="setBgColor(\'' + s.c + '\')" title="' + s.n + '" style="background:' + s.c + ';"></button>';
+  }).join('') +
+  '<label class="bg-swatch bg-swatch-custom" title="Custom colour">' +
+    '<input type="color" value="' + saved + '" onchange="setBgColor(this.value)" style="position:absolute;opacity:0;width:0;height:0;">' +
+    '🎨</label>';
+}
+
+(function _restoreBgColor() {
+  var saved = localStorage.getItem('mt6_bg_color');
+  if (saved) {
+    document.documentElement.style.setProperty('--canvas', saved);
+    var lv = document.getElementById('loginView'); if (lv) lv.style.background = saved;
+  }
+})();
+
 function showDevicePicker() {
   document.getElementById('loginDeviceStep').style.display = '';
   document.getElementById('loginCompanyStep').style.display = 'none';
@@ -13394,9 +14282,32 @@ function renderCompanyGrid() {
   if (!grid) return;
 
   let visibleCos = companies;
-  if (_isEditor()) {
+  if (_isEditorPlus()) {
+    // Editor+ sees their owned companies + companies where they're assigned as editor
+    const owned = _currentUser.companies || [];
     const edName = _editorName();
-    // Scan each company's cached data in localStorage to find editor assignments
+    visibleCos = companies.filter(function(co) {
+      if (owned.indexOf(co.id) !== -1) return true; // owned company
+      try {
+        var instsData = JSON.parse(localStorage.getItem('mt6_i_' + co.id) || '[]');
+        var couplesData = JSON.parse(localStorage.getItem('mt6_c_' + co.id) || '[]');
+        var hasInst = instsData.some(function(i) {
+          return (i.editor||'').trim() === edName ||
+                 (i.photoEditor||'').trim() === edName ||
+                 (i.videoEditor||'').trim() === edName ||
+                 (i.shooter||'').trim() === edName ||
+                 (i.photographers||[]).some(function(p){ return (p||'').trim() === edName; }) ||
+                 (i.videographers||[]).some(function(v){ return (v||'').trim() === edName; });
+        });
+        var hasCouple = couplesData.some(function(c) {
+          return (c.editors||[]).some(function(e){ return e.trim() === edName; });
+        });
+        return hasInst || hasCouple;
+      } catch(e) { return false; }
+    });
+    if (!visibleCos.length) visibleCos = companies;
+  } else if (_currentUser && _currentUser.role === 'editor') {
+    const edName = _editorName();
     visibleCos = companies.filter(function(co) {
       try {
         var instsData = JSON.parse(localStorage.getItem('mt6_i_' + co.id) || '[]');
@@ -13415,16 +14326,20 @@ function renderCompanyGrid() {
         return hasInst || hasCouple;
       } catch(e) { return false; }
     });
-    // If no cached data yet (first visit), show all companies so they can load
     if (!visibleCos.length) visibleCos = companies;
   }
 
-  grid.innerHTML = visibleCos.map(co => `
-    <div class="company-card" onclick="selectCompanyDash('${co.id}')">
+  const showAdd = _isGlobalAdmin() || _isEditorPlus();
+  const ownedCos = (_currentUser && _currentUser.companies) || [];
+  grid.innerHTML = visibleCos.map(co => {
+    var canDelete = _isGlobalAdmin() || (_isEditorPlus() && ownedCos.indexOf(co.id) !== -1);
+    return `<div class="company-card" onclick="selectCompanyDash('${co.id}')">
+      ${canDelete ? `<button class="co-delete-btn" onclick="event.stopPropagation();removeCompany('${co.id}')" title="Remove company">✕</button>` : ''}
       <span class="company-card-icon">${co.icon}</span>
       <div class="company-card-name">${esc(co.name)}</div>
       <div class="company-card-hint">Open workspace</div>
-    </div>`).join('') + (_isAdmin() ? `
+    </div>`;
+  }).join('') + (showAdd ? `
     <div class="company-card add-new" onclick="openNewCo()">
       <span class="company-card-icon">＋</span>
       <div class="company-card-name">Add Company</div>
@@ -13470,6 +14385,7 @@ function normaliseInsts() {
 
 async function loadCompanyData(id) {
   activeCompany = id;
+  _saveSession();
   var _lco=companies.find(function(x){return x.id===id;});if(_lco)setCompanyLabel(_lco.name);
   // Pull from cloud first (overwrites localStorage cache)
   await cloudPull(id);
@@ -13484,13 +14400,13 @@ async function loadCompanyData(id) {
   normaliseInsts();
   // Migrate all clients: re-run ctlGet on every couple to fix ordering, labels, stale steps
   couples.forEach(function(co) { ctlGet(co.id); });
-  sv();
+  _svLocal();
   cur = null;
   editorFilter = '';
   shooterFilter = '';
   const co = companies.find(x=>x.id===id);
   if (co) {
-    document.getElementById('coDashIcon').textContent = co.icon || '🎬';
+    document.getElementById('coDashIcon').textContent = '🏢';
     document.getElementById('coDashName').textContent = 'Boardroom';
     const bcName = document.getElementById('bc_company_name');
     if (bcName) bcName.textContent = co.name || 'Dashboard';
@@ -13505,6 +14421,7 @@ async function selectCompanyDash(id) {
   document.getElementById('companyDashView').style.display=''; var _gh2=document.getElementById('globalHeader');if(_gh2)_gh2.style.display=''; setPageLabel('Boardroom');
   renderDashPanels('coDashPanels','coDashBanner');
   _applyRoleVisibility();
+  _saveSession();
 }
 
 async function selectCompanyClients(id) {
@@ -13513,7 +14430,7 @@ async function selectCompanyClients(id) {
   const heroName = document.getElementById('allClientsHeroName');
   const heroIcon = document.getElementById('allClientsIcon');
   if (heroName) heroName.textContent = 'Client Lounge';
-  if (co && heroIcon) heroIcon.textContent = co.icon || '👥';
+  if (heroIcon) heroIcon.textContent = '👥';
   document.getElementById('loginView').style.display = 'none';
   document.getElementById('companyDashView').style.display = 'none';
   document.getElementById('mainApp').style.display=''; var _gh3=document.getElementById('globalHeader');if(_gh3)_gh3.style.display='';
@@ -13526,6 +14443,7 @@ async function selectCompanyClients(id) {
 
 async function selectCompany(id) {
   activeCompany = id;
+  _saveSession();
   // Pull from cloud first
   await cloudPull(id);
   // Load this company's data into the shared variables
@@ -13540,14 +14458,14 @@ async function selectCompany(id) {
   normaliseInsts();
   // Migrate all clients: re-run ctlGet on every couple to fix ordering, labels, stale steps
   couples.forEach(function(co) { ctlGet(co.id); });
-  sv();
+  _svLocal();
   cur = null;
   editorFilter = '';
   shooterFilter = '';
   // Show company dashboard first
   const co = companies.find(x=>x.id===id);
   if (co) {
-    document.getElementById('coDashIcon').textContent = co.icon || '🎬';
+    document.getElementById('coDashIcon').textContent = '🏢';
     document.getElementById('coDashName').textContent = 'Boardroom';
     const bcName = document.getElementById('bc_company_name');
     if (bcName) bcName.textContent = co.name || 'Dashboard';
@@ -13562,13 +14480,13 @@ async function selectCompany(id) {
 function goToAllCouples() {
   // Editor: save current view before switching (for modal close navigation)
   if (_isEditor()) _editorPrevView = _getCurrentView();
-  var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';
+  var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
   // Update All Clients hero with company info
   const co = companies.find(x=>x.id===activeCompany);
   const heroName = document.getElementById('allClientsHeroName');
   const heroIcon = document.getElementById('allClientsIcon');
   if (heroName) heroName.textContent = 'Client Lounge';
-  if (co && heroIcon) heroIcon.textContent = co.icon || '👥';
+  if (heroIcon) heroIcon.textContent = '👥';
   document.getElementById('companyDashView').style.display = 'none';
   document.getElementById('mainApp').style.display=''; var _gh3=document.getElementById('globalHeader');if(_gh3)_gh3.style.display='';
   document.getElementById('dashView').style.display=''; setPageLabel('Client Lounge');
@@ -13578,11 +14496,13 @@ function goToAllCouples() {
   renderEditorFilter();
   renderShooterFilter();
   _applyRoleVisibility();
+  _saveSession();
 }
 
 function backToLogin() {
-  var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';
+  var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
   activeCompany = null;
+  _saveSession();
   cur = null;
   document.getElementById('mainApp').style.display = 'none';
   document.getElementById('companyDashView').style.display = 'none';
@@ -13594,6 +14514,7 @@ function backToLogin() {
 }
 
 function openNewCo() {
+  if (!_isGlobalAdmin() && !_isEditorPlus()) return;
   document.getElementById('newCoName').value = '';
   document.getElementById('newCoIcon').value = '';
   document.getElementById('newCoOverlay').classList.add('open');
@@ -13603,6 +14524,7 @@ function closeNewCo() {
   document.getElementById('newCoOverlay').classList.remove('open');
 }
 function saveNewCo() {
+  if (!_isGlobalAdmin() && !_isEditorPlus()) return;
   const name = document.getElementById('newCoName').value.trim();
   const icon = document.getElementById('newCoIcon').value.trim() || '🎬';
   if (!name) { document.getElementById('newCoName').focus(); return; }
@@ -13610,14 +14532,105 @@ function saveNewCo() {
   companies.push({ id, name, icon });
   localStorage.setItem('mt6_companies', JSON.stringify(companies));
   cloudSave('mt6_companies', companies);
+  // If Editor+ created this company, assign ownership
+  if (_isEditorPlus()) {
+    if (!_currentUser.companies) _currentUser.companies = [];
+    _currentUser.companies.push(id);
+    var u = _appUsers.find(function(x){ return x.username === _currentUser.username; });
+    if (u) { u.companies = _currentUser.companies; }
+    _saveUsers();
+  }
   closeNewCo();
   renderCompanyGrid();
   toast('Company created: ' + name);
 }
 
+function removeCompany(id) {
+  var co = companies.find(function(c){ return c.id === id; });
+  if (!co) return;
+  // Permission check: global admin can delete any, editor+ only their own
+  if (!_isGlobalAdmin()) {
+    var owned = (_currentUser && _currentUser.companies) || [];
+    if (owned.indexOf(id) === -1) { toast('You can only remove your own companies'); return; }
+  }
+  if (!confirm('Remove "' + co.name + '"?\n\nThis will delete the company and all its data. This cannot be undone.')) return;
+  // Remove company from list
+  companies = companies.filter(function(c){ return c.id !== id; });
+  localStorage.setItem('mt6_companies', JSON.stringify(companies));
+  cloudSave('mt6_companies', companies);
+  // Clean up company data from localStorage
+  ['mt6_c_','mt6_s_','mt6_i_','mt6_os_','mt6_oy_','mt6_lib_','mt6_hist_','mt6_dashview_'].forEach(function(prefix) {
+    localStorage.removeItem(prefix + id);
+  });
+  // Remove from editor+ ownership if applicable
+  if (_isEditorPlus() && _currentUser.companies) {
+    _currentUser.companies = _currentUser.companies.filter(function(cid){ return cid !== id; });
+    var u = _appUsers.find(function(x){ return x.username === _currentUser.username; });
+    if (u) u.companies = _currentUser.companies;
+    _saveUsers();
+  }
+  // If we were viewing this company, go back
+  if (activeCompany === id) {
+    activeCompany = null;
+    _saveSession();
+  }
+  renderCompanyGrid();
+  toast('Removed: ' + co.name);
+}
+
 // ── INIT ─────────────────────────────────────────────
 initTheme();
 renderCompanyGrid();
+
+// ── Auto-restore session on refresh ──────────────────
+(async function _autoRestoreSession() {
+  var sess = _checkSession();
+  if (!sess) return; // no saved session — show auth screen
+
+  _historyNav = true; // suppress pushState during restore
+
+  // User is valid — skip auth screen, show company picker
+  _showApp();
+
+  if (!sess.companyId) {
+    // Set initial history state at company picker
+    history.replaceState({ username: sess.username, companyId: null, coupleId: null, view: 'companies' }, '', '');
+    _historyNav = false;
+    return;
+  }
+
+  // Wait for cloud connectivity (up to 3s) then load company
+  var waited = 0;
+  while (!_cloudReady && waited < 3000) {
+    await new Promise(function(r){ setTimeout(r, 200); });
+    waited += 200;
+  }
+
+  // Load company data (works even without cloud — falls back to localStorage)
+  try {
+    var view = sess.view || 'boardroom';
+    if (view === 'clientLounge') {
+      await selectCompanyClients(sess.companyId);
+    } else if (view === 'editingRoom') {
+      await selectCompanyDash(sess.companyId);
+      goToEditingRoom();
+    } else if (view === 'theatreRoom') {
+      await selectCompanyDash(sess.companyId);
+      goToTheatreRoom();
+    } else if (view === 'productionOffice' && sess.coupleId) {
+      await selectCompanyClients(sess.companyId);
+      selectCouple(sess.coupleId);
+    } else {
+      await selectCompanyDash(sess.companyId);
+    }
+  } catch(e) {
+    console.warn('Session restore error:', e);
+  }
+
+  // Set initial history state at current view
+  history.replaceState(JSON.parse(localStorage.getItem('mt6_session') || '{}'), '', '');
+  _historyNav = false;
+})();
 
 // ── Auto-migrate to cloud if cloud is empty ─────────
 async function _cloudAutoMigrate() {
