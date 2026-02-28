@@ -7852,11 +7852,13 @@ function renderDashboard() {
   }
   const byY = {};
   filtered.forEach(c => {
-    if (!byY[c.year]) byY[c.year] = {};
-    if (!byY[c.year][c.month]) byY[c.year][c.month] = [];
-    byY[c.year][c.month].push(c);
+    var yr = c.year || new Date().getFullYear();
+    var mo = c.month || 1;
+    if (!byY[yr]) byY[yr] = {};
+    if (!byY[yr][mo]) byY[yr][mo] = [];
+    byY[yr][mo].push(c);
   });
-  const years = Object.keys(byY).map(Number).sort((a,b)=>b-a);
+  const years = Object.keys(byY).map(Number).filter(n => !isNaN(n)).sort((a,b)=>b-a);
 
   if (dashViewMode === 'compact') {
     const allSorted = filtered.sort((a,b)=> a.year!==b.year ? b.year-a.year : a.month!==b.month ? a.month-b.month : a.name.localeCompare(b.name));
@@ -14835,7 +14837,7 @@ async function loadCompanyData(id) {
   _saveSession();
   var _lco=companies.find(function(x){return x.id===id;});if(_lco)setCompanyLabel(_lco.name);
   // Pull from cloud first (overwrites localStorage cache)
-  await cloudPull(id);
+  try { await cloudPull(id); } catch(e) { console.warn('Cloud pull failed for', id, e); }
   couples      = ld(coKey('mt6_c'),    []);
   songs        = ld(coKey('mt6_s'),    []);
   insts        = ld(coKey('mt6_i'),    []);
@@ -14844,9 +14846,9 @@ async function loadCompanyData(id) {
   songLib      = ld(coKey('mt6_lib'),  {});
   songHist     = ld(coKey('mt6_hist'), {});
   dashViewMode = localStorage.getItem(coKey('mt6_dashview')) || 'grid';
-  normaliseInsts();
+  try { normaliseInsts(); } catch(e) { console.warn('normaliseInsts error:', e); }
   // Migrate all clients: re-run ctlGet on every couple to fix ordering, labels, stale steps
-  couples.forEach(function(co) { ctlGet(co.id); });
+  couples.forEach(function(co) { try { ctlGet(co.id); } catch(e) { console.warn('ctlGet error for', co.id, e); } });
   _svLocal();
   cur = null;
   editorFilter = '';
@@ -14858,16 +14860,23 @@ async function loadCompanyData(id) {
     const bcName = document.getElementById('bc_company_name');
     if (bcName) bcName.textContent = co.name || 'Dashboard';
   }
-  initYears();
+  try { initYears(); } catch(e) { console.warn('initYears error:', e); }
 }
 
 async function selectCompanyDash(id) {
-  await loadCompanyData(id);
+  try {
+    await loadCompanyData(id);
+  } catch(e) {
+    console.error('loadCompanyData failed for', id, e);
+  }
   document.getElementById('loginView').style.display = 'none';
   document.getElementById('mainApp').style.display = 'none';
+  var _er=document.getElementById('editingRoomView');if(_er)_er.style.display='none';
+  var _tr=document.getElementById('theatreRoomView');if(_tr)_tr.style.display='none';
+  var _po=document.getElementById('productionOfficeView');if(_po)_po.style.display='none';
   document.getElementById('companyDashView').style.display='';
   var _gh2=document.getElementById('globalHeader');if(_gh2)_gh2.style.display=''; setPageLabel('Boardroom');
-  renderDashPanels('coDashPanels','coDashBanner');
+  try { renderDashPanels('coDashPanels','coDashBanner'); } catch(e) { console.error('renderDashPanels error:', e); }
   _applyRoleVisibility();
   _saveSession();
 }
