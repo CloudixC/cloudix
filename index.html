@@ -3044,7 +3044,208 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .rev-badge.video { background:rgba(139,92,246,.07); border:1px solid rgba(139,92,246,.18); color:#7c3aed; }
 .rev-no-items { padding:1.5rem 2rem; font-size:.72rem; color:var(--ink5); font-style:italic; text-align:center; }
 
-/* ── Overdue Panel ── */
+/* ── Priority Queue (What to Work On) ── */
+.priority-list { display:flex; flex-direction:column; gap:.6rem; }
+.priority-card {
+  display:flex; align-items:center; gap:.8rem; padding:.7rem .9rem;
+  background:var(--warm-white); border:1px solid var(--rule2); border-radius:10px;
+  cursor:pointer; transition:all .15s; border-left:4px solid var(--rule2);
+}
+.priority-card.border-red { border-left-color:#dc2626; background:rgba(220,38,38,.02); }
+.priority-card.border-orange { border-left-color:#ea580c; background:rgba(234,88,12,.02); }
+.priority-card.border-purple { border-left-color:#9333ea; background:rgba(147,51,234,.02); }
+.priority-card.border-gray { border-left-color:#6b7280; background:rgba(107,114,128,.02); }
+.priority-card.border-blue { border-left-color:#2563eb; background:rgba(37,99,235,.02); }
+.priority-card:hover { border-color:var(--gold); box-shadow:0 2px 12px rgba(0,0,0,.06); }
+.priority-rank {
+  font-family:'Outfit',sans-serif; font-size:.65rem; font-weight:800;
+  color:#fff; min-width:24px; height:24px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.priority-rank.rank-1 { background:#dc2626; }
+.priority-rank.rank-2 { background:#ea580c; }
+.priority-rank.rank-3 { background:#d97706; }
+.priority-rank.rank-n { background:var(--ink5); }
+.priority-info { flex:1; min-width:0; }
+.priority-name { font-family:'Outfit',sans-serif; font-size:.78rem; font-weight:700; color:var(--ink); }
+.priority-reason { font-family:'Outfit',sans-serif; font-size:.6rem; color:var(--ink5); margin-top:.1rem; line-height:1.3; }
+.priority-badge {
+  font-family:'Outfit',sans-serif; font-size:.52rem; font-weight:700;
+  padding:.15rem .45rem; border-radius:12px; white-space:nowrap; flex-shrink:0;
+  letter-spacing:.03em; text-transform:uppercase;
+}
+.priority-badge.overdue { background:rgba(220,38,38,.1); color:#dc2626; border:1px solid rgba(220,38,38,.2); }
+.priority-badge.due-soon { background:rgba(234,88,12,.1); color:#ea580c; border:1px solid rgba(234,88,12,.2); }
+.priority-badge.stale { background:rgba(107,114,128,.1); color:#6b7280; border:1px solid rgba(107,114,128,.2); }
+.priority-badge.revision { background:rgba(147,51,234,.1); color:#9333ea; border:1px solid rgba(147,51,234,.2); }
+.priority-badge.in-progress { background:rgba(37,99,235,.1); color:#2563eb; border:1px solid rgba(37,99,235,.2); }
+.priority-empty {
+  text-align:center; padding:1.5rem; font-family:'Outfit',sans-serif;
+  font-size:.75rem; color:var(--ink5); font-style:italic;
+}
+
+/* ── Priority Summary Modal ── */
+.priority-modal-overlay {
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.45);
+  z-index:10000; align-items:center; justify-content:center; padding:1.5rem;
+}
+.priority-modal-overlay.open { display:flex; }
+.priority-modal {
+  background:var(--warm-white); border-radius:14px; max-width:520px; width:100%;
+  max-height:85vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,.25);
+  padding:0; position:relative;
+}
+.pm-header {
+  padding:1.2rem 1.4rem .8rem; border-bottom:1px solid var(--rule);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.pm-header-left { display:flex; align-items:center; gap:.6rem; }
+.pm-header-rank {
+  font-family:'Outfit',sans-serif; font-size:.6rem; font-weight:800;
+  color:#fff; width:26px; height:26px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.pm-header-name { font-family:'Outfit',sans-serif; font-size:.95rem; font-weight:700; color:var(--ink); }
+.pm-close {
+  background:none; border:none; font-size:1.2rem; color:var(--ink5);
+  cursor:pointer; padding:.2rem; line-height:1;
+}
+.pm-close:hover { color:var(--ink); }
+.pm-body { padding:1rem 1.4rem 1.4rem; }
+.pm-section { margin-bottom:1rem; }
+.pm-section:last-child { margin-bottom:0; }
+.pm-section-title {
+  font-family:'Outfit',sans-serif; font-size:.55rem; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink5);
+  margin-bottom:.4rem;
+}
+.pm-stat-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:.3rem 0; font-family:'Outfit',sans-serif; font-size:.72rem;
+}
+.pm-stat-label { color:var(--ink5); }
+.pm-stat-value { font-weight:600; color:var(--ink); }
+.pm-stat-value.red { color:#dc2626; }
+.pm-stat-value.green { color:#16a34a; }
+.pm-stat-value.orange { color:#ea580c; }
+.pm-stat-value.purple { color:#9333ea; }
+.pm-progress-bar {
+  width:100%; height:6px; background:var(--rule); border-radius:4px;
+  overflow:hidden; margin-top:.3rem;
+}
+.pm-progress-fill { height:100%; border-radius:4px; transition:width .3s; }
+.pm-event-list { display:flex; flex-direction:column; gap:.35rem; }
+.pm-event-row {
+  display:flex; align-items:center; gap:.5rem; padding:.35rem .5rem;
+  background:rgba(0,0,0,.02); border:1px solid var(--rule); border-radius:8px;
+  font-family:'Outfit',sans-serif; font-size:.65rem;
+}
+.pm-event-row.has-revision {
+  background:rgba(147,51,234,.06); border-color:rgba(147,51,234,.2);
+  border-left:3px solid #9333ea;
+}
+.pm-event-name { flex:1; font-weight:600; color:var(--ink); }
+.pm-event-status { font-size:.52rem; font-weight:700; padding:.12rem .35rem; border-radius:10px; text-transform:uppercase; letter-spacing:.04em; }
+.pm-event-status.approved { background:rgba(22,163,74,.1); color:#16a34a; }
+.pm-event-status.in-progress { background:rgba(37,99,235,.1); color:#2563eb; }
+.pm-event-status.revision { background:rgba(147,51,234,.1); color:#9333ea; }
+.pm-event-status.not-started { background:rgba(107,114,128,.1); color:#6b7280; }
+.pm-actions { display:flex; gap:.5rem; margin-top:1rem; }
+.pm-btn {
+  flex:1; padding:.5rem; border:none; border-radius:8px; font-family:'Outfit',sans-serif;
+  font-size:.65rem; font-weight:700; cursor:pointer; text-align:center; transition:all .15s;
+}
+.pm-btn-primary { background:var(--gold); color:#fff; }
+.pm-btn-primary:hover { background:var(--gold-dk); }
+.pm-btn-secondary { background:var(--card); color:var(--ink); border:1px solid var(--rule2); }
+.pm-btn-secondary:hover { border-color:var(--gold); }
+
+/* ── Recently Completed ── */
+.recent-done-list { display:flex; flex-direction:column; gap:.4rem; }
+.recent-done-card {
+  display:flex; align-items:center; gap:.7rem; padding:.5rem .7rem;
+  background:var(--warm-white); border:1px solid var(--rule2); border-left:3px solid #16a34a;
+  border-radius:8px; font-family:'Outfit',sans-serif; transition:all .15s;
+}
+.recent-done-card:hover { border-color:#16a34a; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+.recent-done-icon { font-size:.8rem; flex-shrink:0; }
+.recent-done-info { flex:1; min-width:0; }
+.recent-done-name { font-size:.72rem; font-weight:700; color:var(--ink); }
+.recent-done-detail { font-size:.58rem; color:var(--ink5); margin-top:.05rem; }
+.recent-done-right { display:flex; flex-direction:column; align-items:flex-end; gap:.1rem; flex-shrink:0; }
+.recent-done-date { font-family:'Outfit',sans-serif; font-size:.5rem; color:var(--ink5); }
+.recent-done-badge {
+  font-family:'Outfit',sans-serif; font-size:.48rem; font-weight:700;
+  padding:.1rem .35rem; border-radius:8px; text-transform:uppercase;
+  background:rgba(22,163,74,.08); color:#16a34a; border:1px solid rgba(22,163,74,.2);
+}
+
+/* ── Drag & Drop Assignment ── */
+.priority-expand {
+  background:none; border:none; cursor:pointer; font-size:.65rem;
+  color:var(--ink5); padding:.2rem; transition:transform .2s; flex-shrink:0;
+}
+.priority-expand.open { transform:rotate(180deg); }
+.priority-events { display:none; padding:.4rem 0 0 2.8rem; }
+.priority-events.open { display:block; }
+.priority-drag-event {
+  display:flex; align-items:center; gap:.5rem; padding:.35rem .5rem;
+  margin-bottom:.3rem; background:var(--warm-white); border:1px solid var(--rule2);
+  border-radius:6px; cursor:grab; font-family:'Outfit',sans-serif; font-size:.62rem;
+  transition:all .15s; user-select:none;
+}
+.priority-drag-event:active { cursor:grabbing; }
+.priority-drag-event:hover { border-color:var(--gold); box-shadow:0 2px 8px rgba(0,0,0,.06); }
+.priority-drag-event .drag-handle { color:var(--ink5); font-size:.55rem; cursor:grab; flex-shrink:0; }
+.priority-drag-event .drag-ev-name { flex:1; font-weight:600; color:var(--ink); }
+.priority-drag-event .drag-ev-svc { font-size:.48rem; color:var(--ink5); }
+.priority-drag-event .drag-ev-status { font-size:.48rem; font-weight:700; padding:.1rem .3rem; border-radius:8px; text-transform:uppercase; }
+.priority-drag-event .drag-ev-status.pending { background:rgba(107,114,128,.1); color:#6b7280; }
+.priority-drag-event .drag-ev-status.revision { background:rgba(147,51,234,.1); color:#9333ea; }
+.priority-drag-event .drag-ev-status.in-progress { background:rgba(37,99,235,.1); color:#2563eb; }
+.priority-drag-event .drag-ev-status.assigned { background:rgba(22,163,74,.1); color:#16a34a; }
+.priority-drag-event.dragging { opacity:.4; border-style:dashed; }
+.prod-editor-col.drag-over {
+  border-color:#2563eb !important; background:rgba(37,99,235,.04) !important;
+  box-shadow:0 0 0 3px rgba(37,99,235,.15) !important;
+}
+.prod-drop-zone {
+  border:2px dashed var(--rule2); border-radius:8px; padding:.6rem;
+  text-align:center; font-family:'Outfit',sans-serif; font-size:.58rem;
+  color:var(--ink5); transition:all .2s; margin-top:.4rem;
+}
+.prod-drop-zone.drag-over { border-color:#2563eb; background:rgba(37,99,235,.06); color:#2563eb; }
+.prod-unassign {
+  position:absolute; top:.35rem; right:.35rem; background:none; border:none;
+  font-size:.6rem; color:var(--ink5); cursor:pointer; padding:.1rem .25rem;
+  border-radius:4px; transition:all .15s; opacity:0; z-index:2;
+}
+.prod-project-card:hover .prod-unassign { opacity:1; }
+.prod-unassign:hover { background:rgba(220,38,38,.1); color:#dc2626; }
+
+/* ── Journey Tracker in Priority Modal ── */
+.pm-journey { display:flex; align-items:flex-start; justify-content:space-between; padding:.8rem 0; position:relative; }
+.pm-journey::before {
+  content:''; position:absolute; top:18px; left:24px; right:24px; height:3px;
+  background:var(--rule); z-index:0;
+}
+.pm-journey-step { display:flex; flex-direction:column; align-items:center; gap:.25rem; z-index:1; flex:1; }
+.pm-journey-dot {
+  width:20px; height:20px; border-radius:50%; border:2.5px solid var(--rule);
+  background:var(--warm-white); display:flex; align-items:center; justify-content:center;
+  font-size:.5rem; transition:all .2s;
+}
+.pm-journey-dot.done { background:#16a34a; border-color:#16a34a; color:#fff; }
+.pm-journey-dot.active { background:#2563eb; border-color:#2563eb; color:#fff; animation:pulse-dot 1.5s ease infinite; }
+.pm-journey-dot.partial { background:#d97706; border-color:#d97706; color:#fff; }
+.pm-journey-dot.issue { background:#dc2626; border-color:#dc2626; color:#fff; }
+@keyframes pulse-dot { 0%,100%{ box-shadow:0 0 0 0 rgba(37,99,235,.3); } 50%{ box-shadow:0 0 0 6px rgba(37,99,235,0); } }
+.pm-journey-label { font-family:'Outfit',sans-serif; font-size:.48rem; font-weight:600; color:var(--ink5); text-align:center; line-height:1.2; text-transform:uppercase; letter-spacing:.04em; }
+.pm-journey-label.done { color:#16a34a; }
+.pm-journey-label.active { color:#2563eb; font-weight:700; }
+.pm-journey-label.partial { color:#d97706; }
+.pm-journey-label.issue { color:#dc2626; }
+.pm-journey-sub { font-family:'Outfit',sans-serif; font-size:.44rem; color:var(--ink5); text-align:center; }
 .overdue-panel {
   background:var(--warm-white);
   border:1px solid rgba(220,38,38,.2);
@@ -3155,154 +3356,128 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 }
 
 .prod-panel {
-  background:var(--warm-white);
-  border:1px solid var(--rule2);
-  border-radius:var(--r-xl);
-  overflow:hidden;
-  box-shadow:0 4px 32px rgba(26,26,32,.07), 0 1px 0 rgba(154,123,60,.12);
+  background:transparent;
+  border:none;
+  border-radius:0;
+  overflow:visible;
+  box-shadow:none;
   position:relative;
 }
-/* Subtle corner ornament */
-.prod-panel::before {
-  content:'';
-  position:absolute; top:0; left:0; right:0; height:3px;
-  background:linear-gradient(90deg, transparent 0%, var(--gold-line) 20%, var(--gold) 50%, var(--gold-line) 80%, transparent 100%);
-  opacity:.7;
-}
+.prod-panel::before { display:none; }
 .prod-panel-head {
   display:flex; align-items:center; justify-content:space-between;
-  padding:1.35rem 2rem 1.2rem;
-  border-bottom:1px solid var(--rule);
-  background:linear-gradient(to bottom, var(--parchment), var(--warm-white));
+  padding:0 0 .6rem;
+  border-bottom:none;
+  background:none;
   position:relative;
 }
 .prod-panel-title {
-  font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600;
-  letter-spacing:.03em; color:var(--ink);
-  font-style:italic;
+  font-family:'Outfit',sans-serif; font-size:.72rem; font-weight:600;
+  letter-spacing:.04em; color:var(--ink5);
+  font-style:normal;
 }
-.prod-panel-title::after {
-  content:' —';
-  color:var(--gold); font-style:normal; font-weight:300;
-}
+.prod-panel-title::after { display:none; }
 .prod-panel-sub {
   font-family:'Outfit',sans-serif; font-size:.58rem; font-weight:300;
-  letter-spacing:.16em; text-transform:uppercase; color:var(--ink5);
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink5);
 }
 .prod-editor-grid {
   display:flex;
   flex-wrap:wrap;
-  justify-content:center;
-  gap:1.25rem;
-  padding:1.75rem 2rem 2rem;
-  background:
-    radial-gradient(ellipse at 0% 100%, rgba(154,123,60,.04) 0%, transparent 60%),
-    radial-gradient(ellipse at 100% 0%, rgba(154,123,60,.03) 0%, transparent 60%);
+  justify-content:flex-start;
+  gap:.6rem;
+  padding:0;
+  background:none;
 }
 .prod-editor-col {
-  background:var(--canvas);
+  background:var(--warm-white);
   border:1px solid var(--rule2);
-  border-radius:var(--r-lg);
-  padding:1.3rem 1.4rem 1.5rem;
-  min-width:260px;
-  flex:0 1 310px;
-  transition:border-color .2s, box-shadow .2s;
+  border-radius:10px;
+  padding:.8rem .8rem .9rem;
+  min-width:220px;
+  flex:0 1 280px;
+  transition:all .15s;
   position:relative;
-  box-shadow:0 2px 12px rgba(26,26,32,.04);
+  box-shadow:none;
 }
 .prod-editor-col:hover {
-  border-color:var(--gold-line);
-  box-shadow:0 4px 20px rgba(154,123,60,.1);
+  border-color:var(--gold);
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
 }
-/* Small decorative top rule on each column */
-.prod-editor-col::before {
-  content:'';
-  position:absolute; top:0; left:1.4rem; right:1.4rem; height:1px;
-  background:linear-gradient(90deg, transparent, var(--gold-line), transparent);
-}
+.prod-editor-col::before { display:none; }
 .prod-editor-name-row {
-  display:flex; align-items:center; gap:.75rem;
-  margin-bottom:1rem;
-  padding-bottom:.8rem;
+  display:flex; align-items:center; gap:.5rem;
+  margin-bottom:.5rem;
+  padding-bottom:.4rem;
   border-bottom:1px solid var(--rule);
 }
 .prod-editor-avatar {
-  width:40px; height:40px; border-radius:50%;
-  background:var(--parchment); border:1px solid var(--gold-line);
+  width:28px; height:28px; border-radius:50%;
+  background:var(--parchment); border:1px solid var(--rule2);
   display:flex; align-items:center; justify-content:center;
-  font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600;
+  font-family:'Outfit',sans-serif; font-size:.55rem; font-weight:700;
   color:var(--gold); flex-shrink:0;
-  box-shadow:0 1px 6px rgba(154,123,60,.12); overflow:hidden;
+  overflow:hidden;
 }
 .prod-editor-avatar img { width:100%;height:100%;object-fit:cover; }
 .prod-editor-name {
-  font-family:'Outfit',sans-serif; font-size:.9rem; font-weight:500;
-  color:var(--ink2); flex:1; min-width:0;
+  font-family:'Outfit',sans-serif; font-size:.75rem; font-weight:700;
+  color:var(--ink); flex:1; min-width:0;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  letter-spacing:.01em;
 }
 .prod-editor-count {
-  font-family:'Cormorant Garamond',serif; font-size:.85rem; font-weight:400;
-  font-style:italic; color:var(--gold);
-  background:var(--parchment);
-  border:1px solid var(--gold-line); border-radius:20px;
-  padding:.1rem .6rem; flex-shrink:0;
+  font-family:'Outfit',sans-serif; font-size:.55rem; font-weight:600;
+  color:var(--ink5);
+  background:rgba(0,0,0,.04);
+  border:1px solid var(--rule2); border-radius:10px;
+  padding:.08rem .4rem; flex-shrink:0;
 }
 .prod-project-card {
-  display:flex; flex-direction:column; gap:.2rem;
-  padding:.8rem 1rem;
-  border-radius:var(--r-md); margin-bottom:.5rem;
-  border:1px solid var(--rule2); cursor:pointer;
-  transition:border-color .18s, background .18s, box-shadow .18s;
+  display:flex; flex-direction:column; gap:.1rem;
+  padding:.45rem .6rem;
+  border-radius:8px; margin-bottom:.35rem;
+  border:1px solid var(--rule2); border-left:3px solid var(--gold); cursor:pointer;
+  transition:all .15s;
   background:var(--warm-white);
   position:relative; overflow:hidden;
 }
-/* Thin left accent line on card */
-.prod-project-card::before {
-  content:'';
-  position:absolute; top:.4rem; bottom:.4rem; left:0; width:2px;
-  background:var(--gold-line);
-  border-radius:0 2px 2px 0;
-  transition:background .18s;
-}
+.prod-project-card::before { display:none; }
 .prod-project-card:hover {
-  border-color:var(--gold-line);
-  background:var(--gold-wash);
-  box-shadow:0 2px 10px rgba(154,123,60,.08);
+  border-color:var(--gold);
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
 }
-.prod-project-card:hover::before { background:var(--gold); }
 .prod-project-card:last-child { margin-bottom:0; }
 .prod-project-couple {
-  font-family:'Cormorant Garamond',serif; font-size:1.08rem; font-weight:600;
+  font-family:'Outfit',sans-serif; font-size:.72rem; font-weight:700;
   color:var(--ink); line-height:1.3;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 .prod-project-event {
-  font-family:'Outfit',sans-serif; font-size:.65rem; font-weight:300;
-  color:var(--ink5); letter-spacing:.08em; text-transform:uppercase;
+  font-family:'Outfit',sans-serif; font-size:.58rem; font-weight:500;
+  color:var(--ink5);
 }
 .prod-project-badges {
-  display:flex; gap:.28rem; flex-wrap:wrap; margin-top:.28rem;
+  display:flex; gap:.2rem; flex-wrap:wrap; margin-top:.15rem;
 }
 .prod-badge {
-  font-family:'Outfit',sans-serif; font-size:.52rem; font-weight:600;
-  letter-spacing:.09em; text-transform:uppercase;
-  padding:.1rem .48rem; border-radius:20px;
+  font-family:'Outfit',sans-serif; font-size:.48rem; font-weight:700;
+  letter-spacing:.04em; text-transform:uppercase;
+  padding:.1rem .35rem; border-radius:10px;
 }
-.prod-badge.new     { background:var(--forest-dim); border:1px solid rgba(45,74,62,.2); color:var(--forest); }
-.prod-badge.changes { background:rgba(234,88,12,.07); border:1px solid rgba(234,88,12,.22); color:#b45309; }
-.prod-badge.hours   { background:var(--parchment); border:1px solid var(--rule2); color:var(--ink5); }
+.prod-badge.new     { background:rgba(22,163,74,.08); border:1px solid rgba(22,163,74,.2); color:#16a34a; }
+.prod-badge.changes { background:rgba(147,51,234,.08); border:1px solid rgba(147,51,234,.2); color:#9333ea; }
+.prod-badge.hours   { background:rgba(0,0,0,.03); border:1px solid var(--rule2); color:var(--ink5); }
 .prod-card-meta {
-  display:flex; flex-wrap:wrap; gap:.3rem; align-items:center; margin-top:.2rem;
+  display:flex; flex-wrap:wrap; gap:.2rem; align-items:center; margin-top:.1rem;
 }
 .prod-card-svc {
-  font-family:'Outfit',sans-serif; font-size:.5rem; font-weight:500;
-  padding:.1rem .38rem; border-radius:3px; letter-spacing:.04em;
+  font-family:'Outfit',sans-serif; font-size:.46rem; font-weight:600;
+  padding:.08rem .3rem; border-radius:3px;
 }
 .prod-card-svc.photo { background:rgba(37,99,235,.07); border:1px solid rgba(37,99,235,.18); color:#2563eb; }
 .prod-card-svc.video { background:rgba(139,92,246,.07); border:1px solid rgba(139,92,246,.18); color:#7c3aed; }
 .prod-card-due {
-  font-family:'Outfit',sans-serif; font-size:.5rem; font-weight:400; color:var(--ink5);
+  font-family:'Outfit',sans-serif; font-size:.46rem; font-weight:400; color:var(--ink5);
 }
 .prod-card-due.overdue { color:#dc2626; font-weight:600; }
 .prod-card-due.soon { color:#ea580c; font-weight:500; }
@@ -3349,9 +3524,9 @@ tbody td { padding:.75rem 1rem; font-size:.8rem; vertical-align:middle; color:va
 .analytics-table .sample-count { font-size:.55rem;color:var(--muted);margin-left:.3rem; }
 .analytics-empty { text-align:center;padding:1.5rem;color:var(--muted);font-size:.75rem; }
 .prod-no-editors {
-  padding:3rem 2rem; text-align:center;
-  font-family:'Cormorant Garamond',serif; font-style:italic;
-  font-size:1rem; color:var(--ink5); letter-spacing:.02em;
+  text-align:center; padding:1.5rem;
+  font-family:'Outfit',sans-serif; font-size:.75rem;
+  color:var(--ink5); font-style:italic;
 }
 
 
@@ -5453,17 +5628,18 @@ body { padding-top:56px; }
     </div>
   </div>
   <div class="co-dash-content">
+    <div class="co-dash-section" id="coDashPriorityWrap">
+      <div class="co-dash-section-label">📋 What to Work On</div>
+      <div id="coDashHealthSummary" style="font-family:'Outfit',sans-serif;font-size:.72rem;color:var(--ink5);margin-bottom:.8rem;line-height:1.5;"></div>
+      <div id="coDashPriority"></div>
+    </div>
     <div class="co-dash-section">
       <div class="co-dash-section-label">In Production</div>
       <div id="coDashEditing"></div>
     </div>
-    <div class="co-dash-section" id="coDashRevisionsWrap" style="display:none;">
-      <div class="co-dash-section-label">Revisions</div>
-      <div id="coDashRevisions"></div>
-    </div>
-    <div class="co-dash-section" id="coDashOverdueWrap" style="display:none;">
-      <div class="co-dash-section-label">Overdue</div>
-      <div id="coDashOverdue"></div>
+    <div class="co-dash-section" id="coDashRecentlyDoneWrap">
+      <div class="co-dash-section-label">✅ Recently Completed</div>
+      <div id="coDashRecentlyDone"></div>
     </div>
     <div class="co-dash-section" id="coDashAlmostDueWrap" style="display:none;">
       <div class="co-dash-section-label">Almost Due</div>
@@ -7609,12 +7785,25 @@ function _coupleStats(c) {
   const totalSongs      = songs.filter(s=>s.coupleId===c.id).length;
   const usedSongs       = songs.filter(s=>s.coupleId===c.id&&s.used).length;
   const evCount         = ci.length;
+  // Old approvedCount for backward compat (fully approved events)
   const approvedCount   = ci.filter(i=>i.approved).length;
   const shootDoneCount  = ci.filter(i=>_isInstShootDone(i)).length;
-  const isEditComplete  = evCount > 0 && approvedCount === evCount;
+  
+  // Photo/video-aware completion
+  var compParts = 0, compTotal = 0, photoDone = 0, photoTotal = 0, videoDone = 0, videoTotal = 0;
+  ci.forEach(function(i) {
+    var hp = !!(i.servicePhoto || i.services === 'photo' || i.services === 'both');
+    var hv = !!(i.serviceVideo || i.services === 'video' || i.services === 'both');
+    if (hp) { photoTotal++; compTotal++; if (i.photoEditApproved) { photoDone++; compParts++; } }
+    if (hv) { videoTotal++; compTotal++; if (i.videoEditApproved) { videoDone++; compParts++; } }
+    if (!hp && !hv) { compTotal++; if (i.approved || i.editorStatus === 'approved') compParts++; }
+  });
+  const editPct = compTotal > 0 ? Math.round(compParts / compTotal * 100) : 0;
+  
+  const isEditComplete  = evCount > 0 && compTotal > 0 && compParts === compTotal;
   const isShootComplete = evCount > 0 && shootDoneCount === evCount;
   const isComplete      = isEditComplete && isShootComplete;
-  return { totalSongs, usedSongs, evCount, approvedCount, shootDoneCount, isEditComplete, isShootComplete, isComplete };
+  return { totalSongs, usedSongs, evCount, approvedCount, shootDoneCount, isEditComplete, isShootComplete, isComplete, editPct, photoDone, photoTotal, videoDone, videoTotal, compParts, compTotal };
 }
 function _typeTags(c, cls) {
   return (c.weddingTypes||[]).map(wt=>{
@@ -7624,14 +7813,13 @@ function _typeTags(c, cls) {
 }
 
 function renderCoupleCardHTML(c) {
-  const {totalSongs, evCount, approvedCount, shootDoneCount, isEditComplete, isShootComplete, isComplete} = _coupleStats(c);
+  const {totalSongs, evCount, approvedCount, shootDoneCount, isEditComplete, isShootComplete, isComplete, editPct} = _coupleStats(c);
   const typeTags = _typeTags(c, 'cc-type-tag');
   const days    = getDaysLeft(c);
   const urgency = isComplete ? 'complete' : countdownUrgency(days);
   const cdClass = isComplete ? 'cd-ok' : `cd-${urgency}`;
   const ring    = buildRing(days, urgency, isComplete);
   const cdLabel = countdownLabel(days, isComplete);
-  const editPct  = evCount > 0 ? Math.round(approvedCount/evCount*100)  : 0;
   const shootPct = evCount > 0 ? Math.round(shootDoneCount/evCount*100) : 0;
   const approvedBar = evCount > 0
     ? `<div class="cc-dual-progress">
@@ -7688,7 +7876,7 @@ function renderCoupleCardHTML(c) {
 }
 
 function renderCoupleListHTML(c) {
-  const {totalSongs, evCount, approvedCount, shootDoneCount, isEditComplete, isShootComplete, isComplete} = _coupleStats(c);
+  const {totalSongs, evCount, approvedCount, shootDoneCount, isEditComplete, isShootComplete, isComplete, editPct} = _coupleStats(c);
   const typeTags = _typeTags(c, 'cc-type-tag');
   const days    = getDaysLeft(c);
   const urgency = isComplete ? 'complete' : countdownUrgency(days);
@@ -7714,7 +7902,7 @@ function renderCoupleListHTML(c) {
 }
 
 function renderCoupleCompactHTML(c) {
-  const {totalSongs, evCount, approvedCount, shootDoneCount, isEditComplete, isShootComplete, isComplete} = _coupleStats(c);
+  const {totalSongs, evCount, approvedCount, shootDoneCount, isEditComplete, isShootComplete, isComplete, editPct} = _coupleStats(c);
   const days    = getDaysLeft(c);
   const urgency = isComplete ? 'complete' : countdownUrgency(days);
   const cdClass = isComplete ? 'cd-ok' : `cd-${urgency}`;
@@ -8114,7 +8302,7 @@ function renderCoupleCard() {
   if (heroIcon) heroIcon.textContent = c.icon || '💍';
   const totalSongs    = songs.filter(s=>s.coupleId===c.id).length;
   const usedSongs     = songs.filter(s=>s.coupleId===c.id&&s.used).length;
-  const {evCount, approvedCount, shootDoneCount, isEditComplete, isShootComplete, isComplete} = _coupleStats(c);
+  const {evCount, approvedCount, shootDoneCount, isEditComplete, isShootComplete, isComplete, editPct, photoDone, photoTotal, videoDone, videoTotal, compParts, compTotal} = _coupleStats(c);
   const days          = getDaysLeft(c);
   const urgency       = isComplete ? 'complete' : countdownUrgency(days);
   const cdClass       = isComplete ? 'cd-ok' : `cd-${urgency}`;
@@ -8159,20 +8347,21 @@ function renderCoupleCard() {
     <div class="cic-rule"></div>
     <div class="cic-stats">
       <div class="cic-stat"><span class="cic-stat-n">${evCount}</span><span class="cic-stat-l">Events</span></div>
-      <div class="cic-stat"><span class="cic-stat-n">${approvedCount}</span><span class="cic-stat-l">✂️ Done</span></div>
-      <div class="cic-stat"><span class="cic-stat-n">${shootDoneCount}</span><span class="cic-stat-l">📷 Done</span></div>
+      <div class="cic-stat"><span class="cic-stat-n">${photoDone}/${photoTotal}</span><span class="cic-stat-l">📷 Edit</span></div>
+      <div class="cic-stat"><span class="cic-stat-n">${videoDone}/${videoTotal}</span><span class="cic-stat-l">🎬 Edit</span></div>
+      <div class="cic-stat"><span class="cic-stat-n">${shootDoneCount}</span><span class="cic-stat-l">📷 Shot</span></div>
     </div>
     <div class="cic-progress-section">
       <div class="cic-progress-row">
         <div class="cic-progress-label">
           <span class="cic-progress-icon">✂️</span>
           <span class="cic-progress-name">Edits</span>
-          <span class="cic-progress-frac">${approvedCount}/${evCount}</span>
+          <span class="cic-progress-frac">${compParts}/${compTotal}</span>
         </div>
         <div class="cic-bar-track">
-          <div class="cic-bar-fill cic-bar-edit" style="width:${evCount>0?Math.round(approvedCount/evCount*100):0}%"></div>
+          <div class="cic-bar-fill cic-bar-edit" style="width:${editPct}%"></div>
         </div>
-        <span class="cic-progress-pct">${evCount>0?Math.round(approvedCount/evCount*100):0}%</span>
+        <span class="cic-progress-pct">${editPct}%</span>
       </div>
       <div class="cic-progress-row">
         <div class="cic-progress-label">
@@ -11123,7 +11312,728 @@ function clearProdClock(instId, applyToGroup) {
   toast('Clock cleared');
 }
 
+// ── PRIORITY QUEUE: "What to Work On" ────────────────────────
+function renderPriorityQueue() {
+  var el = document.getElementById('coDashPriority');
+  if (!el) return;
+  
+  var today = new Date(); today.setHours(0,0,0,0);
+  var items = [];
+  
+  // Filter couples for editor role
+  var _c = couples, _i = insts;
+  if (_isEditor()) {
+    var myIds = _editorCoupleIds();
+    if (myIds) { _c = couples.filter(function(c){ return myIds.has(c.id); }); }
+  }
+  
+  _c.forEach(function(c) {
+    // Skip completed couples
+    if (c.completedAt) return;
+    
+    var coupleInsts = _i.filter(function(i){ return i.coupleId === c.id; });
+    var totalEvents = coupleInsts.length;
+    if (!totalEvents) return;
+    
+    var approvedCount = coupleInsts.filter(function(i){
+      return (i.approved && !i.changesNeeded && !i.photoChangesNeeded && !i.videoChangesNeeded)
+        || (i.editorStatus === 'approved' && !i.changesNeeded && !i.photoChangesNeeded && !i.videoChangesNeeded);
+    }).length;
+    
+    // Fully done
+    if (approvedCount === totalEvents) return;
+    
+    var revisionCount = coupleInsts.filter(function(i){
+      return i.changesNeeded || i.photoChangesNeeded || i.videoChangesNeeded;
+    }).length;
+    
+    // Calculate due date
+    var dueStr = c.editDueDate || '';
+    if (!dueStr && c.eventDate) {
+      var ed = new Date(c.eventDate + 'T00:00:00');
+      ed.setDate(ed.getDate() + 90);
+      dueStr = ed.toISOString().slice(0,10);
+    }
+    var daysLeft = null;
+    if (dueStr) {
+      daysLeft = Math.round((new Date(dueStr + 'T00:00:00') - today) / 86400000);
+    }
+    
+    // How old is the shoot?
+    var shootDate = c.eventDate || '';
+    var daysSinceShoot = null;
+    if (shootDate) {
+      daysSinceShoot = Math.round((today - new Date(shootDate + 'T00:00:00')) / 86400000);
+    }
+    
+    // Editing progress — count each photo/video as a separate part
+    var _compParts = 0, _compTotal = 0, _photoTotal = 0, _photoDone = 0, _videoTotal = 0, _videoDone = 0, _photoRev = 0, _videoRev = 0;
+    coupleInsts.forEach(function(i) {
+      var hp = !!(i.servicePhoto || i.services === 'photo' || i.services === 'both');
+      var hv = !!(i.serviceVideo || i.services === 'video' || i.services === 'both');
+      if (hp) { _photoTotal++; _compTotal++; if (i.photoEditApproved) { _photoDone++; _compParts++; } if (i.photoChangesNeeded) _photoRev++; }
+      if (hv) { _videoTotal++; _compTotal++; if (i.videoEditApproved) { _videoDone++; _compParts++; } if (i.videoChangesNeeded) _videoRev++; }
+      if (!hp && !hv) { _compTotal++; if (i.approved || i.editorStatus === 'approved') _compParts++; }
+    });
+    var editPct = _compTotal > 0 ? Math.round(_compParts / _compTotal * 100) : 0;
+    var _photoRemaining = _photoTotal - _photoDone;
+    var _videoRemaining = _videoTotal - _videoDone;
+    
+    // Started editing at all?
+    var hasProgress = coupleInsts.some(function(i){ return (i.erProgress||0) > 0 || i.approved || i.editorStatus || i.photoEditApproved || i.videoEditApproved; });
+    
+    // Score: lower = more urgent
+    var score = 0;
+    var reason = '';
+    var badge = '';
+    var badgeClass = '';
+    
+    if (revisionCount > 0) {
+      // Revisions are top priority
+      score = -10000 + (daysLeft || 0);
+      reason = revisionCount + ' revision' + (revisionCount > 1 ? 's' : '') + ' requested — client waiting';
+      badge = 'Revisions';
+      badgeClass = 'revision';
+    } else if (daysLeft !== null && daysLeft < 0) {
+      // Overdue
+      score = -5000 + daysLeft; // more negative = more overdue = higher priority
+      reason = Math.abs(daysLeft) + ' days overdue · ' + editPct + '% complete';
+      badge = Math.abs(daysLeft) + 'd overdue';
+      badgeClass = 'overdue';
+    } else if (daysLeft !== null && daysLeft <= 14) {
+      // Due soon
+      score = daysLeft;
+      reason = daysLeft + ' day' + (daysLeft !== 1 ? 's' : '') + ' left · ' + editPct + '% complete';
+      badge = daysLeft + 'd left';
+      badgeClass = 'due-soon';
+    } else if (daysSinceShoot !== null && daysSinceShoot > 30 && !hasProgress) {
+      // Shot over a month ago, no editing started
+      score = 500 - daysSinceShoot;
+      reason = 'Shot ' + daysSinceShoot + ' days ago · editing not started';
+      badge = 'Not started';
+      badgeClass = 'stale';
+    } else if (daysSinceShoot !== null && daysSinceShoot > 14) {
+      // Older shoots get priority
+      score = 1000 - daysSinceShoot;
+      reason = 'Shot ' + daysSinceShoot + ' days ago · ' + editPct + '% complete';
+      badge = editPct + '% done';
+      badgeClass = 'in-progress';
+    } else {
+      // Recent or no urgency
+      score = 2000 - (daysSinceShoot || 0);
+      reason = (daysSinceShoot !== null ? 'Shot ' + daysSinceShoot + ' days ago · ' : '') + editPct + '% complete';
+      badge = editPct + '% done';
+      badgeClass = 'in-progress';
+    }
+    
+    // Border color based on status
+    var borderColor = '';
+    if (revisionCount > 0) borderColor = 'border-purple';
+    else if (daysLeft !== null && daysLeft < 0) borderColor = 'border-red';
+    else if (daysLeft !== null && daysLeft <= 14) borderColor = 'border-orange';
+    else if (daysSinceShoot !== null && daysSinceShoot > 30 && !hasProgress) borderColor = 'border-gray';
+    else borderColor = 'border-blue';
+    
+    items.push({
+      coupleId: c.id,
+      name: c.name || 'Unnamed',
+      score: score,
+      reason: reason,
+      badge: badge,
+      badgeClass: badgeClass,
+      borderColor: borderColor,
+      eventDate: c.eventDate || '',
+      editPct: editPct,
+      photoRemaining: _photoRemaining,
+      photoTotal: _photoTotal,
+      photoDone: _photoDone,
+      photoRev: _photoRev,
+      videoRemaining: _videoRemaining,
+      videoTotal: _videoTotal,
+      videoDone: _videoDone,
+      videoRev: _videoRev,
+      totalEvents: totalEvents
+    });
+  });
+  
+  // Sort by score (lowest = most urgent)
+  items.sort(function(a,b){ return a.score - b.score; });
+  
+  // Health summary
+  var healthEl = document.getElementById('coDashHealthSummary');
+  if (healthEl) {
+    var totalActive = items.length;
+    var overdueCount = items.filter(function(x){ return x.badgeClass === 'overdue'; }).length;
+    var revCount = items.filter(function(x){ return x.badgeClass === 'revision'; }).length;
+    var onTrack = totalActive - overdueCount - revCount;
+    var parts = [];
+    parts.push('You have <strong>' + totalActive + ' active project' + (totalActive !== 1 ? 's' : '') + '</strong>.');
+    if (revCount > 0) parts.push('<span style="color:#9333ea;font-weight:600;">' + revCount + ' need' + (revCount !== 1 ? '' : 's') + ' revisions</span>');
+    if (overdueCount > 0) parts.push('<span style="color:#dc2626;font-weight:600;">' + overdueCount + ' overdue</span>');
+    if (onTrack > 0) parts.push('<span style="color:#16a34a;font-weight:600;">' + onTrack + ' on track</span>');
+    healthEl.innerHTML = parts.join(' · ');
+  }
+  
+  // Show top 8 max
+  items = items.slice(0, 8);
+  
+  if (!items.length) {
+    el.innerHTML = '<div class="priority-empty">All caught up! No active projects need attention right now.</div>';
+    if (healthEl) healthEl.innerHTML = '🎉 <strong>All caught up!</strong> No active projects need attention.';
+    return;
+  }
+  
+  el.innerHTML = '<div class="priority-list">' + items.map(function(item, idx) {
+    var rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : 'rank-n';
+    // Build draggable event rows
+    var coupleInsts = _i.filter(function(inst){ return inst.coupleId === item.coupleId; });
+    var eventRows = coupleInsts.map(function(inst) {
+      var evName = (inst.eventType || 'Event') + (inst.client ? ' — ' + inst.client : '');
+      var hp = !!(inst.servicePhoto || inst.services === 'photo' || inst.services === 'both');
+      var hv = !!(inst.serviceVideo || inst.services === 'video' || inst.services === 'both');
+      var rows = [];
+      
+      if (hp && hv) {
+        // Two separate rows for photo and video
+        var pStatus, pClass;
+        if (inst.photoEditApproved) { pStatus = '✓ Done'; pClass = 'assigned'; }
+        else if (inst.photoChangesNeeded) { pStatus = 'Revision'; pClass = 'revision'; }
+        else if (inst.editor && inst.editor.trim()) { pStatus = inst.editor.trim(); pClass = 'assigned'; }
+        else { pStatus = 'Unassigned'; pClass = 'pending'; }
+        rows.push('<div class="priority-drag-event" draggable="true" data-inst-id="' + inst.id + '" data-couple-id="' + item.coupleId + '" data-couple-name="' + esc(item.name) + '" data-event-name="' + esc(evName) + ' (Photo)" data-svc="photo">' +
+          '<span class="drag-handle">⠿</span>' +
+          '<span class="drag-ev-name">📷 ' + evName + '</span>' +
+          '<span class="drag-ev-status ' + pClass + '">' + pStatus + '</span>' +
+        '</div>');
+        
+        var vStatus, vClass;
+        if (inst.videoEditApproved) { vStatus = '✓ Done'; vClass = 'assigned'; }
+        else if (inst.videoChangesNeeded) { vStatus = 'Revision'; vClass = 'revision'; }
+        else if (inst.editor && inst.editor.trim()) { vStatus = inst.editor.trim(); vClass = 'assigned'; }
+        else { vStatus = 'Unassigned'; vClass = 'pending'; }
+        rows.push('<div class="priority-drag-event" draggable="true" data-inst-id="' + inst.id + '" data-couple-id="' + item.coupleId + '" data-couple-name="' + esc(item.name) + '" data-event-name="' + esc(evName) + ' (Video)" data-svc="video">' +
+          '<span class="drag-handle">⠿</span>' +
+          '<span class="drag-ev-name">🎬 ' + evName + '</span>' +
+          '<span class="drag-ev-status ' + vClass + '">' + vStatus + '</span>' +
+        '</div>');
+      } else {
+        // Single row for photo-only or video-only
+        var icon = hp ? '📷 ' : hv ? '🎬 ' : '';
+        var statusLabel, statusClass;
+        var hasRev = inst.changesNeeded || inst.photoChangesNeeded || inst.videoChangesNeeded;
+        if (hp && inst.photoEditApproved) { statusLabel = '✓ Done'; statusClass = 'assigned'; }
+        else if (hv && inst.videoEditApproved) { statusLabel = '✓ Done'; statusClass = 'assigned'; }
+        else if (hasRev) { statusLabel = 'Revision'; statusClass = 'revision'; }
+        else if (inst.editor && inst.editor.trim()) { statusLabel = inst.editor.trim(); statusClass = 'assigned'; }
+        else if ((inst.erProgress||0) > 0) { statusLabel = (inst.erProgress||0) + '%'; statusClass = 'in-progress'; }
+        else { statusLabel = 'Unassigned'; statusClass = 'pending'; }
+        rows.push('<div class="priority-drag-event" draggable="true" data-inst-id="' + inst.id + '" data-couple-id="' + item.coupleId + '" data-couple-name="' + esc(item.name) + '" data-event-name="' + esc(evName) + '" data-svc="' + (hp ? 'photo' : hv ? 'video' : 'all') + '">' +
+          '<span class="drag-handle">⠿</span>' +
+          '<span class="drag-ev-name">' + icon + evName + '</span>' +
+          '<span class="drag-ev-status ' + statusClass + '">' + statusLabel + '</span>' +
+        '</div>');
+      }
+      return rows.join('');
+    }).join('');
+    
+    // Build remaining work summary
+    var remainParts = [];
+    if (item.photoTotal > 0) {
+      if (item.photoDone === item.photoTotal) remainParts.push('<span style="color:#16a34a;">📷 ' + item.photoDone + '/' + item.photoTotal + ' ✓</span>');
+      else if (item.photoRev > 0) remainParts.push('<span style="color:#9333ea;">📷 ' + item.photoDone + '/' + item.photoTotal + ' (' + item.photoRev + ' rev)</span>');
+      else remainParts.push('<span style="color:' + (item.photoRemaining > 0 ? '#dc2626' : '#16a34a') + ';">📷 ' + item.photoDone + '/' + item.photoTotal + '</span>');
+    }
+    if (item.videoTotal > 0) {
+      if (item.videoDone === item.videoTotal) remainParts.push('<span style="color:#16a34a;">🎬 ' + item.videoDone + '/' + item.videoTotal + ' ✓</span>');
+      else if (item.videoRev > 0) remainParts.push('<span style="color:#9333ea;">🎬 ' + item.videoDone + '/' + item.videoTotal + ' (' + item.videoRev + ' rev)</span>');
+      else remainParts.push('<span style="color:' + (item.videoRemaining > 0 ? '#dc2626' : '#16a34a') + ';">🎬 ' + item.videoDone + '/' + item.videoTotal + '</span>');
+    }
+    var remainHtml = remainParts.length ? '<div style="display:flex;gap:.4rem;align-items:center;font-family:Outfit,sans-serif;font-size:.55rem;font-weight:600;">' + remainParts.join('') +
+      '<span style="display:inline-block;width:40px;height:4px;background:var(--rule);border-radius:2px;overflow:hidden;"><span style="display:block;height:100%;border-radius:2px;background:' + (item.editPct >= 80 ? '#16a34a' : item.editPct >= 40 ? '#d97706' : '#dc2626') + ';width:' + item.editPct + '%;"></span></span>' +
+      '<span style="font-size:.5rem;color:var(--ink5);">' + item.editPct + '%</span></div>' : '';
+    
+    return '<div class="priority-card ' + item.borderColor + '">' +
+      '<div style="display:flex;align-items:center;gap:.8rem;flex:1;cursor:pointer;" onclick="openPrioritySummary(\'' + item.coupleId + '\',' + (idx+1) + ')">' +
+        '<div class="priority-rank ' + rankClass + '">' + (idx + 1) + '</div>' +
+        '<div class="priority-info" style="flex:1;">' +
+          '<div class="priority-name">' + item.name + (item.eventDate ? '<span style="font-weight:400;font-size:.6rem;color:var(--ink5);margin-left:.4rem;">' + fmtEventDate(item.eventDate) + '</span>' : '') + '</div>' +
+          '<div class="priority-reason">' + item.reason + '</div>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:.5rem;flex-shrink:0;">' +
+          remainHtml +
+          '<div class="priority-badge ' + item.badgeClass + '">' + item.badge + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<button class="priority-expand" onclick="event.stopPropagation();this.classList.toggle(\'open\');this.closest(\'.priority-card\').querySelector(\'.priority-events\').classList.toggle(\'open\')" title="Show events">▼</button>' +
+      '<div class="priority-events">' + eventRows + '</div>' +
+    '</div>';
+  }).join('') + '</div>';
+}
+
+function openPrioritySummary(coupleId, rank) {
+  var c = couples.find(function(x){ return x.id === coupleId; });
+  if (!c) return;
+  var today = new Date(); today.setHours(0,0,0,0);
+  var coupleInsts = insts.filter(function(i){ return i.coupleId === coupleId; });
+  var totalEvents = coupleInsts.length;
+  
+  // Stats
+  var approvedCount = 0, revisionCount = 0, inProgressCount = 0, notStartedCount = 0;
+  var photoTotal = 0, photoDone = 0, videoTotal = 0, videoDone = 0;
+  var completionParts = 0, completionTotal = 0;
+  coupleInsts.forEach(function(i) {
+    var hasPhoto = !!(i.servicePhoto || i.services === 'photo' || i.services === 'both');
+    var hasVideo = !!(i.serviceVideo || i.services === 'video' || i.services === 'both');
+    if (hasPhoto) { photoTotal++; completionTotal++; if (i.photoEditApproved) { photoDone++; completionParts++; } }
+    if (hasVideo) { videoTotal++; completionTotal++; if (i.videoEditApproved) { videoDone++; completionParts++; } }
+    if (!hasPhoto && !hasVideo) { completionTotal++; if (i.approved || i.editorStatus === 'approved') completionParts++; }
+    
+    var hasRevision = i.changesNeeded || i.photoChangesNeeded || i.videoChangesNeeded;
+    var bothDone = (hasPhoto && i.photoEditApproved && hasVideo && i.videoEditApproved)
+      || (hasPhoto && i.photoEditApproved && !hasVideo)
+      || (hasVideo && i.videoEditApproved && !hasPhoto)
+      || (!hasPhoto && !hasVideo && (i.approved || i.editorStatus === 'approved'));
+    if (bothDone && !hasRevision) approvedCount++;
+    else if (hasRevision) revisionCount++;
+    else if ((i.erProgress||0) > 0 || i.editorStatus || (hasPhoto && i.photoEditApproved) || (hasVideo && i.videoEditApproved)) inProgressCount++;
+    else notStartedCount++;
+  });
+  
+  var editPct = completionTotal > 0 ? Math.round(completionParts / completionTotal * 100) : 0;
+  
+  // Due date
+  var dueStr = c.editDueDate || '';
+  if (!dueStr && c.eventDate) {
+    var ed = new Date(c.eventDate + 'T00:00:00');
+    ed.setDate(ed.getDate() + 90);
+    dueStr = ed.toISOString().slice(0,10);
+  }
+  var daysLeft = null;
+  if (dueStr) daysLeft = Math.round((new Date(dueStr + 'T00:00:00') - today) / 86400000);
+  
+  // Shoot date
+  var daysSinceShoot = null;
+  if (c.eventDate) daysSinceShoot = Math.round((today - new Date(c.eventDate + 'T00:00:00')) / 86400000);
+  
+  // Rank color
+  var rankBg = rank === 1 ? '#dc2626' : rank === 2 ? '#ea580c' : rank === 3 ? '#d97706' : 'var(--ink5)';
+  
+  // Due status
+  var dueLabel = 'No due date';
+  var dueClass = '';
+  if (daysLeft !== null) {
+    if (daysLeft < 0) { dueLabel = Math.abs(daysLeft) + ' days overdue'; dueClass = 'red'; }
+    else if (daysLeft === 0) { dueLabel = 'Due today'; dueClass = 'orange'; }
+    else if (daysLeft <= 14) { dueLabel = daysLeft + ' days left'; dueClass = 'orange'; }
+    else { dueLabel = daysLeft + ' days left'; dueClass = 'green'; }
+  }
+  
+  // Progress bar color
+  var barColor = editPct >= 80 ? '#16a34a' : editPct >= 40 ? '#d97706' : '#dc2626';
+  
+  // Event rows with photo/video breakdown
+  var eventRows = coupleInsts.map(function(i) {
+    var hasPhoto = !!(i.servicePhoto || i.services === 'photo' || i.services === 'both');
+    var hasVideo = !!(i.serviceVideo || i.services === 'video' || i.services === 'both');
+    var evName = (i.eventType || 'Event') + (i.client ? ' — ' + i.client : '');
+    
+    var badges = '';
+    if (hasPhoto) {
+      var pStatus, pClass;
+      if (i.photoEditApproved) { pStatus = '✓ Done'; pClass = 'approved'; }
+      else if (i.photoChangesNeeded) { pStatus = 'Revision'; pClass = 'revision'; }
+      else if ((i.erProgress||0) > 0) { pStatus = (i.erProgress||0) + '%'; pClass = 'in-progress'; }
+      else { pStatus = 'Pending'; pClass = 'not-started'; }
+      badges += '<span class="pm-event-status ' + pClass + '">📷 ' + pStatus + '</span>';
+    }
+    if (hasVideo) {
+      var vStatus, vClass;
+      if (i.videoEditApproved) { vStatus = '✓ Done'; vClass = 'approved'; }
+      else if (i.videoChangesNeeded) { vStatus = 'Revision'; vClass = 'revision'; }
+      else if ((i.erProgress||0) > 0) { vStatus = (i.erProgress||0) + '%'; vClass = 'in-progress'; }
+      else { vStatus = 'Pending'; vClass = 'not-started'; }
+      badges += '<span class="pm-event-status ' + vClass + '">🎬 ' + vStatus + '</span>';
+    }
+    if (!hasPhoto && !hasVideo) {
+      var hasRev = i.changesNeeded || i.photoChangesNeeded || i.videoChangesNeeded;
+      var isApp = (i.approved && !hasRev) || (i.editorStatus === 'approved' && !hasRev);
+      if (hasRev) badges = '<span class="pm-event-status revision">Revision</span>';
+      else if (isApp) badges = '<span class="pm-event-status approved">✓ Done</span>';
+      else if ((i.erProgress||0) > 0) badges = '<span class="pm-event-status in-progress">' + (i.erProgress||0) + '%</span>';
+      else badges = '<span class="pm-event-status not-started">Not started</span>';
+    }
+    
+    // Revision notes
+    var revNotes = '';
+    var notes = [];
+    if (i.photoChangesNeeded && i.photoChangesNote) notes.push('📷 ' + i.photoChangesNote);
+    if (i.videoChangesNeeded && i.videoChangesNote) notes.push('🎬 ' + i.videoChangesNote);
+    if (i.changesNeeded && i.changesNote) notes.push(i.changesNote);
+    if (i.revisionNotes) notes.push(i.revisionNotes);
+    if (notes.length) {
+      revNotes = '<div style="font-size:.58rem;color:#9333ea;margin-top:.25rem;line-height:1.35;font-style:italic;">' + notes.map(function(n){ return esc(n); }).join('<br>') + '</div>';
+    }
+    
+    var hasRevFlag = i.changesNeeded || i.photoChangesNeeded || i.videoChangesNeeded;
+    var rowClass = 'pm-event-row' + (hasRevFlag ? ' has-revision' : '');
+    
+    var evDate = i.shootDay ? '<span style="font-size:.5rem;color:var(--ink5);font-weight:400;margin-left:.3rem;">' + fmtEventDate(i.shootDay) + '</span>' : '';
+    return '<div class="' + rowClass + '" style="flex-direction:column;align-items:stretch;"><div style="display:flex;align-items:center;gap:.5rem;"><span class="pm-event-name">' + evName + evDate + '</span><div style="display:flex;gap:.25rem;flex-shrink:0;">' + badges + '</div></div>' + revNotes + '</div>';
+  }).join('');
+  
+  // Last activity — find most recent timestamp across all insts
+  var lastActivity = null;
+  coupleInsts.forEach(function(i) {
+    var dates = [i.photoEditApprovedAt, i.videoEditApprovedAt, i.editStartedAt, i.editCompletedAt, i.updatedAt, i.changesRequestedAt].filter(Boolean);
+    dates.forEach(function(d) {
+      var dt = new Date(d);
+      if (!lastActivity || dt > lastActivity) lastActivity = dt;
+    });
+  });
+  var lastActivityStr = '';
+  if (lastActivity) {
+    var daysAgo = Math.round((today - lastActivity) / 86400000);
+    lastActivityStr = daysAgo === 0 ? 'Today' : daysAgo === 1 ? 'Yesterday' : daysAgo + ' days ago';
+  }
+  
+  // Editors
+  var editors = (c.editors || []).filter(function(e){ return e.trim(); }).join(', ') || 'Unassigned';
+  
+  // Build journey steps
+  var shootDone = coupleInsts.length > 0; // assume shot if events exist with a date
+  var allPhotosDone = photoTotal > 0 && photoDone === photoTotal;
+  var somePhotosDone = photoDone > 0 && photoDone < photoTotal;
+  var allVideosDone = videoTotal > 0 && videoDone === videoTotal;
+  var someVideosDone = videoDone > 0 && videoDone < videoTotal;
+  var hasAnyRevision = revisionCount > 0;
+  var allDone = completionTotal > 0 && completionParts === completionTotal && !hasAnyRevision;
+  
+  // Determine each step's state
+  var s1 = shootDone ? 'done' : 'active'; // Shot
+  var s2 = allPhotosDone ? 'done' : somePhotosDone ? 'partial' : (shootDone && photoTotal > 0) ? 'active' : ''; // Photo Edit
+  var s3 = allVideosDone ? 'done' : someVideosDone ? 'partial' : (shootDone && videoTotal > 0) ? 'active' : ''; // Video Edit
+  var s4 = hasAnyRevision ? 'issue' : (allPhotosDone || allVideosDone) ? 'active' : ''; // Review
+  var s5 = allDone ? 'done' : ''; // Delivered
+  
+  var journeyHtml = '<div class="pm-journey">' +
+    '<div class="pm-journey-step"><div class="pm-journey-dot ' + s1 + '">' + (s1==='done'?'✓':'') + '</div><div class="pm-journey-label ' + s1 + '">Shot</div>' + (c.eventDate ? '<div class="pm-journey-sub">' + fmtEventDate(c.eventDate).split(' ').slice(0,2).join(' ') + '</div>' : '') + '</div>' +
+    (photoTotal > 0 ? '<div class="pm-journey-step"><div class="pm-journey-dot ' + s2 + '">' + (s2==='done'?'✓':s2==='partial'?'½':'') + '</div><div class="pm-journey-label ' + s2 + '">📷 Photo<br>Edit</div><div class="pm-journey-sub">' + photoDone + '/' + photoTotal + '</div></div>' : '') +
+    (videoTotal > 0 ? '<div class="pm-journey-step"><div class="pm-journey-dot ' + s3 + '">' + (s3==='done'?'✓':s3==='partial'?'½':'') + '</div><div class="pm-journey-label ' + s3 + '">🎬 Video<br>Edit</div><div class="pm-journey-sub">' + videoDone + '/' + videoTotal + '</div></div>' : '') +
+    '<div class="pm-journey-step"><div class="pm-journey-dot ' + s4 + '">' + (s4==='issue'?'!':s4==='done'?'✓':'') + '</div><div class="pm-journey-label ' + s4 + '">Client<br>Review</div>' + (hasAnyRevision ? '<div class="pm-journey-sub">' + revisionCount + ' revision' + (revisionCount>1?'s':'') + '</div>' : '') + '</div>' +
+    '<div class="pm-journey-step"><div class="pm-journey-dot ' + s5 + '">' + (s5==='done'?'✓':'') + '</div><div class="pm-journey-label ' + s5 + '">Delivered</div></div>' +
+  '</div>';
+  
+  var html = '<div class="pm-header">' +
+    '<div class="pm-header-left"><div class="pm-header-rank" style="background:' + rankBg + '">' + rank + '</div><div class="pm-header-name">' + esc(c.name) + (c.eventDate ? '<span style="font-weight:400;font-size:.65rem;color:var(--ink5);margin-left:.4rem;">' + fmtEventDate(c.eventDate) + '</span>' : '') + '</div></div>' +
+    '<button class="pm-close" onclick="closePriorityModal()">✕</button></div>' +
+    '<div class="pm-body">' +
+    
+    '<div class="pm-section">' + journeyHtml + '</div>' +
+    
+    '<div class="pm-section">' +
+      '<div class="pm-section-title">Overall Progress</div>' +
+      '<div class="pm-stat-row"><span class="pm-stat-label">Completion</span><span class="pm-stat-value">' + editPct + '%</span></div>' +
+      '<div class="pm-progress-bar"><div class="pm-progress-fill" style="width:' + editPct + '%;background:' + barColor + '"></div></div>' +
+    '</div>' +
+    
+    '<div class="pm-section">' +
+      '<div class="pm-section-title">Key Dates</div>' +
+      (c.eventDate ? '<div class="pm-stat-row"><span class="pm-stat-label">Shot date</span><span class="pm-stat-value">' + fmtEventDate(c.eventDate) + (daysSinceShoot !== null ? ' (' + daysSinceShoot + 'd ago)' : '') + '</span></div>' : '') +
+      '<div class="pm-stat-row"><span class="pm-stat-label">Due date</span><span class="pm-stat-value ' + dueClass + '">' + (dueStr ? fmtEventDate(dueStr) + ' — ' + dueLabel : 'Not set') + '</span></div>' +
+      (lastActivityStr ? '<div class="pm-stat-row"><span class="pm-stat-label">Last activity</span><span class="pm-stat-value' + (lastActivity && Math.round((today - lastActivity) / 86400000) > 30 ? ' red' : '') + '">' + lastActivityStr + '</span></div>' : '') +
+    '</div>' +
+    
+    '<div class="pm-section">' +
+      '<div class="pm-section-title">Status Breakdown</div>' +
+      (photoTotal > 0 ? '<div class="pm-stat-row"><span class="pm-stat-label">📷 Photo editing</span><span class="pm-stat-value ' + (photoDone === photoTotal ? 'green' : photoDone > 0 ? 'orange' : 'red') + '">' + photoDone + ' of ' + photoTotal + ' done</span></div>' : '') +
+      (videoTotal > 0 ? '<div class="pm-stat-row"><span class="pm-stat-label">🎬 Video editing</span><span class="pm-stat-value ' + (videoDone === videoTotal ? 'green' : videoDone > 0 ? 'orange' : 'red') + '">' + videoDone + ' of ' + videoTotal + ' done</span></div>' : '') +
+      '<div class="pm-stat-row"><span class="pm-stat-label">Events fully done</span><span class="pm-stat-value green">' + approvedCount + ' of ' + totalEvents + '</span></div>' +
+      (revisionCount > 0 ? '<div class="pm-stat-row"><span class="pm-stat-label">Revisions needed</span><span class="pm-stat-value purple">' + revisionCount + '</span></div>' : '') +
+      (inProgressCount > 0 ? '<div class="pm-stat-row"><span class="pm-stat-label">In progress</span><span class="pm-stat-value">' + inProgressCount + '</span></div>' : '') +
+      (notStartedCount > 0 ? '<div class="pm-stat-row"><span class="pm-stat-label">Not started</span><span class="pm-stat-value red">' + notStartedCount + '</span></div>' : '') +
+      '<div class="pm-stat-row"><span class="pm-stat-label">Editor</span><span class="pm-stat-value">' + esc(editors) + '</span></div>' +
+    '</div>' +
+    
+    (totalEvents > 0 ? '<div class="pm-section"><div class="pm-section-title">Events</div><div class="pm-event-list">' + eventRows + '</div></div>' : '') +
+    
+    '<div class="pm-actions">' +
+      '<button class="pm-btn pm-btn-secondary" onclick="closePriorityModal()">Close</button>' +
+      '<button class="pm-btn pm-btn-primary" onclick="closePriorityModal();goToAllCouples();setTimeout(function(){selectCouple(\'' + coupleId + '\')},150)">Open Project →</button>' +
+    '</div>' +
+    
+    '</div>';
+  
+  document.getElementById('priorityModalContent').innerHTML = html;
+  document.getElementById('priorityModal').classList.add('open');
+}
+
+function closePriorityModal() {
+  document.getElementById('priorityModal').classList.remove('open');
+}
+
+// ── DRAG & DROP ASSIGNMENT ────────────────────────────────
+// Drag start: set data on the dragged event
+document.addEventListener('dragstart', function(e) {
+  var el = e.target.closest('.priority-drag-event');
+  if (!el) return;
+  el.classList.add('dragging');
+  e.dataTransfer.setData('text/plain', JSON.stringify({
+    instId: el.dataset.instId,
+    coupleId: el.dataset.coupleId,
+    coupleName: el.dataset.coupleName,
+    eventName: el.dataset.eventName,
+    svc: el.dataset.svc || 'all'
+  }));
+  e.dataTransfer.effectAllowed = 'move';
+});
+
+document.addEventListener('dragend', function(e) {
+  var el = e.target.closest('.priority-drag-event');
+  if (el) el.classList.remove('dragging');
+  // Clean up all drag-over states
+  document.querySelectorAll('.drag-over').forEach(function(x){ x.classList.remove('drag-over'); });
+});
+
+function _dropAssign(e, editorName) {
+  e.preventDefault();
+  var data;
+  try { data = JSON.parse(e.dataTransfer.getData('text/plain')); } catch(ex) { return; }
+  if (!data || !data.instId) return;
+  
+  var inst = insts.find(function(i){ return i.id === data.instId; });
+  if (!inst) { toast('Event not found'); return; }
+  
+  var svc = data.svc || 'all';
+  var prevEditor = '';
+  
+  if (svc === 'photo') {
+    prevEditor = (inst.photoEditor || '').trim();
+    inst.photoEditor = editorName;
+    if (!inst.editor || !inst.editor.trim()) inst.editor = editorName;
+  } else if (svc === 'video') {
+    prevEditor = (inst.videoEditor || '').trim();
+    inst.videoEditor = editorName;
+    if (!inst.editor || !inst.editor.trim()) inst.editor = editorName;
+  } else {
+    prevEditor = (inst.editor || '').trim();
+    inst.editor = editorName;
+    inst.photoEditor = editorName;
+    inst.videoEditor = editorName;
+  }
+  
+  if (inst.changesNeeded || inst.photoChangesNeeded || inst.videoChangesNeeded) {
+    inst.editorStatus = 'changes';
+  } else if (!inst.editorStatus || inst.editorStatus === 'approved') {
+    inst.editorStatus = 'new';
+  }
+  
+  var hp = !!(inst.servicePhoto||inst.services==='photo'||inst.services==='both');
+  var hv = !!(inst.serviceVideo||inst.services==='video'||inst.services==='both');
+  var fullyDone = (hp && hv) ? (inst.photoEditApproved && inst.videoEditApproved)
+    : (hp && !hv) ? inst.photoEditApproved
+    : (!hp && hv) ? inst.videoEditApproved
+    : inst.approved;
+  if (!fullyDone) inst.approved = false;
+  
+  if (!inst.editStartedAt) inst.editStartedAt = new Date().toISOString();
+  sv();
+  renderDashPanels('coDashPanels','coDashBanner');
+  
+  var svcLabel = svc === 'photo' ? ' (📷)' : svc === 'video' ? ' (🎬)' : '';
+  var action = prevEditor && prevEditor !== editorName ? ('Reassigned ' + prevEditor + ' → ' + editorName) : ('Assigned ' + editorName);
+  toast(action + ' → ' + (data.eventName || 'Event') + svcLabel);
+}
+
+function _unassignEditor(instId, svc, editorName) {
+  var inst = insts.find(function(i){ return i.id === instId; });
+  if (!inst) return;
+  
+  var hp = !!(inst.servicePhoto||inst.services==='photo'||inst.services==='both');
+  var hv = !!(inst.serviceVideo||inst.services==='video'||inst.services==='both');
+  
+  // If this card already has a specific svc (photo/video), just remove that
+  if (svc === 'photo' || svc === 'video') {
+    _doUnassign(inst, svc, editorName);
+    return;
+  }
+  
+  // If both photo and video, ask which to remove
+  if (hp && hv) {
+    var isPhotoAssigned = (inst.photoEditor||inst.editor||'').trim() === editorName;
+    var isVideoAssigned = (inst.videoEditor||inst.editor||'').trim() === editorName;
+    
+    if (isPhotoAssigned && isVideoAssigned) {
+      // Show choice popup
+      var overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:10001;display:flex;align-items:center;justify-content:center;';
+      overlay.onclick = function(e){ if(e.target===overlay){ overlay.remove(); } };
+      overlay.innerHTML = '<div style="background:var(--warm-white);border-radius:12px;padding:1.2rem;max-width:320px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.25);">' +
+        '<div style="font-family:Outfit,sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.8rem;">Remove ' + esc(editorName) + ' from:</div>' +
+        '<div style="display:flex;flex-direction:column;gap:.4rem;">' +
+          '<button onclick="this.closest(\'div[style]\').parentElement.remove();_doUnassign(insts.find(function(i){return i.id===\'' + instId + '\';}),\'photo\',\'' + editorName.replace(/'/g,"\\'") + '\')" style="padding:.5rem;border:1px solid var(--rule2);border-radius:8px;background:var(--warm-white);cursor:pointer;font-family:Outfit,sans-serif;font-size:.7rem;font-weight:600;text-align:left;">📷 Photo editing only</button>' +
+          '<button onclick="this.closest(\'div[style]\').parentElement.remove();_doUnassign(insts.find(function(i){return i.id===\'' + instId + '\';}),\'video\',\'' + editorName.replace(/'/g,"\\'") + '\')" style="padding:.5rem;border:1px solid var(--rule2);border-radius:8px;background:var(--warm-white);cursor:pointer;font-family:Outfit,sans-serif;font-size:.7rem;font-weight:600;text-align:left;">🎬 Video editing only</button>' +
+          '<button onclick="this.closest(\'div[style]\').parentElement.remove();_doUnassign(insts.find(function(i){return i.id===\'' + instId + '\';}),\'all\',\'' + editorName.replace(/'/g,"\\'") + '\')" style="padding:.5rem;border:1px solid rgba(220,38,38,.2);border-radius:8px;background:rgba(220,38,38,.05);cursor:pointer;font-family:Outfit,sans-serif;font-size:.7rem;font-weight:600;text-align:left;color:#dc2626;">Both photo & video</button>' +
+          '<button onclick="this.closest(\'div[style]\').parentElement.remove()" style="padding:.4rem;border:none;background:none;cursor:pointer;font-family:Outfit,sans-serif;font-size:.6rem;color:var(--ink5);text-align:center;margin-top:.2rem;">Cancel</button>' +
+        '</div></div>';
+      document.body.appendChild(overlay);
+      return;
+    } else if (isPhotoAssigned) {
+      _doUnassign(inst, 'photo', editorName);
+    } else if (isVideoAssigned) {
+      _doUnassign(inst, 'video', editorName);
+    }
+    return;
+  }
+  
+  // Single service — just remove
+  _doUnassign(inst, hp ? 'photo' : hv ? 'video' : 'all', editorName);
+}
+
+function _doUnassign(inst, svc, editorName) {
+  if (!inst) return;
+  
+  if (svc === 'photo') {
+    inst.photoEditor = '';
+    if ((inst.editor||'').trim() === editorName && (inst.videoEditor||'').trim() !== editorName) {
+      inst.editor = inst.videoEditor || '';
+    } else if ((inst.editor||'').trim() === editorName) {
+      inst.editor = '';
+    }
+    toast('Removed ' + editorName + ' from 📷 photo editing');
+  } else if (svc === 'video') {
+    inst.videoEditor = '';
+    if ((inst.editor||'').trim() === editorName && (inst.photoEditor||'').trim() !== editorName) {
+      inst.editor = inst.photoEditor || '';
+    } else if ((inst.editor||'').trim() === editorName) {
+      inst.editor = '';
+    }
+    toast('Removed ' + editorName + ' from 🎬 video editing');
+  } else {
+    inst.editor = '';
+    inst.photoEditor = '';
+    inst.videoEditor = '';
+    inst.editorStatus = '';
+    toast('Removed ' + editorName + ' from all editing');
+  }
+  
+  if (!(inst.editor||'').trim() && !(inst.photoEditor||'').trim() && !(inst.videoEditor||'').trim()) {
+    inst.editorStatus = '';
+    inst.editStartedAt = '';
+  }
+  
+  sv();
+  renderDashPanels('coDashPanels','coDashBanner');
+}
+
+// ── RECENTLY COMPLETED ────────────────────────────────
+function renderRecentlyDone() {
+  var el = document.getElementById('coDashRecentlyDone');
+  var wrap = document.getElementById('coDashRecentlyDoneWrap');
+  if (!el) return;
+  
+  var today = new Date(); today.setHours(0,0,0,0);
+  var items = [];
+  
+  var _c = couples, _i = insts;
+  if (_isEditor()) {
+    var myIds = _editorCoupleIds();
+    if (myIds) _c = couples.filter(function(c){ return myIds.has(c.id); });
+  }
+  
+  _i.forEach(function(i) {
+    var couple = _c.find(function(c){ return c.id === i.coupleId; });
+    if (!couple) return;
+    var hp = !!(i.servicePhoto || i.services === 'photo' || i.services === 'both');
+    var hv = !!(i.serviceVideo || i.services === 'video' || i.services === 'both');
+    var evName = (i.eventType || 'Event') + (i.client ? ' — ' + i.client : '');
+    
+    // Photo completed
+    if (hp && i.photoEditApproved && i.photoEditApprovedAt) {
+      var dt = new Date(i.photoEditApprovedAt);
+      var daysAgo = Math.round((today - dt) / 86400000);
+      if (daysAgo <= 30) {
+        items.push({
+          coupleName: couple.name, eventName: evName, svc: '📷 Photo',
+          editor: (i.photoEditor || i.editor || '').trim(),
+          date: dt, daysAgo: daysAgo, timestamp: dt.getTime()
+        });
+      }
+    }
+    // Video completed
+    if (hv && i.videoEditApproved && i.videoEditApprovedAt) {
+      var dt = new Date(i.videoEditApprovedAt);
+      var daysAgo = Math.round((today - dt) / 86400000);
+      if (daysAgo <= 30) {
+        items.push({
+          coupleName: couple.name, eventName: evName, svc: '🎬 Video',
+          editor: (i.videoEditor || i.editor || '').trim(),
+          date: dt, daysAgo: daysAgo, timestamp: dt.getTime()
+        });
+      }
+    }
+    // General approved (no photo/video split)
+    if (!hp && !hv && i.approved && i.approvedAt) {
+      var dt = new Date(i.approvedAt);
+      var daysAgo = Math.round((today - dt) / 86400000);
+      if (daysAgo <= 30) {
+        items.push({
+          coupleName: couple.name, eventName: evName, svc: 'Edit',
+          editor: (i.editor || '').trim(),
+          date: dt, daysAgo: daysAgo, timestamp: dt.getTime()
+        });
+      }
+    }
+  });
+  
+  // Also check couple-level completion
+  _c.forEach(function(c) {
+    if (c.completedAt) {
+      var dt = new Date(c.completedAt);
+      if (!isNaN(dt.getTime())) {
+        var daysAgo = Math.round((today - dt) / 86400000);
+        if (daysAgo <= 30) {
+          items.push({
+            coupleName: c.name, eventName: 'Full Project', svc: '🎉 Delivered',
+            editor: (c.editors || []).join(', ') || '',
+            date: dt, daysAgo: daysAgo, timestamp: dt.getTime()
+          });
+        }
+      }
+    }
+  });
+  
+  // Sort most recent first
+  items.sort(function(a, b) { return b.timestamp - a.timestamp; });
+  
+  // Show max 10
+  items = items.slice(0, 10);
+  
+  if (!items.length) {
+    if (wrap) wrap.style.display = 'none';
+    return;
+  }
+  if (wrap) wrap.style.display = '';
+  
+  el.innerHTML = '<div class="recent-done-list">' + items.map(function(item) {
+    var daysLabel = item.daysAgo === 0 ? 'Today' : item.daysAgo === 1 ? 'Yesterday' : item.daysAgo + 'd ago';
+    var editorLabel = item.editor ? ' · ' + item.editor : '';
+    return '<div class="recent-done-card">' +
+      '<div class="recent-done-icon">✅</div>' +
+      '<div class="recent-done-info">' +
+        '<div class="recent-done-name">' + esc(item.coupleName) + '</div>' +
+        '<div class="recent-done-detail">' + esc(item.eventName) + editorLabel + '</div>' +
+      '</div>' +
+      '<div class="recent-done-right">' +
+        '<div class="recent-done-badge">' + item.svc + '</div>' +
+        '<div class="recent-done-date">' + daysLabel + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('') + '</div>';
+}
+
 function renderDashPanels(panelId, bannerId) {
+  renderPriorityQueue();
+  renderRecentlyDone();
   const panelEl    = document.getElementById(panelId || 'dashPanels');
   const overviewEl = document.getElementById(bannerId || 'overviewBanner');
   if (!panelEl) return;
@@ -11417,20 +12327,45 @@ function renderDashPanels(panelId, bannerId) {
   const editorOld    = {}; // ed → [{ coupleName, eventType, status, hours, approvedAt }]
 
   _insts.forEach(i => {
-    if (!i.editor) return;
-    const ed = i.editor.trim(); if (!ed) return;
     const couple = _couples.find(c=>c.id===i.coupleId); if (!couple) return;
     const hours  = calcHours(i.timeFrom, i.timeTo);
-    const entry  = { coupleName:couple.name, coupleId:couple.id, eventType:i.eventType||'', instId:i.id,
-                     status:i.editorStatus||'', hours, approvedAt:i.approvedAt||'', editStartedAt:i.editStartedAt||'' };
-    if ((i.approved && !i.changesNeeded) || i.editorStatus==='approved' && !i.changesNeeded) {
-      if (!editorOld[ed]) editorOld[ed] = [];
-      editorOld[ed].push(entry);
+    const _hp = !!(i.servicePhoto||i.services==='photo'||i.services==='both');
+    const _hv = !!(i.serviceVideo||i.services==='video'||i.services==='both');
+    
+    // Build separate entries for photo and video editors
+    var editors = []; // [{ed, svc, done, hasChanges}]
+    
+    if (_hp && _hv) {
+      // Both services — could have different editors
+      var pEd = (i.photoEditor || i.editor || '').trim();
+      var vEd = (i.videoEditor || i.editor || '').trim();
+      if (pEd) editors.push({ ed: pEd, svc: 'photo', done: !!i.photoEditApproved, hasChanges: !!i.photoChangesNeeded });
+      if (vEd) editors.push({ ed: vEd, svc: 'video', done: !!i.videoEditApproved, hasChanges: !!i.videoChangesNeeded });
+    } else if (_hp) {
+      var ed = (i.photoEditor || i.editor || '').trim();
+      if (ed) editors.push({ ed: ed, svc: 'photo', done: !!i.photoEditApproved, hasChanges: !!i.photoChangesNeeded || !!i.changesNeeded });
+    } else if (_hv) {
+      var ed = (i.videoEditor || i.editor || '').trim();
+      if (ed) editors.push({ ed: ed, svc: 'video', done: !!i.videoEditApproved, hasChanges: !!i.videoChangesNeeded || !!i.changesNeeded });
     } else {
-      if (!editorActive[ed]) editorActive[ed] = { new:[], changes:[], unset:[] };
-      const bucket = (i.changesNeeded || i.editorStatus==='changes') ? 'changes' : i.editorStatus==='new' ? 'new' : 'unset';
-      editorActive[ed][bucket].push(entry);
+      var ed = (i.editor || '').trim();
+      if (ed) editors.push({ ed: ed, svc: 'all', done: !!i.approved, hasChanges: !!i.changesNeeded });
     }
+    
+    editors.forEach(function(e) {
+      var svcLabel = e.svc === 'photo' ? ' 📷' : e.svc === 'video' ? ' 🎬' : '';
+      var entry = { coupleName:couple.name, coupleId:couple.id, eventType:(i.eventType||'') + svcLabel, instId:i.id,
+                    status:i.editorStatus||'', hours, approvedAt:i.approvedAt||'', editStartedAt:i.editStartedAt||'',
+                    _svc: e.svc, _instRef: i };
+      if (e.done && !e.hasChanges) {
+        if (!editorOld[e.ed]) editorOld[e.ed] = [];
+        editorOld[e.ed].push(entry);
+      } else {
+        if (!editorActive[e.ed]) editorActive[e.ed] = { new:[], changes:[], unset:[] };
+        var bucket = e.hasChanges ? 'changes' : i.editorStatus==='new' ? 'new' : 'unset';
+        editorActive[e.ed][bucket].push(entry);
+      }
+    });
   });
 
   // Couple-level editors: editors listed on a couple (via Edit Couple form) who
@@ -11448,8 +12383,9 @@ function renderDashPanels(panelId, bannerId) {
     });
   });
 
-  // All editors = union of inst-level active + old + couple-level
-  let allEditors = [...new Set([...Object.keys(editorActive), ...Object.keys(editorOld), ...Object.keys(editorCoupleLevel)])].sort();
+  // All editors = union of inst-level active + old + couple-level + all app users with editor roles
+  const _userEditorNames = _appUsers.filter(function(u){ return u.role === 'editor' || u.role === 'editor+' || u.role === 'admin'; }).map(function(u){ return u.displayName || u.username; });
+  let allEditors = [...new Set([...Object.keys(editorActive), ...Object.keys(editorOld), ...Object.keys(editorCoupleLevel), ..._userEditorNames])].sort();
 
   // Editor role: only show their own column
   if (_isEditor()) {
@@ -11533,35 +12469,27 @@ function renderDashPanels(panelId, bannerId) {
   const revisionProjects = []; // items needing changes
   const editingEl = document.getElementById('coDashEditing');
   if (editingEl) {
-    // Collect all active (non-approved) edit projects, newest couple year first
-    // Changes/revisions go to a separate panel
-    const activeProjects = []; // non-revision items
+    // Collect all active (non-approved) edit projects
+    const activeProjects = [];
     allEditors.forEach(ed => {
       const active = editorActive[ed] || { new:[], changes:[], unset:[] };
-      [...active.new, ...active.unset].forEach(p => {
+      [...active.new, ...active.changes, ...active.unset].forEach(p => {
         activeProjects.push({ ...p, editor: ed });
-      });
-      active.changes.forEach(p => {
-        revisionProjects.push({ ...p, editor: ed });
       });
     });
     // Also catch inst-level photo/video changes that might not have editorStatus='changes'
     _insts.forEach(i => {
       if (!i.editor || !i.editor.trim()) return;
-      // Editor role: only include own assignments
       if (_isEditor() && (i.editor||'').trim() !== _editorName()) return;
       const couple = _couples.find(c=>c.id===i.coupleId); if (!couple) return;
-      const alreadyInRevisions = revisionProjects.some(r => r.instId === i.id);
-      if (alreadyInRevisions) return;
+      const alreadyIn = activeProjects.some(r => r.instId === i.id);
+      if (alreadyIn) return;
       if (i.photoChangesNeeded || i.videoChangesNeeded) {
         const hours = calcHours(i.timeFrom, i.timeTo);
         const entry = { coupleName:couple.name, coupleId:couple.id, eventType:i.eventType||'', instId:i.id,
                         status:'changes', hours, approvedAt:'', editor:i.editor.trim(),
                         _photoChanges: !!i.photoChangesNeeded, _videoChanges: !!i.videoChangesNeeded };
-        revisionProjects.push(entry);
-        // Remove from activeProjects if it was added there
-        const idx = activeProjects.findIndex(p => p.instId === i.id);
-        if (idx !== -1) activeProjects.splice(idx, 1);
+        activeProjects.push(entry);
       }
     });
 
@@ -11574,14 +12502,8 @@ function renderDashPanels(panelId, bannerId) {
     });
 
     const hasSomething = activeProjects.length || Object.keys(editorCoupleLevel).length;
-    if (!allEditors.length || !hasSomething) {
-      editingEl.innerHTML = `<div class="prod-panel">
-        <div class="prod-panel-head">
-          <span class="prod-panel-title">In Production</span>
-          <span class="prod-panel-sub">Active edit projects</span>
-        </div>
-        <div class="prod-no-editors">No active edit projects right now</div>
-      </div>`;
+    if (!allEditors.length) {
+      editingEl.innerHTML = `<div class="priority-empty">No editors set up yet — add editors in User Management to get started</div>`;
     } else {
       // Group back by editor for column layout
       const byEditor = {};
@@ -11592,7 +12514,6 @@ function renderDashPanels(panelId, bannerId) {
 
       const totalActive = activeProjects.length;
       const colsHtml = allEditors
-        .filter(ed => (byEditor[ed]?.length) || (editorCoupleLevel[ed]?.length))
         .map(ed => {
           const projects = byEditor[ed] || [];
           const clCouples = editorCoupleLevel[ed] || [];
@@ -11619,6 +12540,9 @@ function renderDashPanels(panelId, bannerId) {
             });
             Object.keys(byCoupleInCat).forEach(cid => {
               const catProjects = byCoupleInCat[cid];
+              // Don't group if different service types (photo vs video)
+              const svcTypes = new Set(catProjects.map(p => p._svc || 'all'));
+              if (svcTypes.size > 1) return;
               // How many total _insts does this couple have in this category?
               const totalInCat = _insts.filter(i => i.coupleId === cid && i.catId === cat.id).length;
               if (catProjects.length > 1 && catProjects.length === totalInCat) {
@@ -11655,23 +12579,23 @@ function renderDashPanels(panelId, bannerId) {
             const hrsBadge = p.hours ? `<span class="prod-badge hours">${esc(p.hours)}</span>` : '';
             const clickTarget = p._grouped ? p._groupInstIds[0] : p.instId;
 
-            // Photo/video service badges — only show if service exists AND edit not yet done
+            // Photo/video service badges — only show the service this editor is assigned to
             let svcHtml = '';
+            const assignedSvc = p._svc || 'all';
             if (p._grouped && p._groupInstIds) {
-              // Grouped: show if ANY inst in group has that service still pending
               let anyPhoto = false, anyVideo = false;
               p._groupInstIds.forEach(gid => {
                 const gi = _insts.find(x=>x.id===gid);
                 if (gi) {
-                  if ((gi.servicePhoto||gi.services==='photo'||gi.services==='both') && !gi.photoEditApproved) anyPhoto = true;
-                  if ((gi.serviceVideo||gi.services==='video'||gi.services==='both') && !gi.videoEditApproved) anyVideo = true;
+                  if ((assignedSvc === 'photo' || assignedSvc === 'all') && (gi.servicePhoto||gi.services==='photo'||gi.services==='both') && !gi.photoEditApproved) anyPhoto = true;
+                  if ((assignedSvc === 'video' || assignedSvc === 'all') && (gi.serviceVideo||gi.services==='video'||gi.services==='both') && !gi.videoEditApproved) anyVideo = true;
                 }
               });
               if (anyPhoto) svcHtml += `<span class="prod-card-svc photo">📷 Photo</span>`;
               if (anyVideo) svcHtml += `<span class="prod-card-svc video">🎥 Video</span>`;
             } else if (inst2) {
-              const iPhoto = !!(inst2.servicePhoto||inst2.services==='photo'||inst2.services==='both') && !inst2.photoEditApproved;
-              const iVideo = !!(inst2.serviceVideo||inst2.services==='video'||inst2.services==='both') && !inst2.videoEditApproved;
+              const iPhoto = (assignedSvc === 'photo' || assignedSvc === 'all') && !!(inst2.servicePhoto||inst2.services==='photo'||inst2.services==='both') && !inst2.photoEditApproved;
+              const iVideo = (assignedSvc === 'video' || assignedSvc === 'all') && !!(inst2.serviceVideo||inst2.services==='video'||inst2.services==='both') && !inst2.videoEditApproved;
               if (iPhoto) svcHtml += `<span class="prod-card-svc photo">📷 Photo</span>`;
               if (iVideo) svcHtml += `<span class="prod-card-svc video">🎥 Video</span>`;
             }
@@ -11708,6 +12632,7 @@ function renderDashPanels(panelId, bannerId) {
             const clockHtml = _clockHtml(p.instId, p.editStartedAt, p._grouped, p._groupInstIds);
 
             return `<div class="prod-project-card" onclick="goToAllCouples();setTimeout(function(){selectCoupleAndOpen('${p.coupleId}','${clickTarget}')},150)">
+              <button class="prod-unassign" onclick="event.stopPropagation();_unassignEditor('${p.instId}','${p._svc||'all'}','${esc(ed).replace(/'/g,"\\'")}');return false;" title="Remove from ${esc(ed)}">✕</button>
               <div class="prod-project-couple">${esc(p.coupleName)}</div>
               <div class="prod-project-event">${esc(p.eventType||'')}</div>
               ${statusBadge||pauseBadge||upcomingBadge||hrsBadge ? `<div class="prod-project-badges">${statusBadge}${pauseBadge}${upcomingBadge}${hrsBadge}</div>` : ''}
@@ -11727,26 +12652,24 @@ function renderDashPanels(panelId, bannerId) {
           ).join('');
 
           const countDisplay = grouped.length + clCouples.length;
+          const noProjects = !activeCards && !coupleCards;
 
-          return `<div class="prod-editor-col">
+          return `<div class="prod-editor-col" data-editor-name="${esc(ed)}"
+            ondragover="event.preventDefault();this.classList.add('drag-over')"
+            ondragleave="this.classList.remove('drag-over')"
+            ondrop="event.preventDefault();this.classList.remove('drag-over');_dropAssign(event,'${esc(ed).replace(/'/g,"\\'")}')">
             <div class="prod-editor-name-row">
               <div class="prod-editor-avatar">${_userAvatar(ed)}</div>
               <div class="prod-editor-name">${esc(ed)}</div>
               <div class="prod-editor-count">${countDisplay}</div>
             </div>
             ${activeCards}${coupleCards}
+            <div class="prod-drop-zone">Drop event here to assign</div>
           </div>`;
         }).join('');
 
       const activeEdCount = allEditors.filter(ed=>(byEditor[ed]?.length)||(editorCoupleLevel[ed]?.length)).length;
-      editingEl.innerHTML = `<div class="prod-panel">
-        <div class="prod-panel-head">
-          <span class="prod-panel-title">In Production</span>
-          <span class="prod-panel-sub">${totalActive} project${totalActive===1?'':'s'} · ${activeEdCount} editor${activeEdCount===1?'':'s'}</span>
-          ${_isAdmin() ? '<button class="panel-assign-btn" style="margin-top:0;" onclick="openAssign(\'\')">+ Assign</button>' : ''}
-        </div>
-        <div class="prod-editor-grid">${colsHtml}</div>
-      </div>`;
+      editingEl.innerHTML = `<div class="prod-editor-grid">${colsHtml}</div>`;
     }
   }
 
@@ -15696,5 +16619,8 @@ function _attachBtnDrag() {
   </div>
 </div>
 
+<div class="priority-modal-overlay" id="priorityModal" onclick="if(event.target===this)closePriorityModal()">
+  <div class="priority-modal" id="priorityModalContent"></div>
+</div>
 </body>
 </html>
